@@ -3,9 +3,10 @@
 namespace App\Core;
 
 use AllowDynamicProperties;
+use ErrorException;
 
 #[AllowDynamicProperties]
-class View
+class View extends Template
 {
     /**
      * name directory has the view file
@@ -76,6 +77,10 @@ class View
 
         }
     }
+
+    /**
+     * @throws ErrorException
+     */
     public static function view(string $viewName, $controller=null, array $param = []): self
     {
         $instance = new static($viewName, $controller, $param);
@@ -83,6 +88,9 @@ class View
         return $instance;
     }
 
+    /**
+     * @throws ErrorException
+     */
     public function render(): void
     {
 
@@ -92,7 +100,9 @@ class View
             $view =  VIEWS_PATH ."NotFound" . DS . "controller.view.php";
         }
 
+        Template::engin($view);
 
-        require $view;
+        if (isset($this->dictionary)) extract($this->dictionary);
+        require TEMPLATE_PATH . self::getNameFileFromPath($view, 2);
     }
 }
