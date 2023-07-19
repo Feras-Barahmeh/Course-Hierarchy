@@ -21,20 +21,15 @@ class Engine
      * @var array|null
      */
     protected array|null $params    = [];
-    /**
-     * template object
-     * @var Template
-     */
-    private Template  $template;
+
     /**
      * registration object
      * @var Registration
      */
     private  Registration $registry;
 
-    public function __construct(Template $temp, Registration $registry)
+    public function __construct( Registration $registry)
     {
-        $this->template = $temp;
         $this->registry = $registry;
         $this->paresURL();
     }
@@ -110,9 +105,8 @@ class Engine
         $controller->setController($this->controller);
         $controller->setAction($this->action);
         $controller->setParams($this->params);
-        $controller->setTemplate($this->template);
         $controller->setRegistry($this->registry);
-
+        $controller->setLang(Session::get("lang"));
         $controller->$actionMethod();
 
     }

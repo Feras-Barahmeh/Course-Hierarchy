@@ -38,6 +38,8 @@ class View extends Template
      * @var object
      */
     private object $messages;
+
+    private array $params;
     public function __construct(private string|array $viewName, ?object $controller=null , private array $param=[])
     {
 
@@ -45,7 +47,7 @@ class View extends Template
         $this->directory = $this->viewName[0];
         $this->view = $this->viewName[1];
         $this->controller = $controller;
-        
+        $this->params = $this->param;
         $this->parseController($this->controller);
 
         unset($this->viewName);
@@ -103,6 +105,7 @@ class View extends Template
         Template::engin($view);
 
         if (isset($this->dictionary)) extract($this->dictionary);
+        if (isset($this->param)) extract($this->params);
         require TEMPLATE_PATH . self::getNameFileFromPath($view, 2);
     }
 }

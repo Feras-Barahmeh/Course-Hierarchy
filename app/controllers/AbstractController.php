@@ -27,11 +27,7 @@ abstract  class AbstractController
      * @var array  $injection
      */
     public array $injection = [];
-    /**
-     * object form template class object
-     * @var Template
-     */
-    protected Template $template;
+
     /**
      * object from registration class
      * @var Registration
@@ -39,6 +35,11 @@ abstract  class AbstractController
     public Registration $registry;
 
 
+    /**
+     * contain language user en or ar
+     * @var string
+     */
+    public string $lang;
     /**
      * to set name controller
      * @param string $controller the name controller
@@ -66,15 +67,7 @@ abstract  class AbstractController
     {
         $this->params = $params;
     }
-    /**
-     * set frontend files
-     * @param Template $template the files frontend
-     * @return void
-     */
-    public function setTemplate(Template $template): void
-    {
-        $this->template = $template;
-    }
+
     /**
      * set registry
      * @param Registration $registry
@@ -85,6 +78,10 @@ abstract  class AbstractController
         $this->registry = $registry;
     }
 
+    public function setLang(string $lang): void
+    {
+        $this->lang = $lang;
+    }
     /**
      * get object from registry object
      * @param string $name name object

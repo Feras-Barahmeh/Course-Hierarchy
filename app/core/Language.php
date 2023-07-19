@@ -111,4 +111,12 @@ class Language
         return $this->dictionary;
     }
 
+    /**
+     * get current language
+     * @return string
+     */
+    public function getLang(): string
+    {
+        return $this->language;
+    }
 }

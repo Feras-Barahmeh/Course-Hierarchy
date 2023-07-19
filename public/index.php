@@ -25,12 +25,8 @@ if (! Session::has("lang")) {
     Session::set("lang",  APP_DEFAULT_LANGUAGE);
 }
 
-$nameFilesFrontend = require_once ".." . DS . "app" . DS . "config" . DS . "FilesTemplate.php";
-
-$template       = new Template($nameFilesFrontend);
 $languages      = new  Language();
 $messages = Messages::getInstance();
-
 
 $registry       = Registration::getInstance();
 
@@ -38,6 +34,5 @@ $registry       = Registration::getInstance();
 @$registry->messages  = $messages;
 
 
-
-$app = new Engine($template, $registry);
+$app = new Engine($registry);
 $app->request();
