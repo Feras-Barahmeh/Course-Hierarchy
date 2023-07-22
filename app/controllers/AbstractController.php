@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Registration;
-use App\Core\Template;
-
 abstract  class AbstractController
 {
     /**

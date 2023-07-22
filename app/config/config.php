@@ -41,7 +41,7 @@ defined('DATABASE_USER_NAME')           ?
 defined('DATABASE_PASSWORD')            ?
     null : define ('DATABASE_PASSWORD', '');
 defined('DATABASE_DB_NAME')              ?
-    null : define ('DATABASE_DB_NAME', 'pos');
+    null : define ('DATABASE_DB_NAME', 'CoursesNewspaper');
 defined('DATABASE_PORT_NUMBER')     ?
     null : define ('DATABASE_PORT_NUMBER', 3306);
 defined('DATABASE_CONN_DRIVER')       ?

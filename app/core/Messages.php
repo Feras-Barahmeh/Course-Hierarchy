@@ -43,7 +43,7 @@ class Messages
         if ($number === MessagesType::Info->value)    return MessagesType::Info->name;
 
     }
-    public function addMessage($messages, $type = MessagesType::Success->value): void
+    public function add($messages, $type = MessagesType::Success->value): void
     {
         if (! $this->messagesExist()) {
             Session::set("message", []);
