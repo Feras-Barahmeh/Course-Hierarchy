@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 21, 2023 at 10:49 PM
+-- Generation Time: Jul 22, 2023 at 08:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,6 +36,21 @@ CREATE TABLE `Collages` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Courses`
+--
+
+CREATE TABLE `Courses` (
+  `CourseID` int(11) UNSIGNED NOT NULL,
+  `CourseRequirement` int(11) UNSIGNED DEFAULT NULL,
+  `CourseName` varchar(50) NOT NULL,
+  `CreditHours` int(4) NOT NULL DEFAULT 0,
+  `Year` enum('FirstYear','SecondYear','ThirdYear','FourthYear','FifthYear') DEFAULT NULL COMMENT 'to determine the academic year in which the course is offered',
+  `AffiliatedToDepartment` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Departments`
 --
 
@@ -48,13 +63,25 @@ CREATE TABLE `Departments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Enrollment`
+--
+
+CREATE TABLE `Enrollment` (
+  `EnrollmentID` int(10) UNSIGNED NOT NULL,
+  `StudentID` int(10) UNSIGNED NOT NULL,
+  `CourseID` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Instructors`
 --
 
 CREATE TABLE `Instructors` (
   `InstructorID` int(11) UNSIGNED NOT NULL,
   `InstructorName` varchar(150) NOT NULL,
-  `Department` enum('Mathematics','Physics','Biology','Chemistry','Computer Science','Engineering','History','Other') NOT NULL,
+  `Department` int(11) UNSIGNED NOT NULL,
   `ExperienceYears` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -102,17 +129,32 @@ ALTER TABLE `Collages`
   ADD PRIMARY KEY (`CollageID`);
 
 --
+-- Indexes for table `Courses`
+--
+ALTER TABLE `Courses`
+  ADD PRIMARY KEY (`CourseID`);
+
+--
 -- Indexes for table `Departments`
 --
 ALTER TABLE `Departments`
   ADD PRIMARY KEY (`DepartmentID`);
 
 --
+-- Indexes for table `Enrollment`
+--
+ALTER TABLE `Enrollment`
+  ADD PRIMARY KEY (`EnrollmentID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `CourseID` (`CourseID`);
+
+--
 -- Indexes for table `Instructors`
 --
 ALTER TABLE `Instructors`
   ADD PRIMARY KEY (`InstructorID`),
-  ADD UNIQUE KEY `InstructorName` (`InstructorName`);
+  ADD UNIQUE KEY `InstructorName` (`InstructorName`),
+  ADD KEY `FK_Instruct_In_Collage` (`Department`);
 
 --
 -- Indexes for table `Students`
@@ -138,10 +180,22 @@ ALTER TABLE `Collages`
   MODIFY `CollageID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `Courses`
+--
+ALTER TABLE `Courses`
+  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `Departments`
 --
 ALTER TABLE `Departments`
   MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `Enrollment`
+--
+ALTER TABLE `Enrollment`
+  MODIFY `EnrollmentID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Instructors`
@@ -172,10 +226,29 @@ ALTER TABLE `Collages`
   ADD CONSTRAINT `FK_Major` FOREIGN KEY (`CollageID`) REFERENCES `UniversityMajors` (`MajorId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `Courses`
+--
+ALTER TABLE `Courses`
+  ADD CONSTRAINT `FK_Affiliated_To_A_College` FOREIGN KEY (`CourseID`) REFERENCES `Departments` (`DepartmentID`);
+
+--
 -- Constraints for table `Departments`
 --
 ALTER TABLE `Departments`
   ADD CONSTRAINT `FK_Collage_ID` FOREIGN KEY (`DepartmentID`) REFERENCES `Collages` (`CollageID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Enrollment`
+--
+ALTER TABLE `Enrollment`
+  ADD CONSTRAINT `Enrollment_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `Students` (`StudentID`),
+  ADD CONSTRAINT `Enrollment_ibfk_2` FOREIGN KEY (`CourseID`) REFERENCES `Courses` (`CourseID`);
+
+--
+-- Constraints for table `Instructors`
+--
+ALTER TABLE `Instructors`
+  ADD CONSTRAINT `FK_Instruct_In_Collage` FOREIGN KEY (`Department`) REFERENCES `Collages` (`CollageID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
