@@ -1,165 +1,11 @@
-let mess = null;
-
-
-// global functions
-function insertAfter(afterTo, newNode) {
-    afterTo.parentNode.insertBefore(newNode, afterTo.nextSibling);
-}
-
-// TODO: Convert Structure Delete To AJAX
-const cardPopup = document.querySelector(".card");
-// const classCard = [...cardPopup.classList];
-function hiddenPopup(e) {
-    e.closest(".card").classList.remove("show");
-}
-function showPopup(e) {
-    e.previousElementSibling.classList.add("show");
-}
-
-const popsOnClick = document.querySelectorAll(".pop-on-click");
-
-if (popsOnClick != null) {
-    popsOnClick.forEach(popOnClick => {
-        popOnClick.addEventListener("click", () => {
-            popOnClick.classList.add("clicked");
-            if(popOnClick.classList.contains("danger-style")) {
-                cardPopup.classList.add("danger");
-            } else {
-                if (popOnClick.classList.contains("success-style") || popOnClick.classList.contains("done-style")) {
-                    cardPopup.querySelector("span.exclamation").classList.add("success");
-                    cardPopup.querySelector("span.exclamation").classList.remove("danger");
-                }
-            }
-            showPopup(popOnClick);
-        }) ;
-    });
-}
-
-
-const deletePopups = document.querySelectorAll("#reject-popup");
-/*
-* If Click in X button in popup box just remove box
-* */
-if (deletePopups !== null) {
-    deletePopups.forEach(deletePopup => {
-        deletePopup.addEventListener("click", () => {
-            hiddenPopup(deletePopup);
-            return false;
-        });
-    });
-}
-
-const acceptedPopups = document.querySelectorAll("#accepted-popup");
-/*
-* If user click Ok (Confirm Operation) will apply action
-* */
-if (acceptedPopups != null) {
-    acceptedPopups.forEach(acceptedPopup => {
-        acceptedPopup.addEventListener("click", () => {
-            if (cardPopup.classList.contains("link")) {
-                popsOnClick.forEach(clicked => {
-                    if (clicked.classList.contains("clicked")) {
-                        clicked.parentElement.querySelector("#delete").click();
-                        clicked.classList.remove("clicked")
-                    }
-                });
-            }
-            hiddenPopup();
-            return true;
-        });
-    })
-}
-
-// Start Flash message
-function createSymbol(type) {
-    const symbol = document.createElement("span");
-    symbol.classList.add("flash-symbol");
-    symbol.classList.add(type)
-    const containerSymbol = document.createElement("span");
-
-    switch (type) {
-        case "danger":
-            containerSymbol.innerHTML = 'X';
-            break;
-
-        case "success":
-            const i = document.createElement('i');
-            i.classList.add("fa");
-            i.classList.add("fa-check");
-            containerSymbol.appendChild(i);
-            break;
-        case "warning":
-            const exclamation = document.createElement('i');
-            exclamation.classList.add("fa");
-            exclamation.classList.add("fa-radiation");
-            containerSymbol.appendChild(exclamation);
-            break;
-
-
-        case "info":
-            containerSymbol.innerHTML = '!';
-            break;
-    }
-    symbol.appendChild(containerSymbol);
-    return symbol;
-}
-
-function createFlashMessage(type, message) {
-    const p = document.createElement('p');
-    p.classList.add("flash-message")
-    p.classList.add(type);
-
-
-    p.appendChild(createSymbol(type));
-
-    const typeMessage = document.createElement("span");
-    typeMessage.classList.add("type-message");
-    typeMessage.innerHTML = (type === "danger") ? "Error : " : type + ' : ';
-
-    p.appendChild(typeMessage);
-
-    const messageContinent = document.createElement("span");
-    messageContinent.classList.add("message");
-    messageContinent.innerHTML = message;
-
-    p.appendChild(messageContinent);
-
-    const times = document.createElement("span");
-    times.classList.add("times");
-    times.innerHTML = "&times";
-
-    p.appendChild(times);
-
-    return p;
-}
-/**
- * @author Feras Barahmeh
- * *@version 1.2
- *
- * @param type specific type message
- * @param message content message
- * @param time select time before message hidden
- *
- * @return void
- * */
-function flashMessage(type, message, time=5000) {
-    const flashMessageContainer = document.querySelector(".flash-message-container");
-    const flashMessage = createFlashMessage(type, message);
-    flashMessageContainer.appendChild(flashMessage);
-
-    flashMessage.classList.add("fed-out");
-
-    setTimeout(() => {
-        flashMessageContainer.removeChild(flashMessage);
-    }, time);
-}
-// End Flash Message
-
 // start pagination table
-
 const tables = document.querySelectorAll(".pagination-table");
 
-
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
 class PaginationTable {
 
@@ -209,17 +55,20 @@ class PaginationTable {
         this.shuffleButtons();
         this.showSlide()
     }
-    createPaginationBar() {
+    createPaginationBar(table) {
 
         let barPaginationDiv = document.createElement("div");
         barPaginationDiv.classList.add("bar-pagination");
+
+        if (table.classList.contains("bg-dark-subtle")) {
+            barPaginationDiv.classList.add("bg-dark-subtle");
+        }
 
         // Create statistics div
         let statisticsDiv = document.createElement("div");
         statisticsDiv.classList.add("statistics");
         let numberSlideDiv = document.createElement("number-slide");
         let label = document.createElement("label");
-        // label.textContent = mess["text_number_rerecord_in_slide"];
         label.textContent = "Number Rerecord In Slide";
         numberSlideDiv.appendChild(label);
 
@@ -395,8 +244,8 @@ class PaginationTable {
         }
 
     }
-    appendPaginationSectionInTable() {
-        this.paginationSection = this.createPaginationBar();
+    appendPaginationSectionInTable(table) {
+        this.paginationSection = this.createPaginationBar(table);
 
         // remove all previous pagination section
         if (this.paginationSection != null) {
@@ -424,8 +273,8 @@ class PaginationTable {
         this.changeSlideNumberInStatisticsSection()
         this.shuffleButtons()
     }
-    pagination() {
-        this.appendPaginationSectionInTable();
+    pagination(table) {
+        this.appendPaginationSectionInTable(table);
         this.showSlide();
         this.nextBtn.addEventListener("click", () => {
             this.currentSlidePos++;
@@ -441,30 +290,30 @@ class PaginationTable {
 }
 tables.forEach(table => {
     let pagination = new PaginationTable(table);
-    pagination.pagination()
+    pagination.pagination(table)
 });
 
 // End Pagination table
 
-// Start Search input
-// TODO: Apply Trie Data Structure Tree To Search
-const searchInInputs = document.querySelectorAll("[search-input]");
-searchInInputs.forEach(input => {
-    input.addEventListener("keyup", () => {
-        let containerSearchInput = input.closest("[container-search]");
-        let lis = containerSearchInput.querySelectorAll("ul li");
-        let inputValue = input.value.toLowerCase();
-
-        lis.forEach(li => {
-            let content = li.textContent.toLowerCase();
-            if (content.search(inputValue) !== -1) {
-                li.classList.remove("hidden")
-            } else {
-                li.classList.add("hidden")
-            }
-        });
-    });
-
-
-});
-// End Search input
+// // Start Search input
+// // TODO: Apply Trie Data Structure Tree To Search
+// const searchInInputs = document.querySelectorAll("[search-input]");
+// searchInInputs.forEach(input => {
+//     input.addEventListener("keyup", () => {
+//         let containerSearchInput = input.closest("[container-search]");
+//         let lis = containerSearchInput.querySelectorAll("ul li");
+//         let inputValue = input.value.toLowerCase();
+//
+//         lis.forEach(li => {
+//             let content = li.textContent.toLowerCase();
+//             if (content.search(inputValue) !== -1) {
+//                 li.classList.remove("hidden")
+//             } else {
+//                 li.classList.add("hidden")
+//             }
+//         });
+//     });
+//
+//
+// });
+// // End Search input
