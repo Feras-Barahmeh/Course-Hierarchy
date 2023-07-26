@@ -89,4 +89,31 @@ abstract  class AbstractController
     {
         return $this->registry->$name;
     }
+
+    /**
+     * return the current controller
+     * @return string
+     */
+    public function getController(): string
+    {
+        return $this->controller;
+    }
+
+    /**
+     * return action
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return $this->action;
+    }
+
+    /**
+     * return language
+     * @return string
+     */
+    public function getLang(): string
+    {
+        return $this->lang;
+    }
 }

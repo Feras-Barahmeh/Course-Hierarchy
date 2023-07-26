@@ -40,14 +40,33 @@ class View extends Template
     private object $messages;
 
     private array $params;
-    public function __construct(private string|array $viewName, ?object $controller=null , private array $param=[])
+
+    private function prepareParams($controller, $prams): array
+    {
+        
+        $default = [
+            "lang" => $controller->getLang(),
+            "file_css" => $controller->getController(),
+            "file_js"   => $controller->getController(),
+        ];
+        foreach ($prams as $key => $param) {
+            $default[$key] = $param;
+        }
+        return $default;
+        
+    }
+
+    public function __construct(private string|array $viewName, ?object $controller=null , private  array $param=[])
     {
 
+        $param = $this->prepareParams($controller, $param);
+        
         $this->viewName = explode('.', $this->viewName);
         $this->directory = $this->viewName[0];
         $this->view = $this->viewName[1];
         $this->controller = $controller;
-        $this->params = $this->param;
+
+        $this->params = $param;
         $this->parseController($this->controller);
 
         unset($this->viewName);
