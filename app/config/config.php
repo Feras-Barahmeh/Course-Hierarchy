@@ -12,8 +12,11 @@ const VIEWS_PATH = APP_PATH . DS . "views" . DS;
 const TEMPLATE_PATH = APP_PATH . DS . 'templates' . DS;
 
 const CSS = DS . "css" . DS;
+const BOOTSTRAP_CSS = DS . "css" . DS . "bootstrap" . DS;
 
 const JS  = DS . "js" . DS;
+const BOOTSTRAP_JS = DS . "js" . DS . "bootstrap" . DS;
+const IMG  = DS . "images" . DS;
 
 const NAME_TEMPLATE_HEADER_RESOURCES = "header_resources";
 const NAME_TEMPLATE_FOOTER_RESOURCES = "footer_resources";

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\View;
+use App\Models\StudentModel;
 use ErrorException;
 
 class IndexController extends AbstractController
@@ -16,9 +17,7 @@ class IndexController extends AbstractController
         $this->language->load("template.common");
 
         View::view("index.index", $this, [
-            "lang" => $this->lang,
-            "file_css" => "index",
-            "file_js"   => "index",
+            "students" =>StudentModel::all(),
         ]);
     }
 }
