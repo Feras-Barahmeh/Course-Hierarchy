@@ -1,0 +1,213 @@
+/* Start General Settings */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter';
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-black-30);
+}
+li {
+    text-decoration: none;
+    list-style: none;
+}
+
+/* End General Settings */
+/* Start Nav */
+.navbar-toggler {
+    border-color: var(--bg-black-100) ;
+}
+.search-nav {
+    border: 1px solid transparent ;
+}
+.search-nav:focus {
+    border: 1px solid var(--bg-black-100) ;
+    box-shadow: none ;
+}
+.btn-search {
+    border-color: var(--danger-color-200);
+}
+/* End Nav */
+
+/* Start aside */
+aside {
+    /*width: 250px;*/
+    /*color: var(--text-black-30);*/
+    /*position: fixed;*/
+    /*!*overflow-y: scroll;*!*/
+    /*bottom: 0;*/
+    /*top: 0;*/
+    /*margin-top: 62px; !* height header *!*/
+    /*transition: all .5s ease-in-out;*/
+
+
+    width: 250px;
+    color: var(--text-black-30);
+    position: fixed;
+    top: 0;
+    margin-top: 62px;
+    transition: all .5s ease-in-out;
+    height: 100%;
+}
+
+aside::-webkit-scrollbar {
+    width: 0;
+}
+aside .aside::-webkit-scrollbar {
+    width: 0;
+}
+aside .aside::-webkit-color-swatch-wrapper {
+    width: 0;
+}
+aside header .user-img {
+    width: 100px;
+    height: 100px;
+}
+aside .menu:not(:last-child) {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--bg-black-100);
+}
+
+aside .menu:last-child {
+    /*margin-top: auto;*/
+    /*margin-bottom: 40px;*/
+    margin-top: auto;
+    position: fixed;
+    bottom: 1px;
+}
+aside .aside-link,
+aside ul {
+    transition: all .3s ease-in-out;
+}
+aside .li-aside-menu,
+aside .li-aside-menu .aside-link {
+    border-radius: 5px;
+    position: relative;
+}
+aside .li-aside-menu > .aside-link:hover,
+aside .li-aside-menu.active  > .aside-link {
+    background-color: var(--bg-black-900);
+}
+aside .li-aside-menu .rotate,
+aside .li-aside-menu .arrow {
+    transition: all .3s ease-in-out;
+    font-size: 17px;
+}
+aside .li-aside-menu .rotate {
+    transform: rotate(180deg);
+}
+aside .aside-sub-menu {
+    margin-left: 25px;
+    border-left: 1px solid var(--bg-black-50);
+    padding-left: 10px;
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
+aside .aside-sub-menu[open='true'] {
+    opacity: 1;
+    height: auto;
+    pointer-events: auto;
+}
+aside .aside-sub-menu[open='false'] {
+    transition: opacity 2s ease-out;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+button.aside-toggle {
+    color: var(--bg-black-30);
+    border: none;
+    font-size: 20px;
+    outline: none;
+    transition: all .3s ease-in-out;
+    position: absolute;
+    right: -19px;
+    background-color: var(--bg-black-80);
+}
+button.aside-toggle:hover {
+    opacity: .6;
+}
+aside[expanded="false"] {
+    width: 90px;
+    padding: 10px;
+}
+aside[expanded="false"] button.aside-toggle {
+    transform: rotate(180deg);
+}
+aside[expanded="false"] .user-details {
+    display: none;
+}
+aside[expanded="false"]  .menu > ul > li > a {
+    position: relative;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+aside[expanded="false"] .menu > ul > li {
+
+}
+aside[expanded="false"] .menu > ul > li > a > .text {
+    display: none;
+}
+
+aside[expanded="false"] .menu > ul > li:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 17%;
+    background-color: var(--bg-black-80);
+    padding: 5px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    margin: 0;
+    left: 68px;
+    min-width: 80px;
+    border-left-color: transparent;
+    text-align: center;
+}
+aside[expanded="false"]  .menu:last-child > ul > li:hover::before  {
+    right: -122% !important;
+}
+aside[expanded="false"] .menu > ul > li:hover::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background-color: var(--bg-black-30);
+    width: 20px;
+    height: 20px;
+    top: 33%;
+    right: -60%;
+    transform: rotate(45deg);
+    z-index: -1;
+}
+aside[expanded="false"] .menu p.title {
+    text-align: center;
+}
+aside[expanded="false"] .menu ul > li .arrow {
+    display: none;
+}
+aside[expanded="false"]  .menu > ul > li > ul[sub-menu] {
+    position: absolute;
+    background-color: var(--bg-black-900);
+    z-index: 10;
+    white-space: nowrap;
+    top: 0;
+    left: 44px;
+}
+/* End aside */

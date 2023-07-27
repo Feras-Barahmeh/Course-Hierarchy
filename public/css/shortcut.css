@@ -333,6 +333,18 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.mt-auto {
+    margin-top: auto;
+}
+.mb-auto {
+    margin-bottom: auto;
+}
+.ml-auto {
+    margin-left: auto;
+}
+.mr-auto {
+    margin-right: auto;
+}
 /* End Margin */
 /*Start Top*/
 .t-0 {
