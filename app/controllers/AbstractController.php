@@ -3,8 +3,11 @@
 namespace App\Controllers;
 
 use App\Core\Registration;
+use App\Helper\HandsHelper;
+
 abstract  class AbstractController
 {
+    use HandsHelper;
     /**
      * controller name
      * @var string $controller

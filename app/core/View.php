@@ -48,6 +48,7 @@ class View extends Template
             "lang" => $controller->getLang(),
             "file_css" => $controller->getController(),
             "file_js"   => $controller->getController(),
+            "controller" => $controller
         ];
         foreach ($prams as $key => $param) {
             $default[$key] = $param;
