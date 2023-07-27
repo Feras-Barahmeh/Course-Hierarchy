@@ -1,7 +1,6 @@
 <aside class="d-flex flex-column bg-black p-20 gap-20 " id="main-aside" expanded="false">
     <button class="aside-toggle d-flex align-items-center gap-10" btn-aside-toggel>
         <i class="fa-solid fa-angles-left"></i>
-        <!--        <span>Expand</span>-->
     </button>
     <header class="header d-flex gap-20 align-items-center ">
         <figure class="user-img object-fit-cover m-0 justify-content-between overflow-hidden">
@@ -29,11 +28,11 @@
                 </li>
                 <!-- Start With Sub menu -->
                 <li class="li-aside-menu" has-sub-menu="true" title="Students >> ">
-                    <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <button  class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-users"></i>
                         <span class="text">Students</span>
                         <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
-                    </a>
+                    </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu" >
                             <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
@@ -53,24 +52,30 @@
 
                 <!-- Start With Sub menu -->
                 <li class="li-aside-menu" has-sub-menu="true" title="Doctor >> ">
-                    <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-certificate"></i>
                         <span class="text">Doctors</span>
                         <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
-                    </a>
+                    </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                            <a href="/PhD" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text">Doctors</span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/PhD/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
                                 <span class="text">Add Doctor</span>
                             </a>
                         </li>
-                        <li class="li-aside-menu">
-                            <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
-                                <i class="fa fa-trash"></i>
-                                <span class="text">Delete Doctor</span>
-                            </a>
-                        </li>
+<!--                        <li class="li-aside-menu">-->
+<!--                            <a href="/PhD/delete" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">-->
+<!--                                <i class="fa fa-trash"></i>-->
+<!--                                <span class="text">Delete Doctor</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </li>
                 <!-- End With Sub menu -->
