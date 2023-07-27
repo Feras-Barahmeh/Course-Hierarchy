@@ -21,9 +21,9 @@ if (localStorage.getItem('expandMainAsideStatus')) {
 lis.forEach(li => {
    li.addEventListener("click", () => {
        // Remove active from all lis contain it
-       lis.forEach(li => {  li.classList.remove("active") });
+       // lis.forEach(li => {  li.classList.remove("active") });
        // add active in clicked li
-       li.classList.toggle("active");
+       // li.classList.toggle("active");
 
 
        // if it has sub menu open it
@@ -64,3 +64,24 @@ asideToggleBtn.addEventListener("click", () => {
 });
 // End Toggle aside
 // End Aside
+
+// start validation forms
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+// End validation forms

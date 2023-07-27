@@ -20,8 +20,7 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Main </p>
             <ul class="plr-10">
-                <li class="li-aside-menu
-                    <?= $controller->compareURL('/') === true ? 'active' : '' ?>"
+                <li class="li-aside-menu <?= $controller->compareURL('/') === true ? 'active' : '' ?>"
                     has-sub-menu="false" title="Home">
 
                     <a href="/" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">

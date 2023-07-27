@@ -25,10 +25,10 @@ class Session
      * @param string|array $value key value
      * @return string
      */
-    public static function set(string $key, string|array $value): string
+    public static function set(string $key, string|array $value)
     {
         $_SESSION[$key] = $value;
-        return $value;
+//        return $value;
     }
     /**
      * check if session has key

@@ -50,13 +50,17 @@ class Messages
         }
 
         $temp = Session::get("message");
-        $temp[] = [$messages, $this->setClassStyle($type)];
+        $temp[] = [$messages, $type];
 
         Session::set("message", $temp);
         unset($temp);
     }
 
-    public function getMessage()
+    /**
+     * return all messages in session
+     * @return array|null
+     */
+    public function getMessage(): array|null
     {
         if ($this->messagesExist()) {
             $messages = Session::get("message");
@@ -64,5 +68,19 @@ class Messages
             return $messages;
         }
         return [];
+    }
+
+    /**
+     * method to do dynamic message
+     * example the message is 'my name is %' replace %s whit value
+     * @param string $key name message
+     * @param array $params array contain all parameter message(number %s values)
+     * @param object|array $words dictionary words
+     * @return mixed
+     */
+    public function feedKey (string $key, array $params, object|array $words): mixed
+    {
+        array_unshift($params, $words[$key]);
+        return call_user_func_array('sprintf', $params);
     }
 }

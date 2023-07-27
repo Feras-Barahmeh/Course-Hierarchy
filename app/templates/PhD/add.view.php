@@ -109,20 +109,14 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Main </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/') === true ? 'active' : '' ?>"
-                    has-sub-menu="false" title="Home">
-
+                <li class="li-aside-menu active" has-sub-menu="false" title="Home">
                     <a href="/" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-home"></i>
                         <span class="text">Home</span>
                     </a>
                 </li>
-
-
                 <!-- Start With Sub menu -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/students/add', '/students']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Students >> ">
+                <li class="li-aside-menu" has-sub-menu="true" title="Students >> ">
                     <button  class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-users"></i>
                         <span class="text">Students</span>
@@ -146,10 +140,7 @@
                 <!-- End With Sub menu -->
 
                 <!-- Start With Sub menu -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/instructors/add', '/instructors']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Instructors >> ">
-
+                <li class="li-aside-menu" has-sub-menu="true" title="Doctor >> ">
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-certificate"></i>
                         <span class="text">Doctors</span>
@@ -157,31 +148,38 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/instructors" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/PhD" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text">Instructors</span>
+                                <span class="text">Doctors</span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/instructors/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/PhD/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add Instructor</span>
+                                <span class="text">Add Doctor</span>
                             </a>
                         </li>
-
+<!--                        <li class="li-aside-menu">-->
+<!--                            <a href="/PhD/delete" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">-->
+<!--                                <i class="fa fa-trash"></i>-->
+<!--                                <span class="text">Delete Doctor</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </li>
                 <!-- End With Sub menu -->
 
 
-                <li class="li-aside-menu
-                    <?= $controller->compareURL('/vote') === true ? 'active' : '' ?>"
-                    has-sub-menu="false" title="New Vote">
+                <li class="li-aside-menu " has-sub-menu="false" title="New Vote">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-vote-yea"></i>
                         <span class="text">New Vote</span>
                     </a>
                 </li>
+
+
+
+
             </ul>
         </div>
 
@@ -190,11 +188,7 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Settings </p>
             <ul class="plr-10">
-                <li class="li-aside-menu
-                    <?= $controller->compareURL('/settings') === true ? 'active' : '' ?>"
-                    has-sub-menu="false"  title="Setting"
-                >
-
+                <li class="li-aside-menu " has-sub-menu="false"  title="Setting">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-gears"></i>
                         <span class="text">Settings</span>
@@ -210,13 +204,13 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Account </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/help') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Help">
+                <li class="li-aside-menu " has-sub-menu="false"  title="Help">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-info-circle"></i>
                         <span class="text">Help</span>
                     </a>
                 </li>
-                <li class="li-aside-menu <?= $controller->compareURL('/logout') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Logout">
+                <li class="li-aside-menu " has-sub-menu="false"  title="Logout">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-arrow-left"></i>
                         <span class="text">Logout</span>
@@ -232,6 +226,81 @@
     </nav>
 </aside>
 
+<main class="">
+    <h1 class="main-title">
+        <i class="fa-solid fa-user-plus"></i>
+        <span class="">
+            Add Doctor
+        </span>
+    </h1>
+
+    <div class="container mt-20 container-form">
+        <form class="row g-3 needs-validation" novalidate>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">First name</label>
+                <input type="text" class="form-control" id="validationCustom01" value="" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustomUsername" class="form-label">Username</label>
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">City</label>
+                <input type="text" class="form-control" id="validationCustom03" required>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom04" class="form-label">State</label>
+                <select class="form-select" id="validationCustom04" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option>...</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom05" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="validationCustom05" required>
+                <div class="invalid-feedback">
+                    Please provide a valid zip.
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck">
+                        Agree to terms and conditions
+                    </label>
+                    <div class="invalid-feedback">
+                        You must agree before submitting.
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="main-btn" type="submit">Submit form</button>
+            </div>
+        </form>
+    </div>
+</main>
 
 
 

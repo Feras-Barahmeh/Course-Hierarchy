@@ -3,9 +3,15 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
 }
-
+body {
+    min-height: 100vh;
+    /*background-color: var(--bg-black-50);*/
+}
+body.dark {
+    background-color: var(--bg-black-80);
+}
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -16,7 +22,9 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }
-
+::selection {
+    background-color: var(--bs-border-color);
+}
 a {
     text-decoration: none;
     color: var(--text-black-30);
@@ -25,8 +33,24 @@ li {
     text-decoration: none;
     list-style: none;
 }
-
-/* End General Settings */
+.main-color {
+    color: var(--bg-black-100);
+}
+.oswald {
+    font-family: 'Oswald', sans-serif;
+}
+.main-btn {
+    background-color: var(--bg-black-900);
+    color: var(--bg-black-60);
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+}
+.main-btn:hover {
+    opacity: .9 ;
+    color: var(--bg-black-100);
+}
+    /* End General Settings */
 /* Start Nav */
 .navbar-toggler {
     border-color: var(--bg-black-100) ;
@@ -41,20 +65,16 @@ li {
 .btn-search {
     border-color: var(--danger-color-200);
 }
+.container-form {
+    background-color: var(--bg-black-60);
+    margin-top: 100px;
+    border-radius: 4px;
+    padding: 20px;
+}
 /* End Nav */
 
 /* Start aside */
 aside {
-    /*width: 250px;*/
-    /*color: var(--text-black-30);*/
-    /*position: fixed;*/
-    /*!*overflow-y: scroll;*!*/
-    /*bottom: 0;*/
-    /*top: 0;*/
-    /*margin-top: 62px; !* height header *!*/
-    /*transition: all .5s ease-in-out;*/
-
-
     width: 250px;
     color: var(--text-black-30);
     position: fixed;
@@ -152,7 +172,13 @@ aside[expanded="false"] button.aside-toggle {
 aside[expanded="false"] .user-details {
     display: none;
 }
-aside[expanded="false"]  .menu > ul > li > a {
+aside .aside-link {
+    background-color: transparent;
+    border: none;
+    color: var(--bg-black-30);
+    width: 100%;
+}
+aside[expanded="false"]  .menu > ul > li > .aside-link {
     position: relative;
     overflow: visible;
     display: flex;
@@ -163,7 +189,7 @@ aside[expanded="false"]  .menu > ul > li > a {
 aside[expanded="false"] .menu > ul > li {
 
 }
-aside[expanded="false"] .menu > ul > li > a > .text {
+aside[expanded="false"] .menu > ul > li > .aside-link > .text {
     display: none;
 }
 
@@ -211,3 +237,53 @@ aside[expanded="false"]  .menu > ul > li > ul[sub-menu] {
     left: 44px;
 }
 /* End aside */
+
+/* Start Main  */
+main {
+    transition: all .3s ease-in-out;
+}
+aside[expanded="true"] ~ main {
+    margin-left: 300px;
+}
+aside[expanded="false"] ~ main {
+    margin-left: 120px;
+}
+main .main-title {
+    padding-bottom: 20px;
+    margin: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    color: rgba(var(--bs-black-rgb),var(--bs-bg-opacity))!important;
+}
+main .main-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 5px;
+    position: absolute;
+    background-color: var(--bg-black-100);
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+main .main-title::before {
+    left: 0;
+    content: '';
+    display: block;
+    position: absolute;
+    height: 5px;
+    width: 35px;
+    background-color: var(--bg-black-80);
+    border-radius: 3px;
+    bottom: 0;
+    z-index: 1;
+}
+main .main-title span {
+    color: var(--text-black-700);
+    font-family: 'Oswald', sans-serif;
+}
+/* End Main  */

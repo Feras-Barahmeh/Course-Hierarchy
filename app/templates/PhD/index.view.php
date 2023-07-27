@@ -12,9 +12,6 @@
     <link rel="stylesheet" href="<?= '/css/shortcut.css' ?>">
     <link rel="stylesheet" href="<?= '/css/all.min.css' ?>">
     <link rel="stylesheet" href="<?= CSS . "main.css" ?>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= CSS . $lang . DS . $file_css  . ".css"  ?>">
 </head>
     <body>
@@ -109,20 +106,14 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Main </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/') === true ? 'active' : '' ?>"
-                    has-sub-menu="false" title="Home">
-
+                <li class="li-aside-menu active" has-sub-menu="false" title="Home">
                     <a href="/" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-home"></i>
                         <span class="text">Home</span>
                     </a>
                 </li>
-
-
                 <!-- Start With Sub menu -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/students/add', '/students']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Students >> ">
+                <li class="li-aside-menu" has-sub-menu="true" title="Students >> ">
                     <button  class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-users"></i>
                         <span class="text">Students</span>
@@ -146,10 +137,7 @@
                 <!-- End With Sub menu -->
 
                 <!-- Start With Sub menu -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/instructors/add', '/instructors']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Instructors >> ">
-
+                <li class="li-aside-menu" has-sub-menu="true" title="Doctor >> ">
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-certificate"></i>
                         <span class="text">Doctors</span>
@@ -157,31 +145,38 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/instructors" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/PhD" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text">Instructors</span>
+                                <span class="text">Doctors</span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/instructors/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/PhD/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add Instructor</span>
+                                <span class="text">Add Doctor</span>
                             </a>
                         </li>
-
+<!--                        <li class="li-aside-menu">-->
+<!--                            <a href="/PhD/delete" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">-->
+<!--                                <i class="fa fa-trash"></i>-->
+<!--                                <span class="text">Delete Doctor</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </li>
                 <!-- End With Sub menu -->
 
 
-                <li class="li-aside-menu
-                    <?= $controller->compareURL('/vote') === true ? 'active' : '' ?>"
-                    has-sub-menu="false" title="New Vote">
+                <li class="li-aside-menu " has-sub-menu="false" title="New Vote">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-vote-yea"></i>
                         <span class="text">New Vote</span>
                     </a>
                 </li>
+
+
+
+
             </ul>
         </div>
 
@@ -190,11 +185,7 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Settings </p>
             <ul class="plr-10">
-                <li class="li-aside-menu
-                    <?= $controller->compareURL('/settings') === true ? 'active' : '' ?>"
-                    has-sub-menu="false"  title="Setting"
-                >
-
+                <li class="li-aside-menu " has-sub-menu="false"  title="Setting">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-gears"></i>
                         <span class="text">Settings</span>
@@ -210,13 +201,13 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate">Account </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/help') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Help">
+                <li class="li-aside-menu " has-sub-menu="false"  title="Help">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-info-circle"></i>
                         <span class="text">Help</span>
                     </a>
                 </li>
-                <li class="li-aside-menu <?= $controller->compareURL('/logout') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Logout">
+                <li class="li-aside-menu " has-sub-menu="false"  title="Logout">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-arrow-left"></i>
                         <span class="text">Logout</span>
@@ -232,6 +223,9 @@
     </nav>
 </aside>
 
+<main class="">
+    <h1>Feras</h1>
+</main>
 
 
 
