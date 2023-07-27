@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Registration;
+use App\Enums\MessagesType;
 use App\Helper\HandsHelper;
 
 abstract  class AbstractController
@@ -118,5 +119,17 @@ abstract  class AbstractController
     public function getLang(): string
     {
         return $this->lang;
+    }
+    /**
+     * method to add errors forms to messages session
+     * each message contain type
+     * @param array $messages array contain all messages
+     * @return void
+     */
+    public function addErrorsMethodToSession(array $messages): void
+    {
+        foreach ($messages as $message) {
+            $this->messages->add($message, MessagesType::Danger);
+        }
     }
 }
