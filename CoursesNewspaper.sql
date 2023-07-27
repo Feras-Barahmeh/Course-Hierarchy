@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 22, 2023 at 08:30 PM
+-- Generation Time: Jul 27, 2023 at 05:31 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -80,9 +80,23 @@ CREATE TABLE `Enrollment` (
 
 CREATE TABLE `Instructors` (
   `InstructorID` int(11) UNSIGNED NOT NULL,
-  `InstructorName` varchar(150) NOT NULL,
+  `FirstName` varchar(50) NOT NULL,
   `Department` int(11) UNSIGNED NOT NULL,
-  `ExperienceYears` tinyint(4) NOT NULL
+  `LastName` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `PhoneNumber` varchar(10) NOT NULL,
+  `Address` varchar(100) NOT NULL,
+  `City` varchar(50) NOT NULL,
+  `State` varchar(50) NOT NULL COMMENT 'The state or province where the instructor is located.',
+  `Country` varchar(50) NOT NULL COMMENT 'The country where the instructor is located.',
+  `DOB` date DEFAULT NULL,
+  `HireDate` datetime NOT NULL,
+  `Salary` decimal(9,2) NOT NULL,
+  `YearsOfExperience` tinyint(2) UNSIGNED NOT NULL CHECK (`YearsOfExperience` <= 70),
+  `IfFullTime` tinyint(1) NOT NULL COMMENT 'A boolean column indicating whether the instructor is a full-time employee (true/false).',
+  `IsActive` tinyint(1) NOT NULL COMMENT ' A boolean column indicating whether the instructor is currently active (true/false).',
+  `Password` varchar(200) NOT NULL,
+  `NationalIdentificationNumber` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -100,9 +114,16 @@ CREATE TABLE `Students` (
   `DOB` date NOT NULL COMMENT 'Date Of Birth',
   `Gender` enum('Male','Female') NOT NULL,
   `Address` varchar(200) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `PhoneNumber` tinyint(10) NOT NULL
+  `Email` varchar(150) DEFAULT NULL,
+  `PhoneNumber` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `Students`
+--
+
+INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `DOB`, `Gender`, `Address`, `Email`, `PhoneNumber`) VALUES
+(1, 50, '2023-07-14', 'Feras ', 'Barahmeh', '2013-07-17', 'Male', 'Amman-Jordan', 'ferasbarahmhe55@gmail.com', '0785012269');
 
 -- --------------------------------------------------------
 
@@ -153,7 +174,6 @@ ALTER TABLE `Enrollment`
 --
 ALTER TABLE `Instructors`
   ADD PRIMARY KEY (`InstructorID`),
-  ADD UNIQUE KEY `InstructorName` (`InstructorName`),
   ADD KEY `FK_Instruct_In_Collage` (`Department`);
 
 --
@@ -207,7 +227,7 @@ ALTER TABLE `Instructors`
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `UniversityMajors`
