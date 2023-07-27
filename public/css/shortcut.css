@@ -752,3 +752,28 @@
     opacity: .6;
 }
 /*End Pagination*/
+
+/* Start Show Password Button */
+button.show-password {
+    position: absolute;
+    right: 14px;
+    height: 50%;
+    top: 46%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+button.show-password[description]:hover::after {
+    content: attr(description);
+    position: absolute;
+    left: 0;
+    white-space: nowrap;
+    background-color: var(--bs-cyan);
+    padding: 5px;
+    top: 83%;
+    color: var(--bs-gray-100);
+    border-radius: 4px;
+    z-index: 10;
+}
+/* End Show Password Button */

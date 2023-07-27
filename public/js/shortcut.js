@@ -295,25 +295,33 @@ tables.forEach(table => {
 
 // End Pagination table
 
-// // Start Search input
-// // TODO: Apply Trie Data Structure Tree To Search
-// const searchInInputs = document.querySelectorAll("[search-input]");
-// searchInInputs.forEach(input => {
-//     input.addEventListener("keyup", () => {
-//         let containerSearchInput = input.closest("[container-search]");
-//         let lis = containerSearchInput.querySelectorAll("ul li");
-//         let inputValue = input.value.toLowerCase();
-//
-//         lis.forEach(li => {
-//             let content = li.textContent.toLowerCase();
-//             if (content.search(inputValue) !== -1) {
-//                 li.classList.remove("hidden")
-//             } else {
-//                 li.classList.add("hidden")
-//             }
-//         });
-//     });
-//
-//
-// });
-// // End Search input
+
+// Start Show Password
+let showPasswordInputs = document.querySelectorAll('[show-password]');
+showPasswordInputs.forEach(showBtn => {
+
+    let parent = showBtn.parentElement;
+    parent.style.position = "relative";
+
+
+    showBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        let input = showBtn.parentElement.querySelector("input");
+        let value = input.value.toString();
+
+
+        input.value = '';
+
+        if (showBtn.getAttribute("show-password") === "false") {
+            input.type = 'text';
+            input.value = value.toString();
+            showBtn.setAttribute("show-password", "true");
+        } else  {
+            input.type = 'password';
+            input.value = value.toString();
+            showBtn.setAttribute("show-password", "false");
+        }
+   });
+
+});
+//s End Show Password
