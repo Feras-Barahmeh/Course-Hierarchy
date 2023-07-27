@@ -287,3 +287,21 @@ main .main-title span {
     font-family: 'Oswald', sans-serif;
 }
 /* End Main  */
+
+/* Start feedback block */
+.invalid-feedback,
+.valid-feedback {
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: height .6s ease-in-out, opacity .6s ease-in-out;
+    display: block;
+
+}
+.invalid-feedback.active,
+.valid-feedback.active {
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+}
+/* End feedback block */

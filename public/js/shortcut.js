@@ -324,4 +324,59 @@ showPasswordInputs.forEach(showBtn => {
    });
 
 });
-//s End Show Password
+// End Show Password
+
+
+
+// Start Validation Between
+let betweenValidationInputs = document.querySelectorAll('[between]');
+
+betweenValidationInputs.forEach(betweenInput => {
+
+   let params = betweenInput.getAttribute("between");
+
+    let pattern = /\d+/g;
+
+    let values = params.match(pattern);
+
+    let min = values[0];
+    let max = values[1];
+
+    betweenInput.addEventListener("keyup", () => {
+       if (betweenInput.value.length < Number(min) || betweenInput.value.length > Number(max)) {
+           let invalidFeedBack = betweenInput.parentElement.querySelector(".invalid-feedback");
+           let validFeedBack = betweenInput.parentElement.querySelector(".valid-feedback");
+            invalidFeedBack.classList.add("active");
+           validFeedBack.classList.remove("active");
+       } else {
+           let invalidFeedBack = betweenInput.parentElement.querySelector(".invalid-feedback");
+           let validFeedBack = betweenInput.parentElement.querySelector(".valid-feedback");
+           invalidFeedBack.classList.remove("active");
+           validFeedBack.classList.add("active");
+       }
+    });
+
+});
+// End Validation Between
+
+
+// Start Validation Email
+let emailInputs = document.querySelectorAll("[email-input]");
+emailInputs.forEach(emailInput => {
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    emailInput.addEventListener("keyup", () => {
+        let validFeedBack = emailInput.parentElement.querySelector(".valid-feedback");
+        let invalidFeedBack = emailInput.parentElement.querySelector(".invalid-feedback");
+       if (emailPattern.test(emailInput.value)) {
+           invalidFeedBack.classList.remove("active");
+           validFeedBack.classList.add("active");
+       } else {
+           invalidFeedBack.classList.add("active");
+           validFeedBack.classList.remove("active");
+       }
+    });
+
+
+});
+// End Validation Email

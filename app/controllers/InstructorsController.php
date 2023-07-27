@@ -10,7 +10,7 @@ class InstructorsController extends AbstractController
 {
     use Validation;
     private array $_rolesAddValid = [
-        "FirstName"         => ["required", "int", "between" => [20, 60]],
+        "FirstName"         => ["required", "alpha", "between" => [2, 50]],
     ];
     /**
      * #[GET('/')]
