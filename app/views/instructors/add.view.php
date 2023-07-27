@@ -22,7 +22,7 @@
                 }
             }
         ?>
-        <form class="row g-3 needs-validation" method="POST" novalidate>
+        <form class="row g-3" method="POST" >
             <div class="col-md-4">
                 <label for="FirstName" class="form-label mb-1">First name</label>
                 <input type="text" class="form-control" id="FirstName" name="FirstName" value="Feras" required>
@@ -42,7 +42,7 @@
 
             <div class="col-md-4">
                 <label for="Email" class="form-label mb-1">Email</label>
-                <input type="text" class="form-control" id="Email" name="Email" value="ferasbarahmhe55@gmail.com" required>
+                <input type="email" class="form-control" id="Email" name="Email" value="ferasbarahmhe55@gmail.com" required>
                 <div class="invalid-feedback">
                     Please provide a valid city.
                 </div>
@@ -51,7 +51,12 @@
 
             <div class="col-md-4">
                 <label for="Password" class="form-label mb-1">Password</label>
-                <input type="password" class="form-control" id="Password" name="Password" value="123456" required>
+                <input type="password" class="form-control" id="Password" name="Password" value="123456"  required>
+
+                <button class="show-password" show-password="false" description="show Password">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -60,6 +65,9 @@
             <div class="col-md-4">
                 <label for="ConfirmPassword" class="form-label mb-1">Confirm Password</label>
                 <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"  value="123456" required>
+                <button class="show-password" show-password="false" description="show Password">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
