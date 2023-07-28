@@ -174,32 +174,32 @@
                 <!-- End With Instructor -->
 
 
-                <!-- Start With Collages -->
+                <!-- Start With colleges -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL(['/collages/add', '/collages']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Collages >> ">
+                    <?= $controller->compareURL(['/colleges/add', '/colleges']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="Colleges >> ">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-building-columns"></i>
-                        <span class="text">Collages</span>
+                        <span class="text">Colleges</span>
                         <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/collages" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/colleges" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text">Collages</span>
+                                <span class="text">College</span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/collages/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/colleges/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add Collage</span>
+                                <span class="text">Add College</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <!-- End With Collages -->
+                <!-- End With colleges -->
 
 
                 <li class="li-aside-menu
@@ -261,83 +261,81 @@
 </aside>
 
 <main class="">
+
     <h1 class="main-title">
-        <i class="fa-solid fa-building"></i>
+        <i class="fa-solid fa-user-plus"></i>
         <span class="">
-            Collages
+            Add Collage
         </span>
     </h1>
-    <?php
-        $messages = \App\Core\Session::flash("message");
 
-        if ($messages) {
-            foreach ($messages as $message) {
-                $type = strtolower($message[1]->name);
-                $message = $message[0];
-                ?>
-                <div class="alert alert-<?= $type ?> between-element plr-20 " kick-out="5000" role="alert">
-                    <span class="flex f-align-center"><?= $message ?></span>
-                </div>
-                <?php
-            }
-        }
-    ?>
 
-    <!-- Start Table -->
-        <div class="container container-table responsive-table">
-            <div class="row filter mb-20">
-                <form action="" class="col-lg-12" METHOD="POST">
-                    <div class="input-group flex-nowrap">
-                        <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> Search</button>
-                        <input type="text" class="form-control" name="value_search" placeholder="Search Collage" aria-label="Username" aria-describedby="addon-wrapping">
-                    </div>
 
-                </form>
+    <div class="container mt-20 ">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/colleges/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i>Back</button>
+                </a>
             </div>
-            <div class="container-table responsive-table">
-                <table class="table pagination-table">
-                    <thead class="table-dark">
-                    <tr>
-                        <td>ID</td>
-                        <td>Name Collage</td>
-                        <td>Count Student</td>
-                        <td>Controls</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <?php
-                    foreach ($collages as $collage) {
-                        ?>
-                        <tr>
-                            <td><?= $collage->CollageID ?></td>
-                            <td><?= $collage->CollegeName ?></td>
-                            <td><?= $collage->TotalStudents ?></td>
-                            <td>
-
-                                <a href="/collages/edit/<?= $collage->CollageID ?>">
-                                    <button type="button" class="btn btn-success description" description="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </a>
-                                <button type="button" class="btn btn-danger description" description="Delete">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <?php
-
-                    }
-                    ?>
-
-
-                    </tbody>
-                </table>
-            </div>
-
         </div>
-    <!-- End Table -->
+        <?php
+            if ($messages != null) {
+                foreach ($messages as $message) {
+                    ?>
+                        <div class="alert alert-danger plr-10 ptb-5 " role="alert">
+                            <?= $message[0]  ?>
+                        </div>
+                    <?php
+                }
+            }
+        ?>
 
+        <div class="container-form">
+            <form class="row g-3" method="POST" >
+                <div class="col-md-6">
+                    <label for="CollegeName" class="form-label mb-1">Collage Name</label>
+                    <input type="text"
+                           class="form-control"
+                           id="CollegeName"
+                           between="4,100"
+                           name="CollegeName"
+                           value="<?= $controller->getStorePost("CollegeName") ?>"
+                           required autocomplete="none"
+                    >
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Collage Name must between 5 and 100 character
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TotalStudents" class="form-label mb-1">Count Students</label>
+                    <input type="number"
+                           class="form-control"
+                           id="TotalStudents"
+                           between="0, 65535"
+                           name="TotalStudents"
+                           value="<?= $controller->getStorePost("TotalStudents") ?>"
+                           required
+                    >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Number Student Must Between 0 and 65,535
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button class="main-btn" name="add" type="submit">Submit form</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>
 
 

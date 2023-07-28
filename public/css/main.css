@@ -145,7 +145,6 @@ table tbody tr:hover td {
 }
 .container-form {
     background-color: var(--bg-black-60);
-    margin-top: 100px;
     border-radius: 4px;
     padding: 20px;
 }

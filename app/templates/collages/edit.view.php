@@ -261,83 +261,69 @@
 </aside>
 
 <main class="">
+
     <h1 class="main-title">
-        <i class="fa-solid fa-building"></i>
+        <i class="fa-solid fa-edit"></i>
         <span class="">
-            Collages
+            Edit <?= $collage->CollegeName ?> Collage
         </span>
     </h1>
-    <?php
-        $messages = \App\Core\Session::flash("message");
 
-        if ($messages) {
-            foreach ($messages as $message) {
-                $type = strtolower($message[1]->name);
-                $message = $message[0];
-                ?>
-                <div class="alert alert-<?= $type ?> between-element plr-20 " kick-out="5000" role="alert">
-                    <span class="flex f-align-center"><?= $message ?></span>
-                </div>
-                <?php
-            }
-        }
-    ?>
-
-    <!-- Start Table -->
-        <div class="container container-table responsive-table">
-            <div class="row filter mb-20">
-                <form action="" class="col-lg-12" METHOD="POST">
-                    <div class="input-group flex-nowrap">
-                        <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> Search</button>
-                        <input type="text" class="form-control" name="value_search" placeholder="Search Collage" aria-label="Username" aria-describedby="addon-wrapping">
-                    </div>
-
-                </form>
-            </div>
-            <div class="container-table responsive-table">
-                <table class="table pagination-table">
-                    <thead class="table-dark">
-                    <tr>
-                        <td>ID</td>
-                        <td>Name Collage</td>
-                        <td>Count Student</td>
-                        <td>Controls</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <?php
-                    foreach ($collages as $collage) {
-                        ?>
-                        <tr>
-                            <td><?= $collage->CollageID ?></td>
-                            <td><?= $collage->CollegeName ?></td>
-                            <td><?= $collage->TotalStudents ?></td>
-                            <td>
-
-                                <a href="/collages/edit/<?= $collage->CollageID ?>">
-                                    <button type="button" class="btn btn-success description" description="Edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </a>
-                                <button type="button" class="btn btn-danger description" description="Delete">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <?php
-
-                    }
+    <div class="container mt-20 container-form">
+        <?php
+            if ($messages != null) {
+                foreach ($messages as $message) {
                     ?>
+                        <div class="alert alert-danger plr-10 ptb-5 " role="alert">
+                            <?= $message[0]  ?>
+                        </div>
+                    <?php
+                }
+            }
+        ?>
+        <form class="row g-3" method="POST" >
+            <div class="col-md-6">
+                <label for="CollegeName" class="form-label mb-1">Collage Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="CollegeName"
+                       between="4,100"
+                       name="CollegeName"
+                       value="<?= $collage->CollegeName ?>"
+                       required autocomplete="none"
+                >
 
-
-                    </tbody>
-                </table>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Collage Name must between 5 and 100 character
+                </div>
             </div>
 
-        </div>
-    <!-- End Table -->
+            <div class="col-md-6">
+                <label for="TotalStudents" class="form-label mb-1">Count Students</label>
+                <input type="number"
+                       class="form-control"
+                       id="TotalStudents"
+                       between="0, 65535"
+                       name="TotalStudents"
+                       value="<?= $collage->TotalStudents ?>"
+                       required
+                >
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Number Student Must Between 0 and 65,535
+                </div>
+            </div>
 
+            <div class="col-12">
+                <button class="main-btn" name="edit" type="submit">Edit Collage</button>
+            </div>
+        </form>
+    </div>
 </main>
 
 

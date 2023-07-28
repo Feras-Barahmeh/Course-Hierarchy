@@ -4,23 +4,23 @@ namespace App\Models;
 
 use App\Helper\HandsHelper;
 
-class CollageModel extends AbstractModel
+class CollegeModel extends AbstractModel
 {
     use HandsHelper;
-    public $CollageID;
+    public $CollegeID;
     public  $CollegeName;
     public  $TotalStudents;
 
 
-    protected static string $tableName = "Collages";
+    protected static string $tableName = "Colleges";
 
     protected static array $tableSchema = [
-        "CollageID"             => self::DATA_TYPE_INT,
+        "CollegeID"             => self::DATA_TYPE_INT,
         "CollegeName"    => self::DATA_TYPE_STR,
         "TotalStudents"         => self::DATA_TYPE_INT,
     ];
 
-    protected static string $primaryKey = "CollageID";
+    protected static string $primaryKey = "CollegeID";
 
     public static function filterTable($filterValues)
     {
@@ -33,7 +33,7 @@ class CollageModel extends AbstractModel
                 $sql .= " $column " . " LIKE '%". $filterValues ."%' OR \n " ;
             }
 
-            (new CollageModel())->removeLastWord($sql);
+            (new CollegeModel())->removeLastWord($sql);
             return $sql;
         }
 

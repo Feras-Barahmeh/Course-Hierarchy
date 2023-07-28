@@ -118,7 +118,12 @@ class AbstractModel
         return false;
     }
 
-    public static function getByPK($pk)
+    /**
+     * get record by ket Primary key
+     * @param $pk
+     * @return AbstractModel
+     */
+    public static function getByPK($pk): static
     {
         $query = "SELECT * FROM " . static::$tableName . " WHERE " . static::$primaryKey . " = '" . $pk . "'";
 
@@ -158,7 +163,7 @@ class AbstractModel
         return false;
     }
 
-    public function row($sql)
+    public static function row($sql)
     {
         $row = static::get($sql);
         return ! $row ? 0 : $row->current();
@@ -167,6 +172,10 @@ class AbstractModel
     public static function getTableName()
     {
         return static::$tableName;
+    }
+    public static function getPK()
+    {
+        return static::$primaryKey;
     }
 
     /**
