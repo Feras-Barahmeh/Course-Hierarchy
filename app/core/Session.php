@@ -84,7 +84,7 @@ class Session
     public static function flash($key): mixed
     {
         $value = null;
-        if ([$_SESSION[$key]] !== null) {
+        if (isset($_SESSION[$key] )) {
             $value = $_SESSION[$key];
             unset($_SESSION[$key]);
         }

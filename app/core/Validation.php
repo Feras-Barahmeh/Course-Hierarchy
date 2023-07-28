@@ -31,6 +31,7 @@ trait Validation
         'int'           => "/^[-+]?\d+$/",
         'float'         => "/^[-+]?\d+(\.\d+)?$/",
         'positive'      => "/^[+]?\d+(\.\d+)?$/",
+        'numeric'      => "/^[0-9]+$/",
         'alpha'         => "/^[\p{L} ]+$/u",
         'alphaNum'      => '/^[\p{L}0-9 ]+$/u',
         'date'         => "/^\d{4}-\d{2}-\d{2}$/",
@@ -144,6 +145,20 @@ trait Validation
     }
 
     /**
+     * if numeric or not
+     * @param $value
+     * @param string $nameField name column you want set in message
+     * @return bool
+     */
+    public function numeric($value, string $nameField): bool
+    {
+        if (preg_match($this->patterns['numeric'], $value)) return true;
+
+        $this->pushToError("error_numeric", [$nameField]);
+        return false;
+    }
+
+    /**
      * if contain positive integer
      * @param $value
      * @param string $nameField name column you want set in message
@@ -217,6 +232,7 @@ trait Validation
      */
     public function valid($patterns, $post): bool|array
     {
+        $this->language->load("template.errors");
         $this->words = $this->language->getDictionary();
 
         // the value I want check it

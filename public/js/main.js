@@ -17,14 +17,9 @@ function closeAllSubMenusOpened(lis, currentSubMenuWillOpened) {
 if (localStorage.getItem('expandMainAsideStatus')) {
     aside.setAttribute("expanded", localStorage.getItem('expandMainAsideStatus'));
 }
-// Ens Set Aside expand status stored in local storage
+// End Set Aside expand status stored in local storage
 lis.forEach(li => {
    li.addEventListener("click", () => {
-       // Remove active from all lis contain it
-       // lis.forEach(li => {  li.classList.remove("active") });
-       // add active in clicked li
-       // li.classList.toggle("active");
-
 
        // if it has sub menu open it
        if (li.getAttribute("has-sub-menu") === "true") {
@@ -47,8 +42,6 @@ lis.forEach(li => {
 
        }
 
-
-
    });
 });
 // Start Toggle aside
@@ -64,6 +57,17 @@ asideToggleBtn.addEventListener("click", () => {
 });
 // End Toggle aside
 // End Aside
+
+// Start kick out Alter
+let alerts = document.querySelectorAll("[kick-out]");
+alerts.forEach(alert => {
+    let time = alert.getAttribute("kick-out");
+    setTimeout(()=> {
+        alert.remove();
+    }, Number(time))
+});
+// End kick out Alter
+
 
 // start validation forms
 (() => {

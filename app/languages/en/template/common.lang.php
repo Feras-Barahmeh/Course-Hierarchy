@@ -1,5 +1,5 @@
 <?php
-$_["title"]                          = "Newspaper";
+$_["title"]                          = "PreCatalog";
 
 $_["TTU"]                          = "TTU";
 $_["student_links"]                          = "Student Links";

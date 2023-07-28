@@ -39,6 +39,17 @@ li {
 .oswald {
     font-family: 'Oswald', sans-serif;
 }
+.highlight {
+    color: var(--bs-primary-text-emphasis);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 5px;
+}
+.btn-close:focus {
+    outline: 0;
+    box-shadow: 0 0 0 4px var(--bg-black-50);
+    opacity: var(--bs-btn-close-focus-opacity);
+}
 .main-btn {
     background-color: var(--bg-black-900);
     color: var(--bg-black-60);

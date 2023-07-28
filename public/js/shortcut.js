@@ -343,7 +343,16 @@ betweenValidationInputs.forEach(betweenInput => {
     let max = values[1];
 
     betweenInput.addEventListener("keyup", () => {
-       if (betweenInput.value.length < Number(min) || betweenInput.value.length > Number(max)) {
+        let inputType = betweenInput.type;
+        let condition = null;
+
+        if (inputType === 'number') {
+            condition = Number(betweenInput.value) < Number(min) || Number(betweenInput.value) > Number(max);
+        } else {
+            condition = betweenInput.value.length < Number(min) || betweenInput.value.length > Number(max);
+        }
+
+       if (condition) {
            let invalidFeedBack = betweenInput.parentElement.querySelector(".invalid-feedback");
            let validFeedBack = betweenInput.parentElement.querySelector(".valid-feedback");
             invalidFeedBack.classList.add("active");

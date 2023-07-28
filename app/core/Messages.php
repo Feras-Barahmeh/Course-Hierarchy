@@ -74,12 +74,13 @@ class Messages
      * method to do dynamic message
      * example the message is 'my name is %' replace %s whit value
      * @param string $key name message
-     * @param array $params array contain all parameter message(number %s values)
+     * @param array|string $params array contain all parameter message(number %s values)
      * @param object|array $words dictionary words
      * @return mixed
      */
-    public function feedKey (string $key, array $params, object|array $words): mixed
+    public function feedKey (string $key, array|string $params, object|array $words): mixed
     {
+        if (! is_array($params)) $params = [$params];
         array_unshift($params, $words[$key]);
         return call_user_func_array('sprintf', $params);
     }
