@@ -2,8 +2,15 @@
 
 namespace App\Core;
 
-use http\Params;
-
+/**
+ * Validation Trait
+ * The Validation trait is a PHP trait that provides a set of validation methods for various types of data.
+ * It is designed to be used within a class that handles form validation or data validation in general.
+ * The trait defines several methods for validating different types of data and handling validation errors.
+ *
+ * Constrains
+ * 1) name in Post Number by like key in patterns array
+ */
 trait Validation
 {
     /**
