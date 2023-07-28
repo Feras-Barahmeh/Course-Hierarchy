@@ -756,9 +756,8 @@
 /* Start Show Password Button */
 button.show-password {
     position: absolute;
-    right: 14px;
-    height: 50%;
-    top: 46%;
+    right: 5%;
+    top: 50%;
     background-color: transparent;
     border: none;
     cursor: pointer;
