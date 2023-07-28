@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 28, 2023 at 07:21 AM
+-- Generation Time: Jul 28, 2023 at 10:23 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -30,8 +30,23 @@ SET time_zone = "+00:00";
 CREATE TABLE `Collages` (
   `CollageID` int(11) UNSIGNED NOT NULL,
   `CollegeName` varchar(100) NOT NULL,
-  `TotalStudents` smallint(5) NOT NULL
+  `TotalStudents` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Collages`
+--
+
+INSERT INTO `Collages` (`CollageID`, `CollegeName`, `TotalStudents`) VALUES
+(1, 'Enginnering', 10000),
+(2, 'Literature', 50000),
+(3, 'Sciences', 60000),
+(4, 'Medicine', 9000),
+(5, 'Business', 15000),
+(6, 'Social Sciences', 200),
+(7, 'Education', 10000),
+(8, 'Arts', 500),
+(9, 'Information System', 20000);
 
 -- --------------------------------------------------------
 
@@ -197,7 +212,7 @@ ALTER TABLE `UniversityMajors`
 -- AUTO_INCREMENT for table `Collages`
 --
 ALTER TABLE `Collages`
-  MODIFY `CollageID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `CollageID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Courses`
@@ -240,12 +255,6 @@ ALTER TABLE `UniversityMajors`
 --
 
 --
--- Constraints for table `Collages`
---
-ALTER TABLE `Collages`
-  ADD CONSTRAINT `FK_Major` FOREIGN KEY (`CollageID`) REFERENCES `UniversityMajors` (`MajorId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `Courses`
 --
 ALTER TABLE `Courses`
@@ -269,6 +278,12 @@ ALTER TABLE `Enrollment`
 --
 ALTER TABLE `Instructors`
   ADD CONSTRAINT `FK_Instruct_In_Collage` FOREIGN KEY (`Department`) REFERENCES `Collages` (`CollageID`);
+
+--
+-- Constraints for table `UniversityMajors`
+--
+ALTER TABLE `UniversityMajors`
+  ADD CONSTRAINT `FK_Major` FOREIGN KEY (`MajorId`) REFERENCES `Collages` (`CollageID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
