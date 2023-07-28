@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Registration;
 use App\Enums\MessagesType;
 use App\Helper\HandsHelper;
+use Generator;
 
 abstract  class AbstractController
 {
@@ -130,6 +131,21 @@ abstract  class AbstractController
     {
         foreach ($messages as $message) {
             $this->messages->add($message, MessagesType::Danger);
+        }
+    }
+    /**
+     * Fill object or array (any iterator) in lazy way
+     *
+     * @param mixed $containerValues the element you want fill
+     * @param Generator $records generator contains all data you want translate in $containerValues
+     *
+     * @return void
+     */
+    public function putLazy(mixed &$containerValues, Generator $records): void
+    {
+        while ($records->valid()) {
+            $containerValues[] = $records->current();
+            $records->next();
         }
     }
 }

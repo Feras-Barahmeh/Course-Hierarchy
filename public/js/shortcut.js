@@ -120,6 +120,7 @@ class PaginationTable {
         // create previous button
         let previousBtn = document.createElement("button");
         previousBtn.classList.add("previous");
+        previousBtn.classList.add("main-btn");
         previousBtn.textContent = "Previous"
         buttonsDiv.appendChild(previousBtn);
         this.prevBtn  = previousBtn;
@@ -127,6 +128,7 @@ class PaginationTable {
         // create next button
         let nextBtn = document.createElement("button");
         nextBtn.classList.add("next");
+        nextBtn.classList.add("main-btn");
         nextBtn.classList.add("active");
         nextBtn.textContent = "Next";
         this.nextBtn = nextBtn;

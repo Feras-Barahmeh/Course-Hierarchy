@@ -61,7 +61,84 @@ li {
     opacity: .9 ;
     color: var(--bg-black-100);
 }
-    /* End General Settings */
+
+/* End General Settings */
+/* Start Table Design  */
+.container-table {
+    width: 100%;
+    min-width: 1000px;
+}
+table {
+    border-spacing: unset;
+    transition: all 3s ease-in-out;
+}
+.container-table table {
+    width: 100%;
+}
+table td,
+table th {
+    padding: 5px !important ;
+    white-space: nowrap;
+}
+table thead th {
+    background-color: var(--bg-black-100);
+    color: var(--bg-black-30);
+    font-size: 16px;
+}
+table tbody tr {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+}
+table tbody tr:nth-child(even) {
+    background-color: var(--bg-black-30);
+}
+table tbody tr:nth-child(odd) {
+    background-color: var(--bg-black-60);
+}
+table tbody tr.un-visible {
+    opacity: 0;
+    position: absolute;
+    left: 2000px;
+}
+table tbody td {
+    border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+    transition: all .3s ease-in-out;
+    color: var(--text-black-700);
+    text-align: center;
+}
+
+table tbody td:last-child {
+    border-right: 1px solid #eee;
+}
+table tbody tr:hover td {
+    background-color: var(--bg-black-80);
+    color: var(--bg-black-30);
+}
+table tbody td.long-content {
+    max-width: 20px;
+    overflow-x: hidden;
+}
+table tbody td.long-content:hover {
+    max-width: 100%;
+    overflow-x: auto;
+}
+table tbody .controller-btns {
+    text-align: center;
+}
+table tbody .controller-btns a {
+    color: #8b8686;
+}
+table tbody .controller-btns a:hover {
+    color: black;
+}
+table tbody .controller-btns a:not(:last-child) {
+    margin-right: 5px;
+}
+table tbody .controller-btns span.danger-style {
+    color: var(--danger-color-300);
+}
+/* End Table Design  */
 /* Start Nav */
 .navbar-toggler {
     border-color: var(--bg-black-100) ;

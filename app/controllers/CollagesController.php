@@ -28,7 +28,14 @@ class CollagesController extends AbstractController
     {
         $this->language->load("template.common");
 
+        $collages = new CollageModel();
+        $records = $collages->allLazy(["ORDER BY " => "TotalStudents DESC"]);
+        $collagesRecords = null;
+        $this->putLazy($collagesRecords, $records);
+
+
         View::view("collages.index", $this, [
+            "collages" => $collagesRecords,
         ]);
     }
     private function setProperties(CollageModel &$collage): void
