@@ -28,11 +28,13 @@ class CollagesController extends AbstractController
     {
         $this->language->load("template.common");
 
-        $collages = new CollageModel();
-        $records = $collages->allLazy(["ORDER BY " => "TotalStudents DESC"]);
         $collagesRecords = null;
-        $this->putLazy($collagesRecords, $records);
-
+        if (isset($_POST["search"])) {
+            $collagesRecords = CollageModel::get(CollageModel::filterTable($_POST["value_search"]));
+        } else {
+            $records = (new CollageModel())->allLazy(["ORDER BY " => "TotalStudents DESC"]);
+            $this->putLazy($collagesRecords, $records);
+        }
 
         View::view("collages.index", $this, [
             "collages" => $collagesRecords,

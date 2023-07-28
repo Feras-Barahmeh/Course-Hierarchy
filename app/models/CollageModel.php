@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Helper\HandsHelper;
+
 class CollageModel extends AbstractModel
 {
+    use HandsHelper;
     public $CollageID;
     public  $CollegeName;
     public  $TotalStudents;
@@ -18,4 +21,21 @@ class CollageModel extends AbstractModel
     ];
 
     protected static string $primaryKey = "CollageID";
+
+    public static function filterTable($filterValues)
+    {
+        $sql = "
+            SELECT * FROM " . static::$tableName . " WHERE  
+        ";
+
+        if (! is_array($filterValues)) {
+            foreach (static::$tableSchema as $column => $type) {
+                $sql .= " $column " . " LIKE '%". $filterValues ."%' OR \n " ;
+            }
+
+            (new CollageModel())->removeLastWord($sql);
+            return $sql;
+        }
+
+    }
 }

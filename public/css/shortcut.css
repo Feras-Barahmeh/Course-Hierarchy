@@ -512,18 +512,21 @@
 }
 .description:hover::after {
     content: attr(description);
-    background-color: var(--bg-black-70);
+    background-color: var(--bs-body-color);
     position: absolute;
     width: auto;
     height: auto;
-    top: 33px;
+    top: 100%;
+    left: 50%;
     padding: 5px;
     font-size: 15px;
     white-space: nowrap;
-    color: var(--text-black-700);
+    color: var(--text-black-30);
     z-index: 10000;
     pointer-events: none;
+    border-radius: 4px;
 }
+
 .description.dir-l:hover::after {
     left: 0;
 }

@@ -64,4 +64,33 @@ trait HandsHelper
         return $arr ? implode(' ', $arr) : false;
     }
 
+    /**
+     * get position last ward in string
+     * @param string $str target text
+     * @return int position
+     */
+    public function posLastWord(string $str): int
+    {
+        $str = rtrim($str);
+
+        $len = strlen($str);
+
+
+        $i = $len - 1;
+        for (; $i >= 0; $i--) {
+            if (ctype_space($str[$i])) {
+                break;
+            }
+        }
+        return $i;
+    }
+    /**
+     * remove last ward from string
+     * @param string $str the text you want remove last word from it
+     * @return void
+     */
+    public function removeLastWord(string &$str): void
+    {
+        $str = substr($str, 0, $this->posLastWord($str));
+    }
 }

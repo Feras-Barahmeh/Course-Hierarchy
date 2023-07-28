@@ -142,7 +142,7 @@ class AbstractModel
         return false;
     }
 
-    public function get($query, $options=[]): false|\ArrayIterator
+    public static function get($query, $options=[]): false|\ArrayIterator
     {
         $stmt = DatabaseHandler::factory()->prepare($query);
         $stmt->execute();
