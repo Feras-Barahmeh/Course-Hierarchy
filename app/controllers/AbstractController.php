@@ -72,6 +72,15 @@ abstract  class AbstractController
     }
 
     /**
+     * to get parameters
+     * @return array|null
+     */
+    public function getParams(): ?array
+    {
+        return $this->params ;
+    }
+
+    /**
      * set registry
      * @param Registration $registry
      * @return void
