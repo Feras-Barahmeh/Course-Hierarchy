@@ -174,32 +174,32 @@
                 <!-- End With Instructor -->
 
 
-                <!-- Start With Collages -->
+                <!-- Start With colleges -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL(['/collages/add', '/collages']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Collages >> ">
+                    <?= $controller->compareURL(['/colleges/add', '/colleges']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="Colleges >> ">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-building-columns"></i>
-                        <span class="text">Collages</span>
+                        <span class="text">Colleges</span>
                         <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/collages" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/colleges" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text">Collages</span>
+                                <span class="text">College</span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/collages/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/colleges/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add Collage</span>
+                                <span class="text">Add College</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <!-- End With Collages -->
+                <!-- End With colleges -->
 
 
                 <li class="li-aside-menu
@@ -467,6 +467,7 @@
     <script src="<?=  JS . "shortcut"  . ".js" ?>"></script>
     <script src="<?=  JS . "all.min"  . ".js" ?>"></script>
     <script src="<?=  BOOTSTRAP_JS . "bootstrap.bundle"  . ".js" ?>"></script>
+<!--    <script src="--><?php //=  BOOTSTRAP_JS . "all.min.js" ?><!--"></script>-->
     <script src="<?=  JS . $file_js  . ".js" ?>"></script>
     </body>
 </html>

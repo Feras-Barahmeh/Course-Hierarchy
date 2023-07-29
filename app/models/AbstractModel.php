@@ -3,6 +3,8 @@ namespace App\Models;
 
 
 use App\Core\Database\DatabaseHandler;
+use Exception;
+use PDOException;
 
 class AbstractModel
 {
@@ -43,10 +45,14 @@ class AbstractModel
         $stmt = DatabaseHandler::factory()->prepare($query);
         $this->bindParams($stmt);
 
+        error_reporting(E_ALL);
+        ini_set('display_errors', 0);
+
         if ($stmt->execute()) {
             $this->{static::$primaryKey} = DatabaseHandler::lastRecord();
             return true;
         }
+
         return false;
     }
     private function update()
@@ -204,9 +210,12 @@ class AbstractModel
         }
 
         $records = $this->get($query);
-        foreach ($records as $record) {
-            yield $record;
+        if ($records) {
+            foreach ($records as $record) {
+                yield $record;
+            }
         }
+
     }
     /**
      * return count primary key

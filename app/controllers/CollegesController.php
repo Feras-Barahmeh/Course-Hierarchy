@@ -164,7 +164,6 @@ class CollegesController extends AbstractController
 
         if (! $college) {
             $this->messages->add($this->messages->get("not_exist"), MessagesType::Danger);
-            $this->redirect("/colleges");
         }
 
         $name = $college->CollegeName;
@@ -172,11 +171,12 @@ class CollegesController extends AbstractController
         if ($college->delete()) {
             $message = $this->messages->feedKey("success", $name, $words);
             $this->messages->add($message, MessagesType::Success);
-            $this->redirect("/colleges");
+        } else {
+            $message = $this->messages->feedKey("fail", $name, $words);
+            $this->messages->add($message, MessagesType::Danger);
         }
 
-        $message = $this->messages->feedKey("fail", $name, $words);
-        $this->messages->add($message, MessagesType::Danger);
+
 
         $this->redirect("/colleges");
     }

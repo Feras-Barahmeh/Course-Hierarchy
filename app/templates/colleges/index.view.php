@@ -306,86 +306,89 @@
 
 
 
-            <div class="container-table responsive-table">
-                <table class="table pagination-table">
-                    <thead class="table-dark">
-                    <tr>
-                        <td>ID</td>
-                        <td>Name Collage</td>
-                        <td>Count Student</td>
-                        <td>Controls</td>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <?php
+                if ($colleges) {
+                    ?>
+                        <div class="container-table responsive-table">
+                                <table class="table pagination-table">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>Name Collage</td>
+                                            <td>Count Student</td>
+                                            <td>Controls</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($colleges as $collage) {
+                                            ?>
+                                            <tr>
+                                                <td><?= $collage->CollegeID ?></td>
+                                                <td><?= $collage->CollegeName ?></td>
+                                                <td><?= $collage->TotalStudents ?></td>
+                                                <td class="exclude-hover">
+                                                    <a href="/colleges/edit/<?= $collage->CollegeID ?>">
+                                                        <button type="button" class="btn btn-success description" description="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                    </a>
 
-                    <?php
-                        if ($colleges) {
-                            foreach ($colleges as $collage) {
-                                ?>
-                                <tr>
-                                    <td><?= $collage->CollegeID ?></td>
-                                    <td><?= $collage->CollegeName ?></td>
-                                    <td><?= $collage->TotalStudents ?></td>
-                                    <td class="exclude-hover">
-                                        <a href="/colleges/edit/<?= $collage->CollegeID ?>">
-                                            <button type="button" class="btn btn-success description" description="Edit">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                        </a>
+                                                    <button type="button" class="btn btn-danger description" btn-popup description="Delete">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
 
-                                        <button type="button" class="btn btn-danger description" btn-popup description="Delete">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
+                                                    <!-- start popup -->
+                                                    <div class="popup confirm">
+                                                        <div class="content">
+                                                            <div class="header">
+                                                                <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
+                                                                <h4 class="title">
+                                                                    Are You Sure you want delete
+                                                                    <span class="highlight"><?= $collage->CollegeName ?></span>
+                                                                </h4>
 
-                                        <!-- start popup -->
-                                        <div class="popup confirm">
-                                            <div class="content">
-                                                <div class="header">
-                                                    <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
-                                                    <h4 class="title">
-                                                        Are You Sure you want delete
-                                                        <span class="highlight"><?= $collage->CollegeName ?></span>
-                                                    </h4>
+                                                                <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
+                                                            </div>
 
-                                                    <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
-                                                </div>
+                                                            <div class="confirm">
+                                                                <div class="row g-3 align-items-center">
+                                                                    <div class="col-12 input-container">
+                                                                        <label for="confirmText" class="col-form-label no-select">
+                                                                            To confirm, type <span class="fw-bold" get-used-to><?= $collage->CollegeName ?></span>
+                                                                            in this box below
+                                                                        </label>
+                                                                        <input type="text" id="confirmText" class="form-control">
+                                                                        <div class="buttons mt-10">
+                                                                            <button class="btn border-1 btn-light cansel" close> Cansel </button>
+                                                                            <a href="/colleges/delete/<?= $collage->CollegeID ?>" >
+                                                                                <button class="btn btn-danger" apply> Apply </button>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
 
-                                                <div class="confirm">
-                                                    <div class="row g-3 align-items-center">
-                                                        <div class="col-12 input-container">
-                                                            <label for="confirmText" class="col-form-label no-select">
-                                                                To confirm, type <span class="fw-bold" get-used-to><?= $collage->CollegeName ?></span>
-                                                                in this box below
-                                                            </label>
-                                                            <input type="text" id="confirmText" class="form-control">
-                                                            <div class="buttons mt-10">
-                                                                <button class="btn border-1 btn-light cansel" close> Cansel </button>
-                                                                <a href="/colleges/delete/<?= $collage->CollegeID ?>" >
-                                                                    <button class="btn btn-danger" apply> Apply </button>
-                                                                </a>
+                                                                </div>
+
                                                             </div>
                                                         </div>
-
                                                     </div>
+                                                    <!-- End popup -->
+                                                </td>
+                                            </tr>
+                                            <?php
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End popup -->
-                                    </td>
-                                </tr>
-                                <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                        </div>
+                    <?php
+                }
+                else {
+                    ?> <div class="alert alert-danger p-1">No Colleges</div> <?php
+                }
+            ?>
 
-                            }
-                        } else {
-                            ?> <div class="alert alert-danger p-1">No Colleges</div> <?php
-                        }
-                    ?>
-
-
-                    </tbody>
-                </table>
-            </div>
 
         </div>
     <!-- End Table -->
@@ -400,7 +403,6 @@
     <script src="<?=  JS . "shortcut"  . ".js" ?>"></script>
     <script src="<?=  JS . "all.min"  . ".js" ?>"></script>
     <script src="<?=  BOOTSTRAP_JS . "bootstrap.bundle"  . ".js" ?>"></script>
-<!--    <script src="--><?php //=  BOOTSTRAP_JS . "all.min.js" ?><!--"></script>-->
     <script src="<?=  JS . $file_js  . ".js" ?>"></script>
     </body>
 </html>

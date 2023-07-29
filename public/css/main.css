@@ -56,6 +56,10 @@ li {
     border: none;
     padding: 5px;
     border-radius: 3px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 .main-btn:hover {
     opacity: .9 ;
