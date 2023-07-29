@@ -121,9 +121,9 @@ class AbstractModel
     /**
      * get record by ket Primary key
      * @param $pk
-     * @return AbstractModel
+     * @return AbstractModel|bool
      */
-    public static function getByPK($pk): static
+    public static function getByPK($pk): static|bool
     {
         $query = "SELECT * FROM " . static::$tableName . " WHERE " . static::$primaryKey . " = '" . $pk . "'";
 

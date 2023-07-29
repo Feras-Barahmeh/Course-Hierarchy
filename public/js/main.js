@@ -89,3 +89,64 @@ alerts.forEach(alert => {
     })
 })()
 // End validation forms
+
+// Start Popup
+let buttonsPopup = document.querySelectorAll("[btn-popup]");
+
+buttonsPopup.forEach(btnPopup => {
+    btnPopup.addEventListener("click", () => {
+        let popup = btnPopup.parentElement.querySelector(".popup");
+        popup.classList.add("fed");
+        let div = document.createElement("div");
+        div.classList.add("landing");
+
+        document.body.appendChild(div);
+
+        //  Start Focus in cansel button
+        popup.querySelector(".cansel").focus();
+        popup.querySelector(".cansel").classList.add("focus");
+        //  End Focus in cansel button
+
+        // Start Close Buttons
+        let closeButtons = document.querySelectorAll(".popup [close]");
+        closeButtons.forEach(btn => {
+           btn.addEventListener("click", () => {
+               let popup = btn.closest(".popup");
+               popup.classList.remove("fed");
+               document.body.lastChild.remove();
+           });
+        });
+        // End Close Buttons
+
+        // Start apply Button
+        let applyButtons = document.querySelectorAll(".popup [apply]");
+
+        applyButtons.forEach(btn => {
+
+            const btnClickHandler = (event) => {
+                let textConfirm = btn.closest(".popup").querySelector("[get-used-to]");
+
+                let input = textConfirm.closest(".input-container").querySelector("input");
+                event.preventDefault();
+
+                if (input.value === textConfirm.textContent) {
+                    btn.removeEventListener('click', btnClickHandler);
+                    input.value = '';
+                    btn.click()
+                } else {
+
+                }
+
+            };
+
+            btn.addEventListener('click', btnClickHandler);
+
+        });
+
+
+        // End apply Button
+
+    });
+});
+
+// End Popup

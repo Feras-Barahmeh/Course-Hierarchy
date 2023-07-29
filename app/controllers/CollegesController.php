@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Session;
 use App\Core\Validation;
 use App\Core\View;
 use App\Enums\MessagesType;
@@ -38,6 +39,9 @@ class CollegesController extends AbstractController
         $collegesRecords = null;
         if (isset($_POST["search"])) {
             $collegesRecords = CollegeModel::get(CollegeModel::filterTable($_POST["value_search"]));
+        } else if (isset($_POST["resit"])) {
+            $records = (new CollegeModel())->allLazy(["ORDER BY " => "TotalStudents DESC"]);
+            $this->putLazy($collegesRecords, $records);
         } else {
             $records = (new CollegeModel())->allLazy(["ORDER BY " => "TotalStudents DESC"]);
             $this->putLazy($collegesRecords, $records);
@@ -147,5 +151,33 @@ class CollegesController extends AbstractController
             "messages" => $this->messages->getMessage(),
             "collage" => $college,
         ]);
+    }
+
+    public function delete(): void
+    {
+        $this->language->load("colleges.delete");
+        $words = $this->language->getDictionary();
+
+        $id = $this->getParams()[0];
+
+        $college = CollegeModel::getByPK($id);
+
+        if (! $college) {
+            $this->messages->add($this->messages->get("not_exist"), MessagesType::Danger);
+            $this->redirect("/colleges");
+        }
+
+        $name = $college->CollegeName;
+
+        if ($college->delete()) {
+            $message = $this->messages->feedKey("success", $name, $words);
+            $this->messages->add($message, MessagesType::Success);
+            $this->redirect("/colleges");
+        }
+
+        $message = $this->messages->feedKey("fail", $name, $words);
+        $this->messages->add($message, MessagesType::Danger);
+
+        $this->redirect("/colleges");
     }
 }

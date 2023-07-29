@@ -72,6 +72,107 @@ li {
 }
 /* End General Settings */
 
+/* Start Popup */
+.no-select {
+    user-select: none;
+}
+.popup {
+    position: absolute;
+    top: 50%;
+    left: -71%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    min-height: 100vh;
+    z-index: 101;
+
+    /* Initial state */
+    opacity: 0;
+    display: none;
+}
+.popup.fed {
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    /* The animation will only apply when the .fed class is added */
+    animation: fadeInOut .5s ease-in-out;
+}
+@keyframes fadeInOut {
+    /* The animation will start from an opacity of 0 and end at an opacity of 1 */
+    0% {
+        left: 16.6%;
+    }
+    /* The animation will reach its full opacity (1) at 50% */
+    50% {
+        left: 50%;
+    }
+    /* The animation will return to an opacity of 0 at 100% */
+    100% {
+        left: 50%;
+    }
+}
+.popup.fed .content {
+    background-color: var(--bg-black-60);
+    padding: 20px;
+    border-radius: 5px;
+    min-width: 40%;
+}
+.popup.fed .content .header {
+    border-bottom: 1px solid var(--bg-black-80);
+    padding-bottom: 10px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+}
+.popup.fed .close-btn {
+    position: absolute;
+    right: 0;
+    top: -9px;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--bs-gray-700);
+}
+.popup.fed .close-btn:hover {
+    color: var(--bs-dark);
+}
+.popup.fed .content .header .icon {
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup.fed .icon.color-danger {
+    color: var(--bs-danger-bg-subtle);
+}
+.popup.fed .icon.bg-danger {
+    color: var(--bs-danger-bg-subtle);
+}
+.popup.fed .content .header .title {
+    margin: 0;
+}
+.cansel.focus {
+    color: var(--bs-body-color);
+    border-color: var(--bs-body-color);
+    outline: 0;
+    box-shadow: none;
+}
+.landing {
+    position: absolute;
+    background-color: var(--bs-black);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    opacity: .4;
+}
+/* End Popup */
+
 /* Start Table Design  */
 .container-table {
     width: 100%;
@@ -124,9 +225,12 @@ table tbody td {
 table tbody td:last-child {
     border-right: 1px solid #eee;
 }
-table tbody tr:hover td {
+table tbody tr:hover td:not(.exclude-hover) {
     background-color: var(--bg-black-80);
     color: var(--bg-black-30);
+}
+table tbody tr:hover td.exclude-hover {
+    background-color: var(--bg-black-80);
 }
 /* End Table Design  */
 /* Start Nav */
