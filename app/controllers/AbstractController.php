@@ -2,9 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Core\Auth;
 use App\Core\Registration;
+use App\Core\View;
 use App\Enums\MessagesType;
 use App\Helper\HandsHelper;
+use ErrorException;
 use Generator;
 
 abstract  class AbstractController
@@ -180,5 +183,27 @@ abstract  class AbstractController
     {
         $message = $this->language->feedKey($key,  $params);
         $this->messages->add($message, $type);
+    }
+
+    /**
+     * Handle authentication-related tasks and render views based on access privilege.
+     *
+     * This method is used to handle authentication-related tasks in the application. It checks the user's
+     * access privilege using the `Auth` class, and based on the privilege level, it either renders the specified
+     * view with optional migration information or redirects to an "access denied" page if the user does not have
+     * the required privilege to access the specified view.
+     *
+     * @param string $view The name of the view to be rendered upon successful authentication.
+     * @param array $migrationInfo Optional migration (to view) information to be passed to the view (default: []).
+     * @return void
+     * @throws ErrorException
+     */
+    public function authentication(string $view, array $migrationInfo=[]): void
+    {
+        if (Auth::performAuthenticatedAccessCheck(static::$authentication, Auth::privilege())) {
+            View::view($view, $this, $migrationInfo);
+        } else {
+            $this->redirect("/auth/accessDenied");
+        }
     }
 }

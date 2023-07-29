@@ -14,7 +14,14 @@ use JetBrains\PhpStorm\NoReturn;
 
 class AuthController extends AbstractController
 {
-
+    /**
+     * This method to redirect login page
+     * @return void
+     */
+    #[NoReturn] public function index(): void
+    {
+        $this->redirect("/auth/login");
+    }
     /**
      * Check Top-Level Domain (TLD) of an email address.
      *
@@ -158,10 +165,6 @@ class AuthController extends AbstractController
             
             if ($user) {
                 Session::set("user", $user);
-                echo "<pre>";
-                    var_dump(Auth::privilege());
-                echo "</pre>";
-                exit();
             }
         }
         
@@ -182,5 +185,22 @@ class AuthController extends AbstractController
     {
         Session::kill();
         $this->redirect("/auth/login");
+    }
+
+    /**
+     * Handle access denied scenarios and display an "access denied" view.
+     *
+     * This method is used to handle access denied scenarios in the application, where a user does not have
+     * the necessary permission to access a specific resource or perform a certain action. The method loads
+     * the language file related to the "access denied" message and sets up the necessary data to be displayed
+     * in the view. It then renders the "access denied" view to inform the user about the lack of permission.
+     *
+     * @throws ErrorException If there is an error while loading the language file or rendering the view.
+     * @return void
+     */
+    public function accessDenied(): void
+    {
+        $this->language->load("auth.denied");
+        View::view("auth.denied", $this);
     }
 }

@@ -21,14 +21,15 @@ require_once APP_PATH . DS . "core" . DS . "/Autoload.php";
 
 Session::start();
 
-if (! Session::has("lang")) {
-    Session::set("lang",  APP_DEFAULT_LANGUAGE);
-}
 
-$languages      = new  Language();
-$messages = Messages::getInstance();
-$auth = Auth::getInstance();
-$registry       = Registration::getInstance();
+//if (! Session::has("lang")) {
+//    Session::set("lang",  APP_DEFAULT_LANGUAGE);
+//}
+
+$languages  = new  Language();
+$messages   = Messages::getInstance();
+$auth       = Auth::getInstance();
+$registry   = Registration::getInstance();
 
 @$registry->language = $languages;
 @$registry->messages  = $messages;

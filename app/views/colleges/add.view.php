@@ -17,7 +17,7 @@
         <div class="row mb-20">
             <div class="action col-lg-12 col-md-4 d-flex">
                 <a href="/colleges/" class="ml-auto">
-                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i>Back</button>
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i>To Colleges</button>
                 </a>
             </div>
         </div>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="col-12">
-                    <button class="main-btn" name="add" type="submit">Submit form</button>
+                    <button class="main-btn" name="add" type="submit">Add College</button>
                 </div>
             </form>
         </div>

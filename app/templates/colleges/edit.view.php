@@ -245,7 +245,7 @@
                     </a>
                 </li>
                 <li class="li-aside-menu <?= $controller->compareURL('/logout') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Logout">
-                    <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <a href="/auth/logout" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-arrow-left"></i>
                         <span class="text">Logout</span>
                     </a>
@@ -284,7 +284,7 @@
         <div class="row mb-20">
             <div class="action col-lg-12 col-md-4 d-flex">
                 <a href="/colleges/" class="ml-auto">
-                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i>Back</button>
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i> To Colleges</button>
                 </a>
             </div>
         </div>

@@ -12,6 +12,26 @@ class Auth
      */
     private static $_instance;
 
+    public static array $access = [];
+
+    /**
+     * Set up the access privilege data for different user roles.
+     *
+     * This method is used to set up the access privilege data for different user roles in the application.
+     * It initializes the static `$access` array, associating each user role with an array of privileges that
+     * the role possesses. The privileges are defined by the `Privilege` class constants, where each constant
+     * represents a specific privilege value associated with a role.
+     *
+     * @return void
+     */
+    public static function setAccess(): void
+    {
+        self::$access[Privilege::Admin->value] = [Privilege::Admin->value];
+        self::$access[Privilege::Instructor->value] = [Privilege::Admin->value, Privilege::Instructor->value];
+        self::$access[Privilege::Guide->value] = [Privilege::Admin->value, Privilege::Guide->value];
+        self::$access[Privilege::Student->value] = [Privilege::Admin->value, Privilege::Student->value];
+    }
+
     public static string $privilegeNameColumn = "Privilege";
     /**
      * tables contain privilege and what is name unique column (the key is name table, value is privilege name unique column, password name password column in db)
@@ -91,19 +111,40 @@ class Auth
         }
         return false;
     }
-
-    public static function access($privilege): bool
+    /**
+     * Check if a user with a specific privilege has access to perform certain actions.
+     *
+     * @param int $privilege The privilege level of the user.
+     * @return bool Returns true if access is granted, false otherwise.
+     */
+    public static function access(int $privilege): bool
     {
-        $access[Privilege::Admin->value] = [Privilege::Admin->value];
-        $access[Privilege::Instructor->value] = [Privilege::Admin->value, Privilege::Instructor->value];
-        $access[Privilege::Guide->value] = [Privilege::Admin->value, Privilege::Guide->value];
-        $access[Privilege::Student->value] = [Privilege::Admin->value, Privilege::Student->value];
+
+        self::setAccess();
 
         $role = self::privilege();
 
-        if (in_array($role, $access[$privilege])) {
+        if (in_array($role, self::$access[$privilege])) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Check if a user role has the necessary access privilege for a controller action.
+     *
+     * This method is used to check if a user role has the necessary access privilege to perform a specific
+     * action (controller privilege) on a controller. It relies on the `setAccess()` method to set up the access
+     * privilege data, which likely contains an array of roles mapped to their respective privileges.
+     *
+     * @param int|string $role The user role for which access privilege is to be checked.
+     * @param int|string $controllerPrivilege The privilege associated with the controller action to be checked.
+     *
+     * @return bool Returns true if the specified user role has the required access privilege, false otherwise.
+     */
+    public static function performAuthenticatedAccessCheck(int|string $role, int|string $controllerPrivilege): bool
+    {
+        self::setAccess();
+        return in_array($controllerPrivilege, self::$access[$role]);
     }
 }

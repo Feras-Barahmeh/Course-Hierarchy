@@ -1,11 +1,8 @@
 // Start Aside
 let aside = document.getElementById("main-aside");
-lis = null;
-nav = null;
-if (aside != null) {
-    let nav = aside.querySelector("nav");
-    let lis = nav.querySelectorAll("li");
-}
+
+let nav = aside.querySelector("nav");
+let lis = nav.querySelectorAll("li");
 
 function closeAllSubMenusOpened(lis, currentSubMenuWillOpened) {
     lis.forEach(li => {
@@ -19,51 +16,48 @@ function closeAllSubMenusOpened(lis, currentSubMenuWillOpened) {
 }
 
 // Start Set Aside expand status stored in local storage
-if (aside != null) {
-    if (localStorage.getItem('expandMainAsideStatus')) {
-        aside.setAttribute("expanded", localStorage.getItem('expandMainAsideStatus'));
-    }
+if (localStorage.getItem('expandMainAsideStatus')) {
+    aside.setAttribute("expanded", localStorage.getItem('expandMainAsideStatus'));
 }
 // End Set Aside expand status stored in local storage
-if (lis != null) {
-    lis.forEach(li => {
-        li.addEventListener("click", () => {
+lis.forEach(li => {
+    li.addEventListener("click", () => {
 
-            // if it has sub menu open it
-            if (li.getAttribute("has-sub-menu") === "true") {
-                // rotate angle
-                li.querySelector(".arrow").classList.toggle("rotate");
+        // if it has sub menu open it
+        if (li.getAttribute("has-sub-menu") === "true") {
+            // rotate angle
+            li.querySelector(".arrow").classList.toggle("rotate");
 
-                let ul = li.querySelector("[sub-menu]");
+            let ul = li.querySelector("[sub-menu]");
 
-                // Close all sub menus opened
-                closeAllSubMenusOpened(lis, ul);
+            // Close all sub menus opened
+            closeAllSubMenusOpened(lis, ul);
 
-                if (ul.getAttribute("open") === "true") {
-                    ul.setAttribute("open", "false");
-                } else {
-                    ul.setAttribute("open", "true");
-                }
-
-                // Toggle Arrow
-                let i = li.querySelector("[arrow]");
-
+            if (ul.getAttribute("open") === "true") {
+                ul.setAttribute("open", "false");
+            } else {
+                ul.setAttribute("open", "true");
             }
 
-        });
-    });
-// Start Toggle aside
-    const asideToggleBtn = document.querySelector("[btn-aside-toggel]");
-    asideToggleBtn.addEventListener("click", () => {
-        if (aside.getAttribute("expanded") === "true") {
-            aside.setAttribute("expanded", "false");
-            localStorage.setItem('expandMainAsideStatus', "false");
-        } else {
-            aside.setAttribute("expanded", "true");
-            localStorage.setItem('expandMainAsideStatus', "true");
+            // Toggle Arrow
+            let i = li.querySelector("[arrow]");
+
         }
+
     });
-}
+});
+// Start Toggle aside
+const asideToggleBtn = document.querySelector("[btn-aside-toggel]");
+asideToggleBtn.addEventListener("click", () => {
+    console.log(asideToggleBtn)
+    if (aside.getAttribute("expanded") === "true") {
+        aside.setAttribute("expanded", "false");
+        localStorage.setItem('expandMainAsideStatus', "false");
+    } else {
+        aside.setAttribute("expanded", "true");
+        localStorage.setItem('expandMainAsideStatus', "true");
+    }
+});
 // End Toggle aside
 // End Aside
 
