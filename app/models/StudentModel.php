@@ -16,6 +16,7 @@ class StudentModel extends AbstractModel
     public  $Address;
     public  $Email;
     public  $PhoneNumber;
+    public  $Privilege;
 
     protected static string $tableName = "Students";
 
@@ -25,11 +26,12 @@ class StudentModel extends AbstractModel
         "AdmissionYear"         => self::DATA_TYPE_INT,
         "FirstName"             => self::DATA_TYPE_STR,
         "LastName"              => self::DATA_TYPE_STR,
-        "DOB"       => self::DATA_TYPE_DATE,
-        "Gender"       => self::DATA_TYPE_STR,
-        "Address"       => self::DATA_TYPE_STR,
-        "Email"       => self::DATA_TYPE_STR,
-        "PhoneNumber"       => self::DATA_TYPE_STR,
+        "DOB"                   => self::DATA_TYPE_DATE,
+        "Gender"                => self::DATA_TYPE_STR,
+        "Address"               => self::DATA_TYPE_STR,
+        "Email"                 => self::DATA_TYPE_STR,
+        "PhoneNumber"           => self::DATA_TYPE_STR,
+        "Privilege"             => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "StudentID";
