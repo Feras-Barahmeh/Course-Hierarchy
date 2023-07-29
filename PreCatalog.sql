@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 28, 2023 at 10:23 AM
+-- Generation Time: Jul 29, 2023 at 08:04 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,29 +24,38 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Collages`
+-- Table structure for table `Admin`
 --
 
-CREATE TABLE `Collages` (
-  `CollageID` int(11) UNSIGNED NOT NULL,
+CREATE TABLE `Admin` (
+  `AdminID` int(11) NOT NULL,
+  `UserName` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `privilege` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Colleges`
+--
+
+CREATE TABLE `Colleges` (
+  `CollegeID` int(11) UNSIGNED NOT NULL,
   `CollegeName` varchar(100) NOT NULL,
   `TotalStudents` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Collages`
+-- Dumping data for table `Colleges`
 --
 
-INSERT INTO `Collages` (`CollageID`, `CollegeName`, `TotalStudents`) VALUES
-(1, 'Enginnering', 10000),
-(2, 'Literature', 50000),
-(3, 'Sciences', 60000),
-(4, 'Medicine', 9000),
-(5, 'Business', 15000),
-(6, 'Social Sciences', 200),
-(7, 'Education', 10000),
-(8, 'Arts', 500),
-(9, 'Information System', 20000);
+INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudents`) VALUES
+(1, 'Enginnering', 20000),
+(2, 'Literature', 10000),
+(3, 'Sciences', 65535),
+(4, 'Business', 5535),
+(5, 'Medicine', 10000);
 
 -- --------------------------------------------------------
 
@@ -90,6 +99,26 @@ CREATE TABLE `Enrollment` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Guide`
+--
+
+CREATE TABLE `Guide` (
+  `GuideID` int(11) NOT NULL,
+  `GuideName` varchar(50) NOT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `Phone` varchar(20) DEFAULT NULL,
+  `Expertise` varchar(100) DEFAULT NULL,
+  `YearsOfExperience` int(11) DEFAULT NULL,
+  `Availability` varchar(50) DEFAULT NULL,
+  `OfficeHours` varchar(100) DEFAULT NULL,
+  `Bio` text DEFAULT NULL,
+  `Department` int(11) UNSIGNED NOT NULL,
+  `Privilege` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Instructors`
 --
 
@@ -110,6 +139,7 @@ CREATE TABLE `Instructors` (
   `YearsOfExperience` tinyint(2) UNSIGNED NOT NULL CHECK (`YearsOfExperience` <= 70),
   `IfFullTime` tinyint(1) NOT NULL COMMENT 'A boolean column indicating whether the instructor is a full-time employee (true/false).',
   `IsActive` tinyint(1) NOT NULL COMMENT ' A boolean column indicating whether the instructor is currently active (true/false).',
+  `privilege` tinyint(3) UNSIGNED NOT NULL,
   `Password` varchar(200) NOT NULL,
   `NationalIdentificationNumber` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -130,6 +160,7 @@ CREATE TABLE `Students` (
   `Gender` enum('Male','Female') NOT NULL,
   `Address` varchar(200) NOT NULL,
   `Email` varchar(150) DEFAULT NULL,
+  `privilege` tinyint(3) UNSIGNED NOT NULL,
   `PhoneNumber` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -137,8 +168,8 @@ CREATE TABLE `Students` (
 -- Dumping data for table `Students`
 --
 
-INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `DOB`, `Gender`, `Address`, `Email`, `PhoneNumber`) VALUES
-(1, 50, '2023-07-14', 'Feras ', 'Barahmeh', '2013-07-17', 'Male', 'Amman-Jordan', 'ferasbarahmhe55@gmail.com', '0785012269');
+INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `DOB`, `Gender`, `Address`, `Email`, `privilege`, `PhoneNumber`) VALUES
+(1, 50, '2023-07-14', 'Feras ', 'Barahmeh', '2013-07-17', 'Male', 'Amman-Jordan', 'ferasbarahmhe55@gmail.com', 0, '0785012269');
 
 -- --------------------------------------------------------
 
@@ -159,10 +190,16 @@ CREATE TABLE `UniversityMajors` (
 --
 
 --
--- Indexes for table `Collages`
+-- Indexes for table `Admin`
 --
-ALTER TABLE `Collages`
-  ADD PRIMARY KEY (`CollageID`);
+ALTER TABLE `Admin`
+  ADD PRIMARY KEY (`AdminID`);
+
+--
+-- Indexes for table `Colleges`
+--
+ALTER TABLE `Colleges`
+  ADD PRIMARY KEY (`CollegeID`);
 
 --
 -- Indexes for table `Courses`
@@ -183,6 +220,13 @@ ALTER TABLE `Enrollment`
   ADD PRIMARY KEY (`EnrollmentID`),
   ADD KEY `StudentID` (`StudentID`),
   ADD KEY `CourseID` (`CourseID`);
+
+--
+-- Indexes for table `Guide`
+--
+ALTER TABLE `Guide`
+  ADD PRIMARY KEY (`GuideID`),
+  ADD KEY `FK_Department` (`Department`);
 
 --
 -- Indexes for table `Instructors`
@@ -209,10 +253,16 @@ ALTER TABLE `UniversityMajors`
 --
 
 --
--- AUTO_INCREMENT for table `Collages`
+-- AUTO_INCREMENT for table `Admin`
 --
-ALTER TABLE `Collages`
-  MODIFY `CollageID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `Admin`
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Colleges`
+--
+ALTER TABLE `Colleges`
+  MODIFY `CollegeID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Courses`
@@ -231,6 +281,12 @@ ALTER TABLE `Departments`
 --
 ALTER TABLE `Enrollment`
   MODIFY `EnrollmentID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Guide`
+--
+ALTER TABLE `Guide`
+  MODIFY `GuideID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Instructors`
@@ -264,7 +320,7 @@ ALTER TABLE `Courses`
 -- Constraints for table `Departments`
 --
 ALTER TABLE `Departments`
-  ADD CONSTRAINT `FK_Collage_ID` FOREIGN KEY (`DepartmentID`) REFERENCES `Collages` (`CollageID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Collage_ID` FOREIGN KEY (`DepartmentID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Enrollment`
@@ -274,16 +330,22 @@ ALTER TABLE `Enrollment`
   ADD CONSTRAINT `Enrollment_ibfk_2` FOREIGN KEY (`CourseID`) REFERENCES `Courses` (`CourseID`);
 
 --
+-- Constraints for table `Guide`
+--
+ALTER TABLE `Guide`
+  ADD CONSTRAINT `FK_Department` FOREIGN KEY (`Department`) REFERENCES `Departments` (`DepartmentID`);
+
+--
 -- Constraints for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  ADD CONSTRAINT `FK_Instruct_In_Collage` FOREIGN KEY (`Department`) REFERENCES `Collages` (`CollageID`);
+  ADD CONSTRAINT `FK_Instruct_In_Collage` FOREIGN KEY (`Department`) REFERENCES `Colleges` (`CollegeID`);
 
 --
 -- Constraints for table `UniversityMajors`
 --
 ALTER TABLE `UniversityMajors`
-  ADD CONSTRAINT `FK_Major` FOREIGN KEY (`MajorId`) REFERENCES `Collages` (`CollageID`);
+  ADD CONSTRAINT `FK_Major` FOREIGN KEY (`MajorId`) REFERENCES `Colleges` (`CollegeID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
