@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 29, 2023 at 08:04 AM
+-- Generation Time: Jul 29, 2023 at 07:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -29,10 +29,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Admin` (
   `AdminID` int(11) NOT NULL,
-  `UserName` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `privilege` tinyint(3) UNSIGNED NOT NULL
+  `Email` varchar(100) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Privilege` tinyint(3) UNSIGNED NOT NULL,
+  `Name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `Admin`
+--
+
+INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`) VALUES
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras');
 
 -- --------------------------------------------------------
 
@@ -105,7 +113,7 @@ CREATE TABLE `Enrollment` (
 CREATE TABLE `Guide` (
   `GuideID` int(11) NOT NULL,
   `GuideName` varchar(50) NOT NULL,
-  `Email` varchar(100) DEFAULT NULL,
+  `Email` varchar(100) NOT NULL,
   `Phone` varchar(20) DEFAULT NULL,
   `Expertise` varchar(100) DEFAULT NULL,
   `YearsOfExperience` int(11) DEFAULT NULL,
@@ -159,8 +167,8 @@ CREATE TABLE `Students` (
   `DOB` date NOT NULL COMMENT 'Date Of Birth',
   `Gender` enum('Male','Female') NOT NULL,
   `Address` varchar(200) NOT NULL,
-  `Email` varchar(150) DEFAULT NULL,
-  `privilege` tinyint(3) UNSIGNED NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Privilege` tinyint(3) UNSIGNED NOT NULL,
   `PhoneNumber` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -168,7 +176,7 @@ CREATE TABLE `Students` (
 -- Dumping data for table `Students`
 --
 
-INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `DOB`, `Gender`, `Address`, `Email`, `privilege`, `PhoneNumber`) VALUES
+INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`) VALUES
 (1, 50, '2023-07-14', 'Feras ', 'Barahmeh', '2013-07-17', 'Male', 'Amman-Jordan', 'ferasbarahmhe55@gmail.com', 0, '0785012269');
 
 -- --------------------------------------------------------
@@ -193,7 +201,9 @@ CREATE TABLE `UniversityMajors` (
 -- Indexes for table `Admin`
 --
 ALTER TABLE `Admin`
-  ADD PRIMARY KEY (`AdminID`);
+  ADD PRIMARY KEY (`AdminID`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `Name` (`Name`);
 
 --
 -- Indexes for table `Colleges`
@@ -226,6 +236,7 @@ ALTER TABLE `Enrollment`
 --
 ALTER TABLE `Guide`
   ADD PRIMARY KEY (`GuideID`),
+  ADD UNIQUE KEY `Email` (`Email`),
   ADD KEY `FK_Department` (`Department`);
 
 --
@@ -233,13 +244,15 @@ ALTER TABLE `Guide`
 --
 ALTER TABLE `Instructors`
   ADD PRIMARY KEY (`InstructorID`),
+  ADD UNIQUE KEY `Email` (`Email`),
   ADD KEY `FK_Instruct_In_Collage` (`Department`);
 
 --
 -- Indexes for table `Students`
 --
 ALTER TABLE `Students`
-  ADD PRIMARY KEY (`StudentID`);
+  ADD PRIMARY KEY (`StudentID`),
+  ADD UNIQUE KEY `Email` (`Email`);
 
 --
 -- Indexes for table `UniversityMajors`
@@ -256,7 +269,7 @@ ALTER TABLE `UniversityMajors`
 -- AUTO_INCREMENT for table `Admin`
 --
 ALTER TABLE `Admin`
-  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Colleges`
