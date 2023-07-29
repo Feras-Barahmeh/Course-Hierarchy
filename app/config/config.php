@@ -18,8 +18,6 @@ const JS  = DS . "js" . DS;
 const BOOTSTRAP_JS = DS . "js" . DS . "bootstrap" . DS;
 const IMG  = DS . "images" . DS;
 
-const NAME_TEMPLATE_HEADER_RESOURCES = "header_resources";
-const NAME_TEMPLATE_FOOTER_RESOURCES = "footer_resources";
 
 // Cookie configuration
 const COOKIE_PATH= '/';

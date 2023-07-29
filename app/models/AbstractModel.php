@@ -70,15 +70,6 @@ class AbstractModel
     }
 
     /**
-     * @param $query string the query you want execute
-     * @return mixed
-     */
-    public static function executeQuery(string $query): mixed
-    {
-        $stmt = DatabaseHandler::factory()->prepare($query);
-        return $stmt->execute();
-    }
-    /**
      * @param bool $isSubProcess if you want to use save method to model subset from another model such as user model
      * and subset info model (check if set primary key manual)
      * @return bool
@@ -94,8 +85,6 @@ class AbstractModel
             return $this->update();
         }
     }
-
-
 
 
     public static function all(): bool|\ArrayIterator
@@ -175,13 +164,27 @@ class AbstractModel
         return ! $row ? 0 : $row->current();
     }
 
-    public static function getTableName()
+    /**
+     * @return mixed
+     */
+    public static function getTableName(): mixed
     {
         return static::$tableName;
     }
-    public static function getPK()
+
+    /**
+     * @return mixed
+     */
+    public static function getPK(): mixed
     {
         return static::$primaryKey;
+    }
+    /**
+     * @return mixed
+     */
+    public static function getTableSchema(): mixed
+    {
+        return static::$tableSchema;
     }
 
     /**
@@ -233,26 +236,6 @@ class AbstractModel
         ";
 
         return (new AbstractModel)->row($sql)->count;
-    }
-
-    /**
-     * get sum columns value
-     * @version 1.0
-     * @author Feras Barahmeh
-     * @param string $column the column you want get sum
-     * @param string|null $where if it has a condition
-     * @return mixed
-     */
-    public static function sum(string $column, string $where=null): mixed
-    {
-        $sql = "
-            SELECT 
-                SUM($column) AS S
-            FROM
-                ". static::$tableName  ."
-        ";
-
-        return (new AbstractModel())->row($sql)->S;
     }
 
 }

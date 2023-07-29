@@ -105,7 +105,9 @@ abstract  class AbstractController
     }
 
     /**
-     * return the current controller
+     * Get Controller
+     *
+     * This method to get the current controller
      * @return string
      */
     public function getController(): string
@@ -156,5 +158,27 @@ abstract  class AbstractController
             $containerValues[] = $records->current();
             $records->next();
         }
+    }
+    /**
+     * Set a message and add it to the messages' container.
+     *
+     * This method allows setting a message by providing a message key, optional parameters,
+     * and a message type. The message key is used to retrieve the actual message text from
+     * the language feed. Optional parameters can be used to customize the message content.
+     * The message type is used to categorize the message (e.g., success, error, warning, etc.).
+     * The constructed message is then added to the messages container for further processing.
+     *
+     * @param string $key The message key to retrieve the message text from the language feed.
+     * @param string|array $params Optional. Parameters to customize the message content.
+     *                            It can be a single string or an array of strings.
+     * @param string $type The message type. Can be one of 'success', 'info', 'warning', or 'danger'.
+     *                     This determines the visual style and presentation of the message.
+     *
+     * @return void This method does not return any value.
+     */
+    public function setMessage(string $key, string|array $params, string $type): void
+    {
+        $message = $this->language->feedKey($key,  $params);
+        $this->messages->add($message, $type);
     }
 }

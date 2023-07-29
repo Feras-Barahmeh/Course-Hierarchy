@@ -62,8 +62,8 @@ li {
     justify-content: space-evenly;
 }
 .main-btn:hover {
-    opacity: .9 ;
-    color: var(--bg-black-100);
+    background-color: var(--bs-dark-text-emphasis);
+    color: var(--bs-border-color);
 }
 .form-control:focus {
     color: var(--bs-body-color);

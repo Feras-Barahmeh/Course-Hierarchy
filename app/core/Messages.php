@@ -35,14 +35,6 @@ class Messages
         return Session::has("message");
     }
 
-    private function setClassStyle($number)
-    {
-        if ($number === MessagesType::Success->value)  return MessagesType::Success->name;
-        if ($number === MessagesType::Danger->value)   return MessagesType::Danger->name;
-        if ($number === MessagesType::Warning->value)  return MessagesType::Warning->name;
-        if ($number === MessagesType::Info->value)    return MessagesType::Info->name;
-
-    }
     public function add($messages, $type = MessagesType::Success->value): void
     {
         if (! $this->messagesExist()) {

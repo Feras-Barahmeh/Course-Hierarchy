@@ -93,4 +93,30 @@ trait HandsHelper
     {
         $str = substr($str, 0, $this->posLastWord($str));
     }
+
+    /**
+     * encrypt string
+     * @param string $str
+     * @return string encrypted string
+     */
+    public static function encryption(string $str): string
+    {
+        return crypt($str, MAIN_SALT);
+    }
+
+    /**
+     * Verify if a non-encrypted string matches the encrypted string.
+     *
+     * This method takes a non-encrypted string and an encrypted string, and it verifies
+     * if the non-encrypted string matches the encrypted string after encryption.
+     *
+     * @param string $encrypt The encrypted string you want to compare against.
+     * @param string $str The non-encrypted string to be verified.
+     * @return bool Returns true if the non-encrypted string matches the encrypted string; otherwise, returns false.
+     */
+    public static function verifyEncryption(string $encrypt, string $str): bool
+    {
+        return hash_equals($encrypt, crypt($str, $encrypt));
+    }
+
 }

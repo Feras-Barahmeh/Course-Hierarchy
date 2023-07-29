@@ -2,12 +2,12 @@
 
 namespace APP;
 
+use App\Core\Auth;
 use App\Core\Engine;
 use App\Core\Language;
 use App\Core\Messages;
 use App\Core\Registration;
 use App\Core\Session;
-use App\Core\Template;
 
 
 ! defined("DS") ? define("DS", DIRECTORY_SEPARATOR) : null;
@@ -27,7 +27,7 @@ if (! Session::has("lang")) {
 
 $languages      = new  Language();
 $messages = Messages::getInstance();
-
+$auth = Auth::getInstance();
 $registry       = Registration::getInstance();
 
 @$registry->language = $languages;

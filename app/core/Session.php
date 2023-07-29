@@ -22,13 +22,12 @@ class Session
     /**
      * set cookie
      * @param string $key cookie key
-     * @param string|array $value key value
-     * @return string
+     * @param mixed $value key value
+     * @return void
      */
-    public static function set(string $key, string|array $value)
+    public static function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
-//        return $value;
     }
     /**
      * check if session has key
@@ -73,11 +72,12 @@ class Session
      */
     public static function kill(): void
     {
-        session_unset();
+        session_unset();    // delete variables in session
+        session_destroy(); // delete session don't approaches in session variables
     }
 
     /**
-     * get flash message return key value then remove it from session
+     * get key session value then remove it from session
      * @param $key
      * @return mixed|null return key value
      */

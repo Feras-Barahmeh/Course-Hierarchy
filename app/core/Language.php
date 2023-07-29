@@ -119,4 +119,18 @@ class Language
     {
         return $this->language;
     }
+
+    /**
+     * method to do dynamic message
+     * example the message is 'my name is %' replace %s whit value
+     * @param string $key name message
+     * @param array|string|null $params array contain all parameter message(number %s values)
+     * @return mixed
+     */
+    public function feedKey (string $key, array|string|null $params=null): mixed
+    {
+        if (! is_array($params)) $params = [$params];
+        array_unshift($params, $this->dictionary[$key]);
+        return call_user_func_array('sprintf', $params);
+    }
 }
