@@ -3,7 +3,7 @@
 namespace App\Core;
 
 use App\Enums\Privilege;
-
+use App\Enums\Language;
 class Auth
 {
     /**
@@ -146,5 +146,37 @@ class Auth
     {
         self::setAccess();
         return in_array($controllerPrivilege, self::$access[$role]);
+    }
+
+    public static function getModelUser(): string
+    {
+        return get_class(Auth::user());
+    }
+    public static function getPKUser(): string
+    {
+        $class = get_class(Auth::user());
+        $class = new $class();
+        return $class->getPK();
+    }
+
+    public static function getTableUser()
+    {
+        $class = get_class(Auth::user());
+        $class = new $class();
+        return $class->getTableName();
+    }
+
+    public static function getNameLanguage(): string
+    {
+        if (Auth::user()->language == Language::English->value) {
+            return Language::English->name;
+        } else {
+            return Language::Arabic->name;
+        }
+    }
+
+    public static function updateUser($newUser)
+    {
+        Session::set("user", $newUser);
     }
 }

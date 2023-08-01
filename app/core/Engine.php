@@ -147,7 +147,7 @@ class Engine
         $controller->setAction($this->action);
         $controller->setParams($this->params);
         $controller->setRegistry($this->registry);
-        $controller->setLang(Session::get("lang"));
+        $controller->setLang();
         $controller->$actionMethod();
 
     }

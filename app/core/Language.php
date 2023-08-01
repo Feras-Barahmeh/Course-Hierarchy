@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use http\Exception;
-use JetBrains\PhpStorm\ExpectedValues;
 
 class Language
 {
@@ -26,8 +24,14 @@ class Language
 
     private function setSessionLanguage(): void
     {
-        if (Session::has("lang")|| Cookie::has("lang")) {
-            $this->language = Session::get("lang");
+        if (Session::has(LANGUAGE_NAME_COLUMNS_DB)|| Cookie::has(LANGUAGE_NAME_COLUMNS_DB)) {
+
+            if (Session::get(LANGUAGE_NAME_COLUMNS_DB) == \App\Enums\Language::English->value) {
+                $this->language = strtolower(\App\Enums\Language::English->name);
+            }  else {
+                $this->language = strtolower(\App\Enums\Language::Arabic->name);
+            }
+
         }
     }
 

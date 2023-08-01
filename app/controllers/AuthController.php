@@ -4,10 +4,12 @@ namespace App\Controllers;
 
 
 use App\Core\Auth;
+use App\Core\Cookie;
 use App\Core\FilterInput;
 use App\Core\Session;
 use App\Core\View;
 use App\Enums\MessagesType;
+use App\Enums\Privilege;
 use App\Models\Model;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
@@ -141,7 +143,21 @@ class AuthController extends AbstractController
         }
         return false;
     }
-
+    /**
+     * Redirects the user based on their privilege level.
+     *
+     * This method is intended to be used internally within the class and should not be accessed
+     * directly from outside the class.
+     *
+     * @param int $privilege The privilege level of the user.
+     * @return void
+     */
+    private function redirectBasedOnPrivilege(int $privilege): void
+    {
+        if ($privilege === Privilege::Admin->value) {
+            $this->redirect('/');
+        }
+    }
     /**
      * Perform user login process.
      *
@@ -164,10 +180,13 @@ class AuthController extends AbstractController
             $user = $this->retrieveAndAuthenticateUser($email, $password);
             
             if ($user) {
+                Cookie::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
+                Session::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
                 Session::set("user", $user);
+                $this->redirectBasedOnPrivilege($user->Privilege);
             }
         }
-        
+
         View::view("auth.login", $this, [
         ]);
     }
@@ -183,6 +202,7 @@ class AuthController extends AbstractController
      */
     #[NoReturn] public function logout(): void
     {
+        Cookie::set(LANGUAGE_NAME_COLUMNS_DB, Auth::user()->{LANGUAGE_NAME_COLUMNS_DB});
         Session::kill();
         $this->redirect("/auth/login");
     }

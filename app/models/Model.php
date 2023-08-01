@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Database\DatabaseHandler;
+use mysql_xdevapi\Statement;
 
 /**
  * Model Class Contain static method help you do action whit DB
@@ -82,5 +83,34 @@ class Model
             return  $stmt->rowCount();
         }
         return false;
+    }
+
+    public static function update(string $table, array|string $columns, array|string $values, string $condition): bool
+    {
+        $sql = "UPDATE $table SET ";
+
+
+        if (is_array($columns) && is_array($values)) {
+            if (count($columns) != count($values)) {
+                throw new \Error("the columns not homogeneous with values");
+            }
+
+            $countAffectRows = count($columns);
+
+            for ($i = 0; $i <= $countAffectRows - 1; $i++) {
+                $temp = " {$columns[$i]} = {$values[$i]}";
+                $sql .= $temp;
+            }
+
+            $sql .= " WHERE $condition";
+        } else {
+            $sql .= " {$columns} = $values WHERE {$condition}";
+        }
+
+
+        $stmt = self::prepare($sql);
+        if ($stmt->execute()) return true;
+        return false;
+
     }
 }

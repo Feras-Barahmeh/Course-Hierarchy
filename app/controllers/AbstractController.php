@@ -4,11 +4,14 @@ namespace App\Controllers;
 
 use App\Core\Auth;
 use App\Core\Registration;
+use App\Core\Session;
 use App\Core\View;
+use App\Enums\Language;
 use App\Enums\MessagesType;
 use App\Helper\HandsHelper;
 use ErrorException;
 use Generator;
+use App\Core\Cookie;
 
 abstract  class AbstractController
 {
@@ -42,7 +45,7 @@ abstract  class AbstractController
 
 
     /**
-     * contain language user en or ar
+     * contain language user english or arabic
      * @var string
      */
     public string $lang;
@@ -93,9 +96,19 @@ abstract  class AbstractController
         $this->registry = $registry;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(): void
     {
-        $this->lang = $lang;
+        if (Cookie::get(LANGUAGE_NAME_COLUMNS_DB) == Language::English->value
+            || Session::get(LANGUAGE_NAME_COLUMNS_DB) == Language::English->value
+        ) {
+            $this->lang = strtolower(Language::English->name);
+        } elseif(
+            Cookie::get(LANGUAGE_NAME_COLUMNS_DB) == Language::Arabic->value
+            || Session::get(LANGUAGE_NAME_COLUMNS_DB) == Language::Arabic->value
+
+        ) {
+            $this->lang = strtolower( Language::Arabic->name);
+        }
     }
     /**
      * get object from registry object

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 29, 2023 at 07:12 PM
+-- Generation Time: Aug 01, 2023 at 10:25 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -32,15 +32,16 @@ CREATE TABLE `Admin` (
   `Email` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Privilege` tinyint(3) UNSIGNED NOT NULL,
-  `Name` varchar(100) NOT NULL
+  `Name` varchar(100) NOT NULL,
+  `language` tinyint(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `Admin`
 --
 
-INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras');
+INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
 
 -- --------------------------------------------------------
 

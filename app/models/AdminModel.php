@@ -12,6 +12,7 @@ class AdminModel extends AbstractModel
     public  $Password;
     public  $Privilege;
     public  $Name;
+    public  $language;
 
 
     protected static string $tableName = "Admin";
@@ -22,6 +23,7 @@ class AdminModel extends AbstractModel
         "Name"      => self::DATA_TYPE_STR,
         "Password"  => self::DATA_TYPE_STR,
         "Privilege" => self::DATA_TYPE_INT,
+        "language" => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "AdminID";

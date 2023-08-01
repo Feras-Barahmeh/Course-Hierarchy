@@ -1,0 +1,496 @@
+/* Start General Settings */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', serif;
+}
+body {
+    min-height: 100vh;
+    direction: ltr;
+    /*background-color: var(--bg-black-50);*/
+}
+body.dark {
+    background-color: var(--bg-black-80);
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+::selection {
+    background-color: var(--bs-border-color);
+}
+a {
+    text-decoration: none;
+    color: var(--text-black-30);
+}
+li {
+    text-decoration: none;
+    list-style: none;
+}
+.main-color {
+    color: var(--bg-black-100);
+}
+.oswald {
+    font-family: 'Oswald', sans-serif;
+}
+.highlight {
+    color: var(--bs-primary-text-emphasis);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 5px;
+}
+.btn-close:focus {
+    outline: 0;
+    box-shadow: 0 0 0 4px var(--bg-black-50);
+    opacity: var(--bs-btn-close-focus-opacity);
+}
+.main-btn {
+    background-color: var(--bg-black-900);
+    color: var(--bg-black-60);
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.main-btn:hover {
+    background-color: var(--bs-dark-text-emphasis);
+    color: var(--bs-border-color);
+}
+.form-control:focus {
+    color: var(--bs-body-color);
+    border-color: var(--bs-body-color);
+    outline: 0;
+    box-shadow: none;
+}
+.hover:hover {
+    opacity: .6;
+}
+/* End General Settings */
+
+/* Start Popup */
+.no-select {
+    user-select: none;
+}
+.popup {
+    position: absolute;
+    top: 50%;
+    left: -71%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    min-height: 100vh;
+    z-index: 101;
+
+    /* Initial state */
+    opacity: 0;
+    display: none;
+}
+.popup.fed {
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    /* The animation will only apply when the .fed class is added */
+    animation: fadeInOut .5s ease-in-out;
+}
+@keyframes fadeInOut {
+    /* The animation will start from an opacity of 0 and end at an opacity of 1 */
+    0% {
+        left: 16.6%;
+    }
+    /* The animation will reach its full opacity (1) at 50% */
+    50% {
+        left: 50%;
+    }
+    /* The animation will return to an opacity of 0 at 100% */
+    100% {
+        left: 50%;
+    }
+}
+.popup.fed .content {
+    background-color: var(--bg-black-60);
+    padding: 20px;
+    border-radius: 5px;
+    min-width: 40%;
+}
+.popup.fed .content .header {
+    border-bottom: 1px solid var(--bg-black-80);
+    padding-bottom: 10px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+}
+.popup.fed .close-btn {
+    position: absolute;
+    right: 0;
+    top: -9px;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--bs-gray-700);
+}
+.popup.fed .close-btn:hover {
+    color: var(--bs-dark);
+}
+.popup.fed .content .header .icon {
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup.fed .icon.color-danger {
+    color: var(--bs-danger-bg-subtle);
+}
+.popup.fed .icon.bg-danger {
+    color: var(--bs-danger-bg-subtle);
+}
+.popup.fed .content .header .title {
+    margin: 0;
+}
+.cansel.focus {
+    color: var(--bs-body-color);
+    border-color: var(--bs-body-color);
+    outline: 0;
+    box-shadow: none;
+}
+.landing {
+    position: absolute;
+    background-color: var(--bs-black);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    opacity: .4;
+}
+/* End Popup */
+
+/* Start Table Design  */
+.container-table {
+    width: 100%;
+    min-width: 1000px;
+}
+table {
+    border-spacing: unset;
+    transition: all 3s ease-in-out;
+}
+.container-table table {
+    width: 100%;
+}
+table td,
+table th {
+    padding: 5px !important ;
+    white-space: nowrap;
+}
+table thead th {
+    background-color: var(--bg-black-100);
+    color: var(--bg-black-30);
+    font-size: 16px;
+}
+table tbody tr {
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+}
+table tbody tr:nth-child(even) {
+    background-color: var(--bg-black-30);
+}
+table tbody tr:nth-child(odd) {
+    background-color: var(--bg-black-60);
+}
+table tbody tr.un-visible {
+    opacity: 0;
+    position: absolute;
+    left: 2000px;
+}
+table thead tr td {
+    border-left: 1px solid var(--bg-black-30);
+    text-align: center;
+}
+table tbody td {
+    border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+    transition: all .3s ease-in-out;
+    color: var(--text-black-700);
+    text-align: center;
+}
+
+table tbody td:last-child {
+    border-right: 1px solid #eee;
+}
+table tbody tr:hover td:not(.exclude-hover) {
+    background-color: var(--bg-black-80);
+    color: var(--bg-black-30);
+}
+table tbody tr:hover td.exclude-hover {
+    background-color: var(--bg-black-80);
+}
+/* End Table Design  */
+/* Start Nav */
+.navbar-toggler {
+    border-color: var(--bg-black-100) ;
+}
+.search-nav {
+    border: 1px solid transparent ;
+}
+.search-nav:focus {
+    border: 1px solid var(--bg-black-100) ;
+    box-shadow: none ;
+}
+.btn-search {
+    border-color: var(--danger-color-200);
+}
+.container-form {
+    background-color: var(--bg-black-60);
+    border-radius: 4px;
+    padding: 20px;
+}
+/* End Nav */
+
+/* Start aside */
+aside {
+    width: 250px;
+    color: var(--text-black-30);
+    position: fixed;
+    top: 0;
+    margin-top: 62px;
+    transition: all .5s ease-in-out;
+    height: 100%;
+}
+
+aside::-webkit-scrollbar {
+    width: 0;
+}
+aside .aside::-webkit-scrollbar {
+    width: 0;
+}
+aside .aside::-webkit-color-swatch-wrapper {
+    width: 0;
+}
+aside header .user-img {
+    width: 100px;
+    height: 100px;
+}
+aside .menu:not(:last-child) {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--bg-black-100);
+}
+
+aside .menu:last-child {
+    /*margin-top: auto;*/
+    /*margin-bottom: 40px;*/
+    margin-top: auto;
+    position: fixed;
+    bottom: 1px;
+}
+aside .aside-link,
+aside ul {
+    transition: all .3s ease-in-out;
+}
+aside .li-aside-menu,
+aside .li-aside-menu .aside-link {
+    border-radius: 5px;
+    position: relative;
+}
+aside .li-aside-menu > .aside-link:hover,
+aside .li-aside-menu.active  > .aside-link {
+    background-color: var(--bg-black-900);
+}
+aside .li-aside-menu .rotate,
+aside .li-aside-menu .arrow {
+    transition: all .3s ease-in-out;
+    font-size: 17px;
+}
+aside .li-aside-menu .aside-link .arrow {
+    margin-left: auto;
+}
+aside .li-aside-menu .rotate {
+    transform: rotate(180deg);
+}
+aside .aside-sub-menu {
+    margin-left: 25px;
+    border-left: 1px solid var(--bg-black-50);
+    padding-left: 10px;
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
+aside .aside-sub-menu[open='true'] {
+    opacity: 1;
+    height: auto;
+    pointer-events: auto;
+}
+aside .aside-sub-menu[open='false'] {
+    transition: opacity 2s ease-out;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+button.aside-toggle {
+    color: var(--bg-black-30);
+    border: none;
+    font-size: 20px;
+    outline: none;
+    transition: all .3s ease-in-out;
+    position: absolute;
+    right: -19px;
+    background-color: var(--bg-black-80);
+}
+button.aside-toggle:hover {
+    opacity: .6;
+}
+aside[expanded="false"] {
+    width: 90px;
+    padding: 10px;
+}
+aside[expanded="false"] button.aside-toggle {
+    transform: rotate(180deg);
+}
+aside[expanded="false"] .user-details {
+    display: none;
+}
+aside .aside-link {
+    background-color: transparent;
+    border: none;
+    color: var(--bg-black-30);
+    width: 100%;
+}
+aside[expanded="false"]  .menu > ul > li > .aside-link {
+    position: relative;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+aside[expanded="false"] .menu > ul > li {
+
+}
+aside[expanded="false"] .menu > ul > li > .aside-link > .text {
+    display: none;
+}
+
+aside[expanded="false"] .menu > ul > li:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 17%;
+    background-color: var(--bg-black-80);
+    padding: 5px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    margin: 0;
+    left: 68px;
+    min-width: 80px;
+    border-left-color: transparent;
+    text-align: center;
+}
+aside[expanded="false"]  .menu:last-child > ul > li:hover::before  {
+    right: -122% !important;
+}
+aside[expanded="false"] .menu > ul > li:hover::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background-color: var(--bg-black-30);
+    width: 20px;
+    height: 20px;
+    top: 33%;
+    right: -60%;
+    transform: rotate(45deg);
+    z-index: -1;
+}
+aside[expanded="false"] .menu p.title {
+    text-align: center;
+}
+aside[expanded="false"] .menu ul > li .arrow {
+    display: none;
+}
+aside[expanded="false"]  .menu > ul > li > ul[sub-menu] {
+    position: absolute;
+    background-color: var(--bg-black-900);
+    z-index: 10;
+    white-space: nowrap;
+    top: 0;
+    left: 44px;
+}
+/* End aside */
+
+/* Start Main  */
+main {
+    transition: all .3s ease-in-out;
+}
+aside[expanded="true"] ~ main {
+    margin-left: 300px;
+}
+aside[expanded="false"] ~ main {
+    margin-left: 120px;
+}
+main .main-title {
+    padding-bottom: 20px;
+    margin: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    color: rgba(var(--bs-black-rgb),var(--bs-bg-opacity))!important;
+}
+main .main-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 5px;
+    position: absolute;
+    background-color: var(--bg-black-100);
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+main .main-title::before {
+    left: 0;
+    content: '';
+    display: block;
+    position: absolute;
+    height: 5px;
+    width: 35px;
+    background-color: var(--bg-black-80);
+    border-radius: 3px;
+    bottom: 0;
+    z-index: 1;
+}
+main .main-title span {
+    color: var(--text-black-700);
+    font-family: 'Oswald', sans-serif;
+}
+/* End Main  */
+
+/* Start feedback block */
+.invalid-feedback,
+.valid-feedback {
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: height .6s ease-in-out, opacity .6s ease-in-out;
+    display: block;
+
+}
+.invalid-feedback.active,
+.valid-feedback.active {
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+}
+/* End feedback block */

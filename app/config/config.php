@@ -22,12 +22,7 @@ const IMG  = DS . "images" . DS;
 // Cookie configuration
 const COOKIE_PATH= '/';
 
-// Start Languages Paths
-if (isset($_COOKIE["lang"])) {
-    define("APP_DEFAULT_LANGUAGE", $_COOKIE["lang"]);
-} else {
-    define("APP_DEFAULT_LANGUAGE", "en");
-}
+
 const LANGUAGES_PATH = APP_PATH . DS . "languages" . DS;
 
 // Salts
