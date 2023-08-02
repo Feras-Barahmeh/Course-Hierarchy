@@ -2,10 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Core\Auth;
-use App\Core\View;
 use App\Enums\Privilege;
-use App\Models\StudentModel;
 use ErrorException;
 
 class IndexController extends AbstractController

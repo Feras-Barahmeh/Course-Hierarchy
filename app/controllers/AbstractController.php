@@ -214,10 +214,4 @@ abstract  class AbstractController
         }
     }
 
-    public function getAppLanguage(): void
-    {
-        echo json_encode([
-            "language" => $this->getLang(),
-        ]);
-    }
 }

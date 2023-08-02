@@ -17,14 +17,14 @@ const dictionary = {
 }
 
 async function fetchData() {
-    const response = await fetch("http://precatalog.local/index/getAppLanguage", {
+    const response = await fetch("http://precatalog.local/ajax/getAppLanguage", {
         method: "POST",
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
     });
     const data = await response.json();
-    localStorage.setItem("language", data.language);
+    localStorage.setItem("language", data.language.toLowerCase());
 
     return JSON.stringify(data);
 }

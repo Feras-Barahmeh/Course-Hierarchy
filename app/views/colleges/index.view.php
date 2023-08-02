@@ -17,7 +17,7 @@
 
         if ($messages) {
             foreach ($messages as $message) {
-                $type = strtolower($message[1]->name);
+                $type = strtolower($message[1]);
                 $message = $message[0];
                 ?>
                 <div class="alert alert-<?= $type ?> between-element plr-20 " kick-out="5000" role="alert">
