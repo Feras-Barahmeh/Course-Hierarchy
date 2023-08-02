@@ -98,15 +98,9 @@ abstract  class AbstractController
 
     public function setLang(): void
     {
-        if (Cookie::get(LANGUAGE_NAME_COLUMNS_DB) == Language::English->value
-            || Session::get(LANGUAGE_NAME_COLUMNS_DB) == Language::English->value
-        ) {
+        if (Cookie::get(LANGUAGE_NAME_COLUMNS_DB) == Language::English->value) {
             $this->lang = strtolower(Language::English->name);
-        } elseif(
-            Cookie::get(LANGUAGE_NAME_COLUMNS_DB) == Language::Arabic->value
-            || Session::get(LANGUAGE_NAME_COLUMNS_DB) == Language::Arabic->value
-
-        ) {
+        } elseif(Cookie::get(LANGUAGE_NAME_COLUMNS_DB) == Language::Arabic->value) {
             $this->lang = strtolower( Language::Arabic->name);
         }
     }

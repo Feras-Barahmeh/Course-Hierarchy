@@ -45,7 +45,7 @@ class View extends Template
     {
         
         $default = [
-            "lang" => $controller->getLang(),
+            "lang" => $controller->language->getLang(),
             "file_css" => $controller->getController(),
             "file_js"   => $controller->getController(),
             "controller" => $controller

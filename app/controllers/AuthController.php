@@ -187,8 +187,7 @@ class AuthController extends AbstractController
             }
         }
 
-        View::view("auth.login", $this, [
-        ]);
+        View::view("auth.login", $this);
     }
     /**
      * Perform user logout action.
