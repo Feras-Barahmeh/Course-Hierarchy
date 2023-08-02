@@ -35,6 +35,8 @@ class CollegesController extends AbstractController
     public function index(): void
     {
         $this->language->load("template.common");
+        $this->language->load("colleges.common");
+        $this->language->load("colleges.index");
 
         $collegesRecords = null;
         if (isset($_POST["search"])) {

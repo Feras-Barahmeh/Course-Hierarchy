@@ -219,4 +219,11 @@ abstract  class AbstractController
             $this->redirect("/auth/accessDenied");
         }
     }
+
+    public function getAppLanguage(): void
+    {
+        echo json_encode([
+            "language" => $this->getLang(),
+        ]);
+    }
 }

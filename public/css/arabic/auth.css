@@ -29,6 +29,7 @@
     background-color: var(--color-bg);
 }
 body{
+    direction: rtl;
     width: 100vw; height: 100vh;
     margin: 0;
     padding: 0;
@@ -42,8 +43,8 @@ body{
 /* Start Login */
 form div svg,
 form div i {
-    margin-left: 0 !important;
-    margin-right: 10px !important;
+    margin-left: 10px !important;
+    margin-right: 0 !important;
 }
 /* End Login */
 .scene{

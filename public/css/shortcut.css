@@ -669,13 +669,17 @@
     text-transform: capitalize;
     color: var(--text-black-700);
 }
-.bar-pagination .statistics select {
-    width: 18%;
-    border: 1px solid var(--bg-black-60);
+.bar-pagination .statistics  select {
     margin: 0 10px;
-    padding: 0 2px;
     cursor: pointer;
-    color: var(--text-black-700);
+    height: 25px;
+    padding: 4px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    width: 60px;
 }
 .bar-pagination .statistics select option {
     cursor: pointer;

@@ -28,14 +28,14 @@
 
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"><?= $title ?></p>
+                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 main-color"><?= $title ?></p>
 
                                 <form class="mx-1 mx-md-4 position-relative" method="POST">
 
 
 
                                     <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                        <i class="fas fa-envelope fa-lg  fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="Email"><?= $your_email ?></label>
                                             <input type="email" id="Email" name="Email" value="feras@stu.ttu.edu.jo" class="form-control" />
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                        <i class="fas fa-lock fa-lg fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="Password"><?= $password ?></label>
                                             <input type="password" id="Password" name="Password" value="1234567" class="form-control" />

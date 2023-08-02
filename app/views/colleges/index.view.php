@@ -6,7 +6,8 @@
     <h1 class="main-title">
         <i class="fa-solid fa-building"></i>
         <span class="">
-            Colleges
+
+            <?= $text_colleges ?>
         </span>
     </h1>
 
@@ -33,15 +34,15 @@
             <div class="row mb-20">
                 <form action="" class="col-lg-6 col-md-4" METHOD="POST">
                     <div class="input-group flex-nowrap">
-                        <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> Search</button>
-                        <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> Resit</button>
-                        <input type="text" class="form-control" name="value_search" placeholder="Search Collage" aria-label="Username" aria-describedby="addon-wrapping">
+                        <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
+                        <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
+                        <input type="text" class="form-control" name="value_search" placeholder="<?= $search_college  ?>" aria-label="Username" aria-describedby="addon-wrapping">
                     </div>
                 </form>
 
                 <div class="action col-lg-6 col-md-4 d-flex">
                     <a href="/colleges/add" class="ml-auto">
-                        <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> Add College</button>
+                        <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_college  ?></button>
                     </a>
                 </div>
             </div>
@@ -55,10 +56,10 @@
                                 <table class="table pagination-table">
                                     <thead class="table-dark">
                                         <tr>
-                                            <td>ID</td>
-                                            <td>Name Collage</td>
-                                            <td>Count Student</td>
-                                            <td>Controls</td>
+                                            <td><?= $id  ?></td>
+                                            <td><?= $name_college ?></td>
+                                            <td><?= $count_students  ?></td>
+                                            <td><?= $controls  ?></td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -71,12 +72,12 @@
                                                 <td><?= $collage->TotalStudents ?></td>
                                                 <td class="exclude-hover">
                                                     <a href="/colleges/edit/<?= $collage->CollegeID ?>">
-                                                        <button type="button" class="btn btn-success description" description="Edit">
+                                                        <button type="button" class="btn btn-success description" description="<?= $edit ?>">
                                                             <i class="fa fa-edit"></i>
                                                         </button>
                                                     </a>
 
-                                                    <button type="button" class="btn btn-danger description" btn-popup description="Delete">
+                                                    <button type="button" class="btn btn-danger description" btn-popup description="<?= $delete ?>">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
 
@@ -86,7 +87,7 @@
                                                             <div class="header">
                                                                 <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
                                                                 <h4 class="title">
-                                                                    Are You Sure you want delete
+                                                                    <?= $are_you_sure_delete ?>
                                                                     <span class="highlight"><?= $collage->CollegeName ?></span>
                                                                 </h4>
 
@@ -97,14 +98,14 @@
                                                                 <div class="row g-3 align-items-center">
                                                                     <div class="col-12 input-container">
                                                                         <label for="confirmText" class="col-form-label no-select">
-                                                                            To confirm, type <span class="fw-bold" get-used-to><?= $collage->CollegeName ?></span>
-                                                                            in this box below
+                                                                            <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $collage->CollegeName ?></span>
+                                                                            <?= $this_box ?>
                                                                         </label>
                                                                         <input type="text" id="confirmText" class="form-control">
                                                                         <div class="buttons mt-10">
-                                                                            <button class="btn border-1 btn-light cansel" close> Cansel </button>
+                                                                            <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
                                                                             <a href="/colleges/delete/<?= $collage->CollegeID ?>" >
-                                                                                <button class="btn btn-danger" apply> Apply </button>
+                                                                                <button class="btn btn-danger" apply> <?= $apply  ?> </button>
                                                                             </a>
                                                                         </div>
                                                                     </div>

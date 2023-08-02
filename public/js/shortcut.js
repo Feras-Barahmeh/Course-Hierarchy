@@ -1,6 +1,34 @@
 // start pagination table
-const tables = document.querySelectorAll(".pagination-table");
 
+const tables = document.querySelectorAll(".pagination-table");
+const dictionary = {
+    english : {
+        "next": "Next",
+        "previous": "Previous",
+        "numberRerecordInSlide": "Number Rerecord In Slide",
+        "from": "From",
+    },
+    arabic: {
+        "next": "التالي",
+        "previous": "السابق",
+        "numberRerecordInSlide": "عدد الصفوف",
+        "from": "من",
+    }
+}
+
+async function fetchData() {
+    const response = await fetch("http://precatalog.local/index/getAppLanguage", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    });
+    const data = await response.json();
+    localStorage.setItem("language", data.language);
+
+    return JSON.stringify(data);
+}
+fetchData();
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
@@ -16,7 +44,7 @@ class PaginationTable {
         this.currentSlidePos = 1;
         this.ulBtns = null;
         this.rows = this.getRowsAsArray();
-        this.numberRowsInSlide = 4;
+        this.numberRowsInSlide = localStorage.getItem("numberRowsInSlide") ? localStorage.getItem("numberRowsInSlide") : 4;
         this.countSlides = Math.ceil(this.rows.length / this.numberRowsInSlide);
         this.prevBtn = null;
         this.nextBtn = null;
@@ -24,6 +52,17 @@ class PaginationTable {
         this.paginationSection = null;
         this.isUpperBar = this.table.classList.contains("upper");
         this.fromDiv = null;
+    }
+    setNumberRowsInSlide() {
+        if (localStorage.getItem("numberRowsInSlide")) {
+            this.numberRowsInSlide = localStorage.getItem("numberRowsInSlide");
+        } else {
+            this.numberRowsInSlide = 4;
+            localStorage.setItem("numberRowsInSlide", '4');
+        }
+    }
+    getNumberRowsInSlide () {
+        return localStorage.getItem("numberRowsInSlide");
     }
     getRowsAsHtmlObj() {
         return this.tBody.querySelectorAll("tr");
@@ -48,7 +87,7 @@ class PaginationTable {
         this.countSlides = Math.ceil(this.rows.length / this.numberRowsInSlide);
     }
     whenChangeShowRowsValue(e) {
-        //TODO: add value to local storage
+        localStorage.setItem("numberRowsInSlide", e.target.value);
         this.resitALl(e)
         this.fromDiv.textContent = '';
         this.fromDiv.textContent = this.countSlides;
@@ -69,22 +108,25 @@ class PaginationTable {
         statisticsDiv.classList.add("statistics");
         let numberSlideDiv = document.createElement("number-slide");
         let label = document.createElement("label");
-        label.textContent = "Number Rerecord In Slide";
+
+        label.textContent = dictionary[localStorage.getItem("language")]["numberRerecordInSlide"];
         numberSlideDiv.appendChild(label);
 
         // Create select
         let select = document.createElement("select");
-        select.addEventListener("change", (e) => {this.whenChangeShowRowsValue(e)})
+        select.addEventListener("change", (e) => {this.whenChangeShowRowsValue(e)});
 
 
         // Create Options
         for (let i = 1; i <= 5; i++) {
             let opt = document.createElement("option");
-            opt.value = i * 2;
-            if ( i * 2 === 4) {
+            opt.value = (i * 2).toString();
+
+            if ( (i * 2).toString() === localStorage.getItem("numberRowsInSlide")) {
                 opt.selected = true;
             }
-            opt.textContent = i * 2;
+
+            opt.textContent = (i * 2).toString();
             select.appendChild(opt);
         }
 
@@ -97,17 +139,18 @@ class PaginationTable {
         counterDiv.classList.add("counter");
         // create number current slide div
         let currentSlideDiv = document.createElement("div");
+
         currentSlideDiv.textContent = this.currentSlidePos;
         this.currentSlideDiv = currentSlideDiv;
         counterDiv.appendChild(currentSlideDiv);
         // create from span
         let fromSpan = document.createElement("span");
-        // fromSpan.textContent = mess["text_from"];
-        fromSpan.textContent = "from";
+
+        fromSpan.textContent = dictionary[localStorage.getItem("language")]["from"];
         counterDiv.appendChild(fromSpan)
         // create from div
         let fromDiv = document.createElement("div");
-        fromDiv.textContent = this.countSlides;
+        fromDiv.textContent = this.countSlides.toString();
         this.fromDiv = fromDiv;
         counterDiv.appendChild(fromDiv);
 
@@ -121,7 +164,7 @@ class PaginationTable {
         let previousBtn = document.createElement("button");
         previousBtn.classList.add("previous");
         previousBtn.classList.add("main-btn");
-        previousBtn.textContent = "Previous"
+        previousBtn.textContent = dictionary[localStorage.getItem("language")]["previous"]
         buttonsDiv.appendChild(previousBtn);
         this.prevBtn  = previousBtn;
 
@@ -130,7 +173,7 @@ class PaginationTable {
         nextBtn.classList.add("next");
         nextBtn.classList.add("main-btn");
         nextBtn.classList.add("active");
-        nextBtn.textContent = "Next";
+        nextBtn.textContent = dictionary[localStorage.getItem("language")]["next"]
         this.nextBtn = nextBtn;
 
         // create ul

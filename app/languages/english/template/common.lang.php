@@ -31,3 +31,12 @@ $_["account"]                          = "Account";
 $_["help"]                          = "Help";
 $_["logout"]                          = "logout";
 // End Aside
+
+// Start popup
+$_["are_you_sure_delete"]                          = "Are You Sure";
+$_["are_you_sure_delete"]                          = "Are You Sure";
+$_["to_confirm"]                          = "To confirm, type";
+$_["this_box"]                          = "in this box below";
+$_["apply"]                          = "Apply";
+$_["cansel"]                          = "Cansel";
+// End popup

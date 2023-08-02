@@ -7,7 +7,7 @@
     <h1 class="main-title">
         <i class="fa-solid fa-user-plus"></i>
         <span class="">
-            Add Collage
+            <?= $add_college  ?>
         </span>
     </h1>
 
@@ -17,7 +17,7 @@
         <div class="row mb-20">
             <div class="action col-lg-12 col-md-4 d-flex">
                 <a href="/colleges/" class="ml-auto">
-                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i>To Colleges</button>
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_college  ?></button>
                 </a>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="container-form">
             <form class="row g-3" method="POST" >
                 <div class="col-md-6">
-                    <label for="CollegeName" class="form-label mb-1">Collage Name</label>
+                    <label for="CollegeName" class="form-label mb-1"><?= $name_college ?></label>
                     <input type="text"
                            class="form-control"
                            id="CollegeName"
@@ -47,15 +47,15 @@
                     >
 
                     <div class="valid-feedback">
-                        Looks good!
+                        <?= $valid_feedback ?>
                     </div>
                     <div class="invalid-feedback">
-                        Collage Name must between 5 and 100 character
+                        <?= $name_college_invalid_feedback  ?>
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="TotalStudents" class="form-label mb-1">Count Students</label>
+                    <label for="TotalStudents" class="form-label mb-1"><?= $count_students ?></label>
                     <input type="number"
                            class="form-control"
                            id="TotalStudents"
@@ -65,15 +65,15 @@
                            required
                     >
                     <div class="valid-feedback">
-                        Looks good!
+                        <?= $valid_feedback ?>
                     </div>
                     <div class="invalid-feedback">
-                        Number Student Must Between 0 and 65,535
+                        <?= $number_students_invalid_feedback ?>
                     </div>
                 </div>
 
                 <div class="col-12">
-                    <button class="main-btn" name="add" type="submit">Add College</button>
+                    <button class="main-btn" name="add" type="submit"><?= $add_college ?></button>
                 </div>
             </form>
         </div>

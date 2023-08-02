@@ -30,3 +30,12 @@ $_["account"]             = "الحساب";
 $_["help"]                = "المساعدة";
 $_["logout"]              = "تسجيل الخروج";
 // End Aside
+
+
+// Start popup
+$_["are_you_sure_delete"] = "هل أنت متأكد؟";
+$_["to_confirm"] = "للتأكيد، اكتب";
+$_["this_box"] = "في هذا الحقل أدناه";
+$_["apply"] = "تطبيق";
+$_["cancel"] = "إلغاء";
+// End popup
