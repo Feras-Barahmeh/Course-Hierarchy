@@ -191,15 +191,16 @@ abstract  class AbstractController
      * The constructed message is then added to the messages container for further processing.
      *
      * @param string $key The message key to retrieve the message text from the language feed.
-     * @param string|array $params Optional. Parameters to customize the message content.
+     * @param string|array|null $params Optional. Parameters to customize the message content.
      *                            It can be a single string or an array of strings.
      * @param string $type The message type. Can be one of 'success', 'info', 'warning', or 'danger'.
      *                     This determines the visual style and presentation of the message.
      *
      * @return void This method does not return any value.
      */
-    public function setMessage(string $key, string|array $params, string $type): void
+    public function setMessage(string $key, string|array|null $params, string $type): void
     {
+        if ($params == null) $params = '';
         $message = $this->language->feedKey($key,  $params);
         $this->messages->add($message, $type);
     }

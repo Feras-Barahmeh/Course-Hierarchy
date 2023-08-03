@@ -8,6 +8,7 @@ use App\Core\View;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
+use App\Models\DepartmentModel;
 use App\Models\InstructorModel;
 use ErrorException;
 
@@ -77,20 +78,51 @@ class InstructorsController extends AbstractController
         $instructor->Password = self::encryption($values["Password"]);
     }
     /**
-     * #[GET('/instructors/add')]
-     * @throws ErrorException
+     * Save an InstructorModel instance to the database and handle the response.
+     *
+     * This private method is used to save an InstructorModel instance to the database. It calls the `save()` method
+     * on the provided $instructor object to persist it to the database. Depending on the success or failure of the
+     * save operation, the method sets appropriate messages and redirects the user to the appropriate page.
+     *
+     * @param InstructorModel $instructor A reference to the InstructorModel instance to be saved.
+     *
+     * @return void
      */
-    public function add(): void
+    private function saveInstructor(InstructorModel &$instructor): void
     {
+        if ($instructor->save()) {
+            $this->setMessage(
+                "success",
+                ucfirst($instructor->LastName),
+                MessagesType::Success->name);
 
-        $this->language->load("template.common");
-        $this->language->load("template.errors");
-        $this->language->load("instructors.add");
-
+            $this->redirect("/instructors");
+        } else {
+            $this->setMessage(
+                "fail",
+                ucfirst($instructor->LastName),
+                MessagesType::Danger->name);
+        }
+    }
+    /**
+     * Add a new instructor based on the submitted form data.
+     *
+     * This method is responsible for processing the submitted form data for adding a new instructor.
+     * It validates the form data using the validation rules defined in the $_rolesAddValid property.
+     * If the form data is valid, it creates a new instance of the InstructorModel class, populates it with
+     * the submitted data using the setInstructorColumnsValues() method, and then checks if the email is
+     * unique in the database using the existsInTable() method. If the email is not unique or if the passwords
+     * do not match, appropriate error messages are set using the setMessage() method. Otherwise, it saves
+     * the instructor to the database using the saveInstructor() method.
+     *
+     * @return void
+     */
+    private function addNewInstructor(): void
+    {
         if (isset($_POST['add'])) {
             $hasError = $this->valid($this->_rolesAddValid, $_POST);
             $flag = true;
-            
+
 
             // If it forms Has Error
             if (is_array($hasError)) {
@@ -99,8 +131,6 @@ class InstructorsController extends AbstractController
             }
 
             if ($flag) {
-
-                if ($_POST["ConfirmPassword"] !== $_POST["Password"]) { $this->messages->add("error_not_match_password", MessagesType::Danger->name);}
 
                 $instructor = new InstructorModel();
                 $this->setInstructorColumnsValues($instructor, $_POST);
@@ -111,29 +141,32 @@ class InstructorsController extends AbstractController
                         "fail_email_unique",
                         $_POST["Email"],
                         MessagesType::Danger->name);
+                } elseif($_POST["ConfirmPassword"] !== $_POST["Password"]) {
+                    $this->setMessage("error_not_match_password", '',type: MessagesType::Danger->name);
                 } else {
-                    if ($instructor->save()) {
-                        $this->setMessage(
-                            "success",
-                            ucfirst($instructor->LastName),
-                            MessagesType::Success->name);
-
-                        $this->redirect("/instructors");
-                    } else {
-                        $this->setMessage(
-                            "fail",
-                            ucfirst($instructor->LastName),
-                            MessagesType::Danger->name);
-                    }
+                    $this->saveInstructor($instructor);
                 }
 
 
             }
-
         }
+    }
+    /**
+     * #[GET('/instructors/add')]
+     * @throws ErrorException
+     */
+    public function add(): void
+    {
+
+        $this->language->load("template.common");
+        $this->language->load("template.errors");
+        $this->language->load("instructors.add");
+
+        $this->addNewInstructor();
 
         $this->authentication("instructors.add", [
-            "messages" => Session::flash("message"),
+            "messages"    => Session::flash("message"),
+            "departments" => DepartmentModel::all(),
         ]);
     }
 }

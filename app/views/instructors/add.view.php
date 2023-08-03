@@ -96,16 +96,18 @@
                 </div>
             </div>
 
-
-            <!-- TODO: Insert Debarment Names -->
-            <div class="col-md-2 input" required>
+            <div class="col-md-4 input" required>
                 <label for="Department" class="form-label mb-1"><?= $department ?></label>
                 <select class="form-select" id="Department" name="Department" required>
-                    <option selected disabled value="<?= $controller->getStorePost("Department") ?>">
-                        <?= $controller->getStorePost("Department") ? 'yes' : 'No' ?>
-                    </option>
-                    <option value="1">Engineer</option>
-                    <option value="0">Fintech</option>
+
+                    <?php
+                        foreach ($departments as $department) {
+                            ?>
+                                <option value="<?= $department->DepartmentID ?>"><?= $department->DepartmentName ?></option>
+                            <?php
+                        }
+                    ?>
+
                 </select>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
