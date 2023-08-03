@@ -147,25 +147,63 @@ class Auth
         self::setAccess();
         return in_array($controllerPrivilege, self::$access[$role]);
     }
-
+    /**
+     * Get the model class name associated with the authenticated user.
+     *
+     * This static method retrieves and returns the class name of the model associated with the
+     * currently authenticated user. The method utilizes the `Auth` class to fetch the authenticated
+     * user instance, and then uses the `get_class()` function to get the name of the corresponding
+     * model class.
+     *
+     * @return string Returns the class name of the model associated with the authenticated user.
+     */
     public static function getModelUser(): string
     {
         return get_class(Auth::user());
     }
+    /**
+     * Get the primary key value of the authenticated user's model instance.
+     *
+     * This static method retrieves and returns the primary key value of the model instance
+     * associated with the currently authenticated user. It first obtains the class name of the
+     * model using the `Auth::user()` method, then creates a new instance of the model class,
+     * and finally calls the `getPK()` method on the created instance to get the primary key value.
+     *
+     * @return string Returns the primary key value of the authenticated user's model instance.
+     */
     public static function getPKUser(): string
     {
         $class = get_class(Auth::user());
         $class = new $class();
         return $class->getPK();
     }
-
-    public static function getTableUser()
+    /**
+     * Get the database table name associated with the authenticated user's model.
+     *
+     * This static method retrieves and returns the name of the database table associated with the
+     * model instance of the currently authenticated user. It first obtains the class name of the model
+     * using the `Auth::user()` method, then creates a new instance of the model class, and finally calls
+     * the `getTableName()` method on the created instance to get the table name.
+     *
+     * @return string Returns the name of the database table associated with the authenticated user's model.
+     */
+    public static function getTableUser(): string
     {
         $class = get_class(Auth::user());
         $class = new $class();
         return $class->getTableName();
     }
-
+    /**
+     * Get the name of the language for the currently authenticated user.
+     *
+     * This static method retrieves and returns the name of the language set for the currently
+     * authenticated user. It checks the language value stored in the user's database record
+     * (assuming the existence of a 'language' field) and returns the corresponding language name.
+     * The method uses the Language enum to access the language values and names.
+     *
+     * @return string Returns the name of the language for the currently authenticated user.
+     *                The name can be either "English" or "Arabic" based on the user's language setting.
+     */
     public static function getNameLanguage(): string
     {
         if (Auth::user()->language == Language::English->value) {
@@ -174,8 +212,19 @@ class Auth
             return Language::Arabic->name;
         }
     }
-
-    public static function updateUser($newUser)
+    /**
+     * Update the currently authenticated user in the session.
+     *
+     * This static method is used to update the currently authenticated user's data in the session.
+     * It takes the provided `$newUser` object representing the updated user data and sets it in the
+     * session under the key "user". The method is typically used to keep the user's session data
+     * up-to-date after making changes to the user's profile or account information.
+     *
+     * @param object $newUser The updated user data represented as an object.
+     *
+     * @return void
+     */
+    public static function updateUser(object $newUser): void
     {
         Session::set("user", $newUser);
     }
