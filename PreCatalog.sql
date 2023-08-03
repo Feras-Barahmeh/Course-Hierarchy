@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 01, 2023 at 10:25 PM
+-- Generation Time: Aug 03, 2023 at 11:26 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 1);
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,6 @@ CREATE TABLE `Colleges` (
 INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudents`) VALUES
 (1, 'Enginnering', 20000),
 (2, 'Literature', 10000),
-(3, 'Sciences', 65535),
 (4, 'Business', 5535),
 (5, 'Medicine', 10000);
 
@@ -92,6 +91,13 @@ CREATE TABLE `Departments` (
   `DepartmentName` varchar(100) NOT NULL,
   `TotalStudents` smallint(5) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Departments`
+--
+
+INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudents`) VALUES
+(1, 'Computer and communications engineering', 150);
 
 -- --------------------------------------------------------
 
@@ -137,21 +143,29 @@ CREATE TABLE `Instructors` (
   `Department` int(11) UNSIGNED NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `PhoneNumber` varchar(10) NOT NULL,
-  `Address` varchar(100) NOT NULL,
-  `City` varchar(50) NOT NULL,
-  `State` varchar(50) NOT NULL COMMENT 'The state or province where the instructor is located.',
-  `Country` varchar(50) NOT NULL COMMENT 'The country where the instructor is located.',
+  `PhoneNumber` varchar(10) DEFAULT NULL,
+  `Address` varchar(100) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL,
+  `State` varchar(50) DEFAULT NULL COMMENT 'The state or province where the instructor is located.',
+  `Country` varchar(50) DEFAULT NULL COMMENT 'The country where the instructor is located.',
   `DOB` date DEFAULT NULL,
-  `HireDate` datetime NOT NULL,
+  `HireDate` date DEFAULT NULL,
   `Salary` decimal(9,2) NOT NULL,
   `YearsOfExperience` tinyint(2) UNSIGNED NOT NULL CHECK (`YearsOfExperience` <= 70),
   `IfFullTime` tinyint(1) NOT NULL COMMENT 'A boolean column indicating whether the instructor is a full-time employee (true/false).',
   `IsActive` tinyint(1) NOT NULL COMMENT ' A boolean column indicating whether the instructor is currently active (true/false).',
-  `privilege` tinyint(3) UNSIGNED NOT NULL,
+  `Privilege` tinyint(3) UNSIGNED NOT NULL,
   `Password` varchar(200) NOT NULL,
-  `NationalIdentificationNumber` int(11) NOT NULL
+  `NationalIdentificationNumber` varchar(11) NOT NULL,
+  `language` tinyint(2) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `Instructors`
+--
+
+INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `Department`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
+(10, 'Instructor', 1, 'Bnz', 'instructor@stu.ttu.edu.jo', '', NULL, '', '', '', '0000-00-00', '0000-00-00', 5000.00, 20, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
 
 -- --------------------------------------------------------
 
@@ -222,7 +236,8 @@ ALTER TABLE `Courses`
 -- Indexes for table `Departments`
 --
 ALTER TABLE `Departments`
-  ADD PRIMARY KEY (`DepartmentID`);
+  ADD PRIMARY KEY (`DepartmentID`),
+  ADD UNIQUE KEY `DepartmentName` (`DepartmentName`);
 
 --
 -- Indexes for table `Enrollment`
@@ -306,7 +321,7 @@ ALTER TABLE `Guide`
 -- AUTO_INCREMENT for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Students`
