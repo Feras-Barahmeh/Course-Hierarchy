@@ -434,3 +434,10 @@ emailInputs.forEach(emailInput => {
 
 });
 // End Validation Email
+// Start required to be input
+document.querySelectorAll(".input[required]").forEach(input => {
+    let star = document.createElement('i');
+    star.className = 'fa-solid fa-asterisk asterisk-required';
+    input.appendChild(star);
+});
+// End required to be input

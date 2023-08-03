@@ -8,3 +8,4 @@ $_["error_float"]       = "<span class='highlight'> %s </span> Is Must Be Float"
 $_["error_alphaNum"]    = "<span class='highlight'> %s </span> Is Must Be Alpha or number or twice";
 $_["error_posInt"]      = "<span class='highlight'> %s </span> Integer Positive";
 $_["error_numeric"]     = "<span class='highlight'> %s </span> Must Be Numeric";
+$_["error_not_match_password"]     = "Password Not Match";

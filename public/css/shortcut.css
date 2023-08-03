@@ -783,3 +783,16 @@ button.show-password[description]:hover::after {
     z-index: 10;
 }
 /* End Show Password Button */
+/* Start Required Input */
+.input[required] {
+    position: relative;
+    display: block;
+}
+.input[required] .asterisk-required {
+    position: absolute;
+    left: -3px;
+    top: 0;
+    color: var(--danger-color-200);
+    font-size: 10px;
+}
+/* End Required Input */

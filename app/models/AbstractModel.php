@@ -46,7 +46,7 @@ class AbstractModel
         $this->bindParams($stmt);
 
         error_reporting(E_ALL);
-        ini_set('display_errors', 0);
+        ini_set('display_errors', 1);
 
         if ($stmt->execute()) {
             $this->{static::$primaryKey} = DatabaseHandler::lastRecord();
@@ -70,9 +70,17 @@ class AbstractModel
     }
 
     /**
-     * @param bool $isSubProcess if you want to use save method to model subset from another model such as user model
-     * and subset info model (check if set primary key manual)
-     * @return bool
+     * Save the current model instance to the database.
+     *
+     * This method is used to save the current model instance to the database. By default, it performs an
+     * insert operation, but it can also be used to update an existing record in the database if the model
+     * already has a primary key set.
+     *
+     * @param bool $isSubProcess (optional) Set this parameter to true if you want to use the 'save' method
+     *                          to save a subset of data from another model (e.g., User Model and Subset Info user Model).
+     *                          Make sure to manually set the primary key in such cases. Default is true.
+     *
+     * @return bool Returns true on successful save, false otherwise.
      */
     public function save(bool $isSubProcess=true): bool
     {
@@ -221,8 +229,14 @@ class AbstractModel
 
     }
     /**
-     * return count primary key
-     * @return int|mixed
+     * Count the number of records in the database table associated with the current model.
+     *
+     * This static method is used to count the number of records in the database table associated
+     * with the current model. It executes a SQL query to fetch the count and returns the result.
+     * The table name and primary key column are obtained from the static properties $tableName and
+     * $primaryKey defined in the derived class.
+     *
+     * @return mixed Returns the count of records as an integer, or null if the query fails.
      * @version 1.0
      * @author Feras Barahemeh
      */
@@ -236,6 +250,58 @@ class AbstractModel
         ";
 
         return (new AbstractModel)->row($sql)->count;
+    }
+    /**
+     * Check if a value exists in any of the specified columns of the database table associated with the current model.
+     *
+     * This static method checks whether a given value exists in any of the specified columns of the database table
+     * associated with the current model. It executes a series of SQL queries for each column defined in the static
+     * property $Unique to determine if the value is present in any of those columns. The table name is obtained from
+     * the static property $tableName defined in the derived class.
+     *
+     * @param mixed $value The value to be checked for existence in the specified columns.
+     *                     If the $Unique property has multiple columns, the value should be an array with the same
+     *                     number of elements, or a single value if $Unique has only one column.
+     *
+     * @return bool|string Returns false if the value is not found in any of the specified columns. If the value is
+     *                     found in a specific column, the name of that column (string) is returned. If the value is
+     *                     found in multiple columns, the method will return the name of the first column where the
+     *                     value is found. If the query fails, it returns true.
+     */
+    public static function existsInTable(mixed $value ): bool|string
+    {
+        if (! is_array($value) && count(static::$Unique) > 1) $value = [$value];
+
+       foreach (static::$Unique as $column) {
+           $sql = "
+                SELECT 
+                    COUNT(".$column.") AS count
+                FROM 
+                    " . static::$tableName ."
+                WHERE
+                    {$column} = '$value'
+           ";
+
+           if (Model::execute($sql)[0]["count"] >= 1) {
+               return  $column;
+           }
+       }
+        
+        return  true;
+    }
+
+    /**
+     * Get the column names of the table associated with the current model.
+     *
+     * This method retrieves and returns an array containing the column names of the database table
+     * associated with the current model. The table schema is determined based on the static property
+     * $tableSchema, which should be defined in the derived class.
+     *
+     * @return array Returns an array of strings representing the column names of the associated table.
+     */
+    public function getColumns(): array
+    {
+        return array_keys(static::$tableSchema);
     }
 
 }

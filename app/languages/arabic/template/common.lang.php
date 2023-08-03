@@ -39,3 +39,7 @@ $_["this_box"] = "في هذا الحقل أدناه";
 $_["apply"] = "تطبيق";
 $_["cancel"] = "إلغاء";
 // End popup
+
+// Start Validation
+$_["valid-feedback"] = "تبدو جيدة!";
+// End Validation

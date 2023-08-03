@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= BOOTSTRAP_CSS . 'bootstrap.min.css.map'  ?>">
     <link rel="stylesheet" href="<?= '/css/shortcut.css' ?>">
     <link rel="stylesheet" href="<?= '/css/all.min.css' ?>">
-    <link rel="stylesheet" href="<?= CSS . "main.css" ?>">
+    <link rel="stylesheet" href="<?= CSS . $lang . DS . "main.css" ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;500&display=swap" rel="stylesheet">
@@ -79,7 +79,7 @@
 
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2 search-nav" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2 search-nav" type="search" placeholder="<?= $search ?>" aria-label="Search">
                 <button class="btn border-1 border-black btn-search" type="submit">
                     <?= $search  ?>
                 </button>
@@ -107,14 +107,14 @@
 
     <nav class="d-flex flex-column flex-1 relative">
         <div class="menu">
-            <p class="title fs-15 fw-500 text-truncate">Main </p>
+            <p class="title fs-15 fw-500 text-truncate"><?= $main ?> </p>
             <ul class="plr-10">
                 <li class="li-aside-menu <?= $controller->compareURL('/') === true ? 'active' : '' ?>"
                     has-sub-menu="false" title="Home">
 
                     <a href="/" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-home"></i>
-                        <span class="text">Home</span>
+                        <span class="text"><?= $home  ?></span>
                     </a>
                 </li>
 
@@ -125,20 +125,20 @@
                     has-sub-menu="true" title="Students >> ">
                     <button  class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-users"></i>
-                        <span class="text">Students</span>
-                        <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
+                        <span class="text"><?= $students  ?></span>
+                        <i class="fa-solid fa-arrow-down arrow "></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu" >
                             <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add Student</span>
+                                <span class="text"><?= $add_student ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
                             <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-trash"></i>
-                                <span class="text">Delete Student</span>
+                                <span class="text"><?= $delete_student ?></span>
                             </a>
                         </li>
                     </ul>
@@ -152,20 +152,20 @@
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-certificate"></i>
-                        <span class="text">Doctors</span>
-                        <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
+                        <span class="text"><?= $instructors ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
                             <a href="/instructors" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text">Instructors</span>
+                                <span class="text"><?= $instructors ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
                             <a href="/instructors/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add Instructor</span>
+                                <span class="text"><?= $add_instructor ?></span>
                             </a>
                         </li>
 
@@ -181,20 +181,20 @@
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-building-columns"></i>
-                        <span class="text">Colleges</span>
-                        <i class="fa-solid fa-arrow-down arrow ml-auto"></i>
+                        <span class="text"><?= $collages ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
                             <a href="/colleges" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text">College</span>
+                                <span class="text"><?= $collages ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
                             <a href="/colleges/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text">Add College</span>
+                                <span class="text"><?= $add_collage ?></span>
                             </a>
                         </li>
                     </ul>
@@ -202,52 +202,83 @@
                 <!-- End With colleges -->
 
 
+            <!-- start vote -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL('/vote') === true ? 'active' : '' ?>"
-                    has-sub-menu="false" title="New Vote">
-                    <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa fa-vote-yea"></i>
-                        <span class="text">New Vote</span>
-                    </a>
+                    <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="Colleges >> ">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-vote-yea"></i>
+                        <span class="text"><?= $votes ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $votes ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/vote/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_vote ?></span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+            <!-- End vote -->
+
+
             </ul>
         </div>
 
 
-        <!-- Start Setting -->
+
         <div class="menu">
-            <p class="title fs-15 fw-500 text-truncate">Settings </p>
+            <p class="title fs-15 fw-500 text-truncate"><?= $settings ?> </p>
             <ul class="plr-10">
+                <!-- Start With Settings -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL('/settings') === true ? 'active' : '' ?>"
-                    has-sub-menu="false"  title="Setting"
-                >
+                    <?= $controller->compareURL(['/settings/language', '/settings']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="Settings >> ">
 
-                    <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-gears"></i>
-                        <span class="text">Settings</span>
-                    </a>
+                        <span class="text"><?= $settings ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/settings/language" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-language"></i>
+                                <span class="text"><?= $change_language ?></span>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </li>
+                <!-- End With Settings -->
             </ul>
         </div>
-        <!-- End Setting -->
 
 
 
         <!-- Start Account -->
         <div class="menu">
-            <p class="title fs-15 fw-500 text-truncate">Account </p>
+            <p class="title fs-15 fw-500 text-truncate"><?= $account ?> </p>
             <ul class="plr-10">
                 <li class="li-aside-menu <?= $controller->compareURL('/help') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Help">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-info-circle"></i>
-                        <span class="text">Help</span>
+                        <span class="text"><?= $help ?></span>
                     </a>
                 </li>
                 <li class="li-aside-menu <?= $controller->compareURL('/logout') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Logout">
-                    <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <a href="/auth/logout" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-arrow-left"></i>
-                        <span class="text">Logout</span>
+                        <span class="text"><?= $logout ?></span>
                     </a>
                 </li>
             </ul>
@@ -264,60 +295,62 @@
     <h1 class="main-title">
         <i class="fa-solid fa-user-plus"></i>
         <span class="">
-            Add Instructor
+            <?= $title ?>
         </span>
     </h1>
 
     <div class="container mt-20 container-form">
         <?php
-            if ($messages != null) {
+            if ($messages) {
                 foreach ($messages as $message) {
+                    $type = strtolower($message[1]);
+                    $message = $message[0];
                     ?>
-                        <div class="alert alert-danger plr-10 ptb-5 " role="alert">
-                            <?= $message[0]  ?>
-                        </div>
+                    <div class="alert alert-<?= $type ?> between-element  plr-10 ptb-5 " kick-out="5000" role="alert">
+                        <span class="flex f-align-center"><?= $message ?></span>
+                    </div>
                     <?php
                 }
             }
         ?>
         <form class="row g-3" method="POST" >
-            <div class="col-md-4">
-                <label for="FirstName" class="form-label mb-1">First name</label>
+            <div class="col-md-4 input" required>
+                <label for="FirstName" class="form-label mb-1"><?= $first_name ?></label>
                 <input type="text" class="form-control" id="FirstName" between="2,50" name="FirstName" value="<?= $controller->getStorePost("FirstName") ?>" required autocomplete="none">
                 <div class="valid-feedback">
-                    Looks good!
+                    <?= $valid_feedback ?>
                 </div>
                 <div class="invalid-feedback">
-                    First Name must between 2 and 50 character
+                    <?= $invalid_feedback_first_name ?>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <label for="LastName" class="form-label mb-1">Last name</label>
+            <div class="col-md-4 input" required>
+                <label for="LastName" class="form-label mb-1"><?= $last_name  ?></label>
                 <input type="text" class="form-control" id="LastName" between="2,50" name="LastName" value="<?= $controller->getStorePost("LastName") ?>" required>
                 <div class="valid-feedback">
-                    Looks good!
+                    <?= $valid_feedback ?>
                 </div>
                 <div class="invalid-feedback">
-                    Last Name must between 2 and 50 character
+                    <?= $invalid_feedback_last_name ?>
                 </div>
             </div>
 
 
-            <div class="col-md-4">
-                <label for="Email" class="form-label mb-1">Email</label>
+            <div class="col-md-4 input" required>
+                <label for="Email" class="form-label mb-1"><?= $email ?></label>
                 <input type="email" class="form-control" id="Email" name="Email" email-input value="<?= $controller->getStorePost("Email") ?>" required>
                 <div class="invalid-feedback">
-                    Please provide a valid
+                    <?= $invalid_feedback ?>
                 </div>
                 <div class="valid-feedback">
-                    Looks good!
+                    <?= $valid_feedback ?>
                 </div>
             </div>
 
 
-            <div class="col-md-4">
-                <label for="Password" class="form-label mb-1">Password</label>
+            <div class="col-md-4 input" required>
+                <label for="Password" class="form-label mb-1"><?= $password ?></label>
                 <input type="password" class="form-control" id="Password" name="Password" value="<?= $controller->getStorePost("Password") ?>"  required>
 
                 <button class="show-password" show-password="false" description="show Password">
@@ -325,135 +358,99 @@
                 </button>
 
                 <div class="valid-feedback">
-                    Looks good!
+                    <?= $valid_feedback ?>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <label for="ConfirmPassword" class="form-label mb-1">Confirm Password</label>
+            <div class="col-md-4 input" required>
+                <label for="ConfirmPassword" class="form-label mb-1"><?= $confirm_password ?></label>
                 <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"  value="<?= $controller->getStorePost("ConfirmPassword") ?>" required>
                 <button class="show-password" show-password="false" description="show Password">
                     <i class="fa-solid fa-eye"></i>
                 </button>
                 <div class="valid-feedback">
-                    Looks good!
+                    <?= $valid_feedback ?>
                 </div>
             </div>
 
 
-            <div class="col-md-4">
-                <label for="NationalIdentificationNumber" class="form-label mb-1">National Identification Number</label>
+            <div class="col-md-4 input" required>
+                <label for="NationalIdentificationNumber" class="form-label mb-1"><?= $national_id_num ?></label>
                 <input type="text" class="form-control" id="NationalIdentificationNumber" name="NationalIdentificationNumber"  between="11, 11" value="<?= $controller->getStorePost("NationalIdentificationNumber") ?>" required>
                 <div class="invalid-feedback">
-                    National Identification Number Must be 11 digit
+                    <?= $invalid_feedback_national_id_num ?>
                 </div>
                 <div class="valid-feedback">
-                    Looks good!
+                    <?= $valid_feedback ?>
                 </div>
             </div>
 
 
-            <div class="col-md-2">
-                <label for="State" class="form-label mb-1">State</label>
-                <input type="text" class="form-control" id="State" name="State" value="<?= $controller->getStorePost("State") ?>" required>
+            <!-- TODO: Insert Debarment Names -->
+            <div class="col-md-2 input" required>
+                <label for="Department" class="form-label mb-1"><?= $department ?></label>
+                <select class="form-select" id="Department" name="Department" required>
+                    <option selected disabled value="<?= $controller->getStorePost("Department") ?>">
+                        <?= $controller->getStorePost("Department") ? 'yes' : 'No' ?>
+                    </option>
+                    <option value="1">Engineer</option>
+                    <option value="0">Fintech</option>
+                </select>
                 <div class="invalid-feedback">
-                    Please provide a valid State.
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <label for="Country" class="form-label mb-1">Country</label>
-                <input type="text" class="form-control" id="Country" name="Country" value="<?= $controller->getStorePost("Country") ?>" required>
-                <div class="invalid-feedback">
-                    Please provide a Country.
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <label for="PhoneNumber" class="form-label mb-1">PhoneNumber</label>
-                <input type="text" class="form-control" id="PhoneNumber" between="10, 10" name="PhoneNumber" value="<?= $controller->getStorePost("PhoneNumber") ?>" required>
-                <div class="invalid-feedback">
-                    Phone number Must be 10 character
-                </div>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <label for="Address" class="form-label mb-1">Address</label>
-                <input type="text" class="form-control" id="Address" name="Address" value="<?= $controller->getStorePost("Address") ?>" required>
-                <div class="invalid-feedback">
-                    Please provide a valid Address.
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <label for="DOB" class="form-label mb-1">DOB</label>
-                <input type="text" class="form-control" id="DOB" name="DOB" value="<?= $controller->getStorePost("DOB") ?>" required>
-                <div class="invalid-feedback">
-                    Please provide a DOB.
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <label for="HireDate" class="form-label mb-1">Hire Date</label>
-                <input type="text" class="form-control" id="HireDate" name="HireDate" value="<?= $controller->getStorePost("HireDate") ?>" required>
-                <div class="invalid-feedback">
-                    Please provide a DOB.
+                    <?= $invalid_feedback ?>
                 </div>
             </div>
 
 
-            <div class="col-md-2">
-                <label for="Salary" class="form-label mb-1">Salary</label>
+            <div class="col-md-2 input" required>
+                <label for="Salary" class="form-label mb-1"><?= $salary ?></label>
                 <input type="number" class="form-control" id="Salary" name="Salary" value="<?= $controller->getStorePost("Salary") ?>" required>
                 <div class="invalid-feedback">
-                    Please provide a DOB.
+                    <?= $invalid_feedback ?>
                 </div>
             </div>
 
 
-            <div class="col-md-2">
-                <label for="YearsOfExperience" class="form-label mb-1">Years Of Experience</label>
+            <div class="col-md-2 input" required>
+                <label for="YearsOfExperience" class="form-label mb-1"><?= $years_of_experience ?></label>
                 <input type="number" class="form-control" id="YearsOfExperience" name="YearsOfExperience" min="0" value="<?= $controller->getStorePost("YearsOfExperience") ?>" required>
                 <div class="invalid-feedback">
-                    Please provide a DOB.
+                    <?= $invalid_feedback ?>
                 </div>
             </div>
 
 
-            <div class="col-md-2">
-                <label for="IfFullTime" class="form-label mb-1">If Full Time</label>
+            <div class="col-md-2 input" required>
+                <label for="IfFullTime" class="form-label mb-1"><?= $is_full_time ?></label>
                 <select class="form-select" id="IfFullTime" name="IfFullTime" required>
                     <option selected disabled value="<?= $controller->getStorePost("IfFullTime") ?>">
-                        <?= $controller->getStorePost("IfFullTime") ? 'Yes' : "No" ?>
+                        <?= $controller->getStorePost("IfFullTime") ? $yes : $no ?>
                     </option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1"><?= $yes ?></option>
+                    <option value="0"><?= $no ?></option>
                 </select>
                 <div class="invalid-feedback">
-                    Please select a valid state.
+                    <?= $invalid_feedback ?>
                 </div>
             </div>
 
-            <div class="col-md-2">
-                <label for="IsActive" class="form-label mb-1">Is Active</label>
+            <div class="col-md-2 input" required>
+                <label for="IsActive" class="form-label mb-1"><?= $is_active ?></label>
                 <select class="form-select" id="IsActive" name="IsActive" required>
                     <option selected disabled value="<?= $controller->getStorePost("IsActive") ?>">
-                        <?= $controller->getStorePost("IsActive") ? 'Yes' : "No" ?>
+                        <?= $controller->getStorePost("IsActive") ?  $yes : $no ?>
                     </option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1"><?= $yes ?></option>
+                    <option value="0"><?= $no ?></option>
                 </select>
                 <div class="invalid-feedback">
-                    Please select a valid state.
+                    <?= $invalid_feedback ?>
                 </div>
             </div>
 
 
             <div class="col-12">
-                <button class="main-btn" name="add" type="submit">Submit form</button>
+                <button class="main-btn" name="add" type="submit"><?= $add_instructor ?></button>
             </div>
         </form>
     </div>
@@ -467,7 +464,6 @@
     <script src="<?=  JS . "shortcut"  . ".js" ?>"></script>
     <script src="<?=  JS . "all.min"  . ".js" ?>"></script>
     <script src="<?=  BOOTSTRAP_JS . "bootstrap.bundle"  . ".js" ?>"></script>
-<!--    <script src="--><?php //=  BOOTSTRAP_JS . "all.min.js" ?><!--"></script>-->
     <script src="<?=  JS . $file_js  . ".js" ?>"></script>
     </body>
 </html>

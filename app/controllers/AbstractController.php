@@ -50,6 +50,18 @@ abstract  class AbstractController
      */
     public string $lang;
     /**
+     * Array of columns to be neglected in the context of setting InstructorModel properties.
+     *
+     * This public property holds an array of column names that should be neglected when set value columns in model object
+     * property values of an InstructorModel instance using the `setInstructorColumnsValues` method.
+     * The `setInstructorColumnsValues` method iterates through provided values for each column,
+     * and if a column name matches any of the elements in this array, the value assignment for that
+     * column is skipped.
+     *
+     * @var array
+     */
+    public array $neglectingColumns = ["edit", "add", "submit", "ConfirmPassword"];
+    /**
      * to set name controller
      * @param string $controller the name controller
      * @return void

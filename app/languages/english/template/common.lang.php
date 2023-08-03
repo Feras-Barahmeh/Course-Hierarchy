@@ -40,3 +40,7 @@ $_["this_box"]                          = "in this box below";
 $_["apply"]                          = "Apply";
 $_["cansel"]                          = "Cansel";
 // End popup
+
+// Start Validation
+$_["valid_feedback"]              = "Looks good!";
+// End Validation
