@@ -62,7 +62,7 @@
                     has-sub-menu="true" title="Instructors >> ">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa-solid fa-certificate"></i>
+                        <i class="fa-solid fa-person-chalkboard"></i>
                         <span class="text"><?= $instructors ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>

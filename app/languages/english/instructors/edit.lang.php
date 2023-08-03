@@ -1,4 +1,5 @@
 <?php
-$_["title"]             = "Edit College";
-$_["success"]           = "Success Edit <span class='highlight'> %s </span> College";
-$_["fail"]              = "Fail Edit <span class='highlight'> %s </span> College";
+$_["title"]             = "Change Instructor Information";
+$_["success"]           = "Success Change Information For  <span class='highlight'> %s </span> Instructor";
+$_["fail"]              = "Fail Change Information For  <span class='highlight'> %s </span> Instructor";
+$_["edit_info"]              = "Edit Information";

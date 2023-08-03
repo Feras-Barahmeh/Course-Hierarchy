@@ -151,7 +151,7 @@
                     has-sub-menu="true" title="Instructors >> ">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa-solid fa-certificate"></i>
+                        <i class="fa-solid fa-person-chalkboard"></i>
                         <span class="text"><?= $instructors ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
@@ -299,11 +299,22 @@
         </span>
     </h1>
 
+    <div class="container">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/instructors/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_instructor  ?></button>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="container mt-20 container-form">
+
         <?php
             if ($messages) {
                 foreach ($messages as $message) {
-                    $type = strtolower($message[1]);
+
+                    $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
                     $message = $message[0];
                     ?>
                     <div class="alert alert-<?= $type ?> between-element  plr-10 ptb-5 " kick-out="5000" role="alert">

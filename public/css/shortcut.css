@@ -645,6 +645,12 @@
 /* End Background */
 
 /*Start Pagination*/
+.container-table {
+    width: 100%;
+    min-width: 1000px;
+    overflow-y: hidden;
+    position: relative;
+}
 .bar-pagination {
     width: 100%;
     display: flex;
@@ -653,6 +659,10 @@
     margin-top: 10px;
     border-radius: 4px;
     padding: 10px;
+
+    position: sticky;
+    left: 0;
+    top: 0;
 }
 .bar-pagination.bg-dark-subtle {
     background-color: var(--bs-dark-bg-subtle);
@@ -663,6 +673,7 @@
 .bar-pagination .statistics {
     display: flex;
     align-items: center;
+    user-select: none;
 }
 .bar-pagination .statistics label {
     font-size: 14px;

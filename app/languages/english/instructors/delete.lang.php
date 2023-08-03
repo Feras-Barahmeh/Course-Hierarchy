@@ -1,5 +1,5 @@
 <?php
-$_["title"]             = "Delete College";
-$_["success"]           = "Success Delete <span class='highlight'> %s </span> College";
-$_["fail"]              = "Fail Delete <span class='highlight'> %s </span> College";
-$_["not_exist"]              = "Can't Delete College Not Exits";
+$_["title"]             = "Delete Instructor";
+$_["success"]           = "Success Delete <span class='highlight'> %s </span> Instructor";
+$_["fail"]              = "Fail Delete <span class='highlight'> %s </span> Instructor";
+$_["not_exist"]              = "Can't Delete Instructor Not Exits";

@@ -6,11 +6,15 @@ use App\Core\Session;
 use App\Core\Validation;
 use App\Core\View;
 use App\Enums\MessagesType;
+use App\Enums\Privilege;
 use App\Models\CollegeModel;
 use ErrorException;
+use http\Message;
+use JetBrains\PhpStorm\NoReturn;
 
 class CollegesController extends AbstractController
 {
+    public static int $authentication = Privilege::Admin->value;
     use Validation;
     /**
      * patterns check forms when add
@@ -49,7 +53,7 @@ class CollegesController extends AbstractController
             $this->putLazy($collegesRecords, $records);
         }
 
-        View::view("colleges.index", $this, [
+        $this->authentication("colleges.index", [
             "colleges" => $collegesRecords,
         ]);
     }
@@ -59,16 +63,13 @@ class CollegesController extends AbstractController
         $collage->TotalStudents = $_POST["TotalStudents"];
     }
 
-    private function saveCollege($college, $words): void
+    private function saveCollege($college): void
     {
         if ($college->save()) {
-            $message = $this->messages->feedKey("success", $college->CollegeName, $words);
-            $this->messages->add($message, MessagesType::Success);
-
+            $this->setMessage("success", $college->CollegeName, MessagesType::Success->value);
             $this->redirect("/colleges");
         }  else {
-            $message = $this->messages->feedKey("fail", $college->CollegeName, $words);
-            $this->messages->add($message, MessagesType::Danger);
+            $this->setMessage("fail", $college->CollegeName, MessagesType::Danger->value);
         }
     }
     /**
@@ -81,7 +82,6 @@ class CollegesController extends AbstractController
         $this->language->load("colleges.add");
         $this->language->load("colleges.common");
 
-        $words = $this->language->getDictionary();
 
         if (isset($_POST["add"])) {
             $errors = $this->valid($this->rolesAdd, $_POST);
@@ -100,21 +100,16 @@ class CollegesController extends AbstractController
                 // Check College Name is unique
                 $CollegeName = $_POST["CollegeName"];
                 if (! $college->countRow("CollegeName", $CollegeName)) {
-
                     $this->setProperties($college);
-
-                    $this->saveCollege($college, $words);
+                    $this->saveCollege($college);
                 } else {
-                    $message = $this->messages->feedKey("already_exits", $CollegeName, $words);
-                    $this->messages->add($message, MessagesType::Danger);
+                    $this->setMessage("already_exits", $CollegeName, MessagesType::Danger->value);
                 }
-
-
             }
         }
 
-        View::view("colleges.add", $this, [
-            "messages" => $this->messages->getMessage(),
+        $this->authentication("colleges.add", [
+            "messages" => Session::flash("messages"),
         ]);
     }
 
@@ -129,8 +124,6 @@ class CollegesController extends AbstractController
         $this->language->load("colleges.edit");
         $college = CollegeModel::getByPK($this->params[0]);
 
-        $words = $this->language->getDictionary();
-
         if (isset($_POST["edit"])) {
             $errors = $this->valid($this->rolesEdit, $_POST);
             $flag = true;
@@ -143,42 +136,48 @@ class CollegesController extends AbstractController
 
             if ($flag) {
                 $this->setProperties($college);
-                $this->saveCollege($college, $words);
+                $this->saveCollege($college);
             }
         }
 
 
 
-        View::view("colleges.edit", $this, [
-            "messages" => $this->messages->getMessage(),
+        $this->authentication("colleges.edit", [
+            "messages" => Session::flash("message"),
             "collage" => $college,
         ]);
     }
-
-    public function delete(): void
+    /**
+     * Delete a college record from the database.
+     *
+     * This method is used to delete a college record from the database based on the provided
+     * identifier. It first loads the language file for messages related to college deletion.
+     * The method fetches the college ID from the request parameters, retrieves the corresponding
+     * college record using the `CollegeModel::getByPK()` method, and checks if the college
+     * exists. If the college is found and successfully deleted, a success message is set.
+     * Otherwise, a failure message is set. Finally, the method redirects the user to the "/colleges" page.
+     *
+     * @return void
+     */
+    #[NoReturn] public function delete(): void
     {
         $this->language->load("colleges.delete");
-        $words = $this->language->getDictionary();
 
         $id = $this->getParams()[0];
 
         $college = CollegeModel::getByPK($id);
 
         if (! $college) {
-            $this->messages->add($this->messages->get("not_exist"), MessagesType::Danger);
+            $this->setMessage("not_exist", '', MessagesType::Danger->name);
         }
 
         $name = $college->CollegeName;
 
         if ($college->delete()) {
-            $message = $this->messages->feedKey("success", $name, $words);
-            $this->messages->add($message, MessagesType::Success);
+            $this->setMessage("success", $name, MessagesType::Success->name);
         } else {
-            $message = $this->messages->feedKey("fail", $name, $words);
-            $this->messages->add($message, MessagesType::Danger);
+            $this->setMessage("fail", $name, MessagesType::Danger->name);
         }
-
-
 
         $this->redirect("/colleges");
     }

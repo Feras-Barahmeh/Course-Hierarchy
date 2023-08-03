@@ -87,6 +87,10 @@ li {
     display: flex;
     flex-direction: row-reverse;
 }
+.bar-pagination {
+    right: 0 !important;
+    left: auto;
+}
 /* End General Settings */
 
 /* Start Popup */

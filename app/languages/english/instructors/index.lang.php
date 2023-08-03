@@ -1,11 +1,8 @@
 <?php
 
+$_["title"]              = "Instructors";
 $_["resit"]              = "Resit";
-$_["search_college"]              = "Search College";
-$_["add_college"]              = "Add College";
+$_["search_instructor"]              = "Search Instructor";
+$_["add_instructor"]              = "Add Instructor";
 $_["id"]              = "ID";
-$_["name_college"]              = "Name College";
-$_["count_students"]              = "Count Students";
-$_["controls"]              = "Count Student";
-$_["delete"]              = "Delete";
-$_["edit"]              = "Edit";
+$_["name_instructor"]              = "Name Instructor";

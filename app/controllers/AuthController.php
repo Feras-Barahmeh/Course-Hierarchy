@@ -64,6 +64,17 @@ class AuthController extends AbstractController
             return false;
         }
     }
+
+    private function searchColumnContainName($columns)
+    {
+        $pattern = '/name/i';
+        foreach ($columns as $column) {
+            if (preg_match($pattern, $column)) {
+                return $column;
+            }
+        }
+        return false;
+    }
     /**
      * Authenticate and retrieve a user by email and password from the authentication tables.
      *
@@ -89,7 +100,11 @@ class AuthController extends AbstractController
             $exits = Model::equal($table, $uniqueColumn, $email);
 
             if ($exits) {
-                $model = "App\Models\\". $table."Model";
+                $tableModel = $table;
+                if ($table[strlen($table) - 1] === 's') {
+                    $tableModel = substr($table, 0, -1) ;
+                }
+                $model = "App\Models\\". $tableModel."Model";
 
                 $sql = "SELECT * FROM {$table} WHERE {$uniqueColumn} = '{$email}'";
 
@@ -98,7 +113,9 @@ class AuthController extends AbstractController
 
                 $passwordColumn = $columns["password"];
 
-                $valid = $this->verifyPassword($user->$passwordColumn, $password, $user->Name);
+                $nameColumn = $this->searchColumnContainName($user->getColumns());
+
+                $valid = $this->verifyPassword($user->$passwordColumn, $password, $user->{$nameColumn});
 
                 if ($valid) {
                     return  $user;

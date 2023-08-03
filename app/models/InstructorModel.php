@@ -7,7 +7,7 @@ namespace App\Models;
 class InstructorModel extends AbstractModel
 {
 
-        public $InstructorID;
+    public $InstructorID;
     public  $FirstName;
     public  $LastName;
     public  $Department;
@@ -23,9 +23,10 @@ class InstructorModel extends AbstractModel
     public  $YearsOfExperience;
     public  $IfFullTime;
     public  $IsActive;
-    public  $privilege;
+    public  $Privilege;
     public  $Password;
     public  $NationalIdentificationNumber;
+    public  $language;
 
 
     protected static string $tableName = "Instructors";
@@ -46,9 +47,10 @@ class InstructorModel extends AbstractModel
         "YearsOfExperience"             => self::DATA_TYPE_INT,
         "IfFullTime"                    => self::DATA_TYPE_INT,
         "IsActive"                      => self::DATA_TYPE_INT,
-        "privilege"                     => self::DATA_TYPE_INT,
+        "Privilege"                     => self::DATA_TYPE_INT,
         "Password"                      => self::DATA_TYPE_STR,
         "NationalIdentificationNumber"  => self::DATA_TYPE_INT,
+        "language"                      => self::DATA_TYPE_INT,
     ];
     protected static array $Unique = [
         "Email",

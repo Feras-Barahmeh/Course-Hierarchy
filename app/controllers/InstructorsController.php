@@ -5,36 +5,40 @@ namespace App\Controllers;
 use App\Core\Session;
 use App\Core\Validation;
 use App\Core\View;
+use App\Enums\Language;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
+use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
 use App\Models\InstructorModel;
 use ErrorException;
+use JetBrains\PhpStorm\NoReturn;
 
 class InstructorsController extends AbstractController
 {
     use Validation;
     use HandsHelper;
     public static int $authentication = Privilege::Admin->value;
-    private array $_rolesAddValid = [
+    private array $rolesAdd = [
         "FirstName"                     => ["required", "alpha", "between" => [2, 50]],
         "LastName"                      => ["required", "between" => [2, 50]],
         "Department"                    => ["required", "int", "posInt"],
         "Email"                         => ["required", "email", "between" => [LEN_TDL_EMAIL, 100]],
+        "Salary"                        => ["required", "float"],
+        "Password"                      => ["required", "between" => [2, 200]],
+        "NationalIdentificationNumber"  => ["required", "alphaNum"],
+    ];
+
+    private array $rolesEdit = [
         "PhoneNumber"                   => ["numeric", "between" => [10, 10]],
         "Address"                       => ["between" => [2, 100]],
         "City"                          => ["alpha", "between" => [2, 50]],
-        "State"                         => [ "alpha", "between" => [2, 50]],
+        "State"                         => ["alpha", "between" => [2, 50]],
         "Country"                       => ["alpha", "between" => [2, 50]],
         "DOB"                           => ["date"],
         "HireDate"                      => ["date"],
-        "Salary"                        => ["float"],
         "YearsOfExperience"             => ["int", "posInt", "between" => [0, 50]],
-        "IfFullTime"                    => ["int", "posInt", "between" => [0, 1]],
-        "IsActive"                      => ["int", "posInt", "between" => [0, 1]],
-        "Password"                      => ["required", "between" => [2, 200]],
-        "NationalIdentificationNumber"  => ["required", "alphaNum"],
     ];
     /**
      * #[GET('/')]
@@ -43,9 +47,20 @@ class InstructorsController extends AbstractController
     public function index(): void
     {
         $this->language->load("template.common");
+        $this->language->load("template.errors");
+        $this->language->load("instructors.common");
+        $this->language->load("instructors.index");
 
 
-        $this->authentication("instructors.index");
+        $instructorsRecords = null;
+        $records = (new InstructorModel())->allLazy();
+        $this->putLazy($instructorsRecords, $records);
+
+
+        $this->authentication("instructors.index", [
+            "messages"    => Session::flash("message"),
+            "instructors" => $instructorsRecords,
+        ]);
     }
     /**
      * Set values of columns for an InstructorModel instance.
@@ -66,16 +81,14 @@ class InstructorsController extends AbstractController
     private function setInstructorColumnsValues(InstructorModel &$instructor, array $values): void
     {
         $columns = array_keys($values);
-
-
-
         foreach ($columns as $column) {
             if (! in_array($column, $this->neglectingColumns)) {
                 $instructor->{$column} = $values[$column];
             }
         }
-        $instructor->privilege = Privilege::Instructor->value;
+        $instructor->Privilege = Privilege::Instructor->value;
         $instructor->Password = self::encryption($values["Password"]);
+        $instructor->language = Language::English->value;
     }
     /**
      * Save an InstructorModel instance to the database and handle the response.
@@ -120,7 +133,7 @@ class InstructorsController extends AbstractController
     private function addNewInstructor(): void
     {
         if (isset($_POST['add'])) {
-            $hasError = $this->valid($this->_rolesAddValid, $_POST);
+            $hasError = $this->valid($this->rolesAdd, $_POST);
             $flag = true;
 
 
@@ -142,7 +155,7 @@ class InstructorsController extends AbstractController
                         $_POST["Email"],
                         MessagesType::Danger->name);
                 } elseif($_POST["ConfirmPassword"] !== $_POST["Password"]) {
-                    $this->setMessage("error_not_match_password", '',type: MessagesType::Danger->name);
+                    $this->setMessage("error_not_match_password", '', MessagesType::Danger->name);
                 } else {
                     $this->saveInstructor($instructor);
                 }
@@ -160,6 +173,7 @@ class InstructorsController extends AbstractController
 
         $this->language->load("template.common");
         $this->language->load("template.errors");
+        $this->language->load("instructors.common");
         $this->language->load("instructors.add");
 
         $this->addNewInstructor();
@@ -168,5 +182,122 @@ class InstructorsController extends AbstractController
             "messages"    => Session::flash("message"),
             "departments" => DepartmentModel::all(),
         ]);
+    }
+    /**
+     * Set properties of an InstructorModel object with new values.
+     *
+     * This private method is used to set the properties of an InstructorModel object with new values
+     * provided in the $newValues array. The method iterates through the keys (columns) of the $newValues
+     * array and assigns the corresponding values to the $instructor object. It ignores the properties
+     * specified in the $neglectingColumns array, allowing only certain properties to be updated with new values.
+     *
+     * @param InstructorModel $instructor An instance of the InstructorModel object to be updated.
+     * @param array $newValues An associative array containing new property values to update the InstructorModel.
+     *
+     * @return void
+     */
+    private function setProperties(InstructorModel $instructor, array $newValues): void
+    {
+       $editColumns = array_keys($newValues);
+       
+       foreach ($editColumns as $column) {
+           if (! in_array($column, $this->neglectingColumns)) {
+               $instructor->{$column} = $newValues[$column];
+           }
+       }
+
+    }
+
+    /**
+     * Edit an existing instructor's information.
+     *
+     * This method is used to edit an existing instructor's information based on the provided
+     * identifier. It loads necessary language files for messages and labels used in the editing
+     * process. The method retrieves the instructor data by fetching the corresponding record
+     * from the database using the identifier from the request parameters. If the HTTP POST request
+     * contains valid form data, it performs validation using the `$rolesEdit` rules and updates the
+     * instructor's properties with the new values using the `setProperties()` method. If the
+     * validation and property updates are successful, the method saves the instructor data in the
+     * database using the `save()` method. Appropriate success or failure messages are set based on
+     * the outcome, and the user is redirected accordingly. The method also ensures authentication
+     * for accessing the edit page, providing relevant data such as flash messages, departments, and
+     * the instructor instance to the view for rendering.
+     *
+     * @return void
+     *
+     * @throws ErrorException
+     * @link /instructors/edit/{PK}
+     */
+    public function edit(): void
+    {
+
+        $this->language->load("template.common");
+        $this->language->load("template.errors");
+        $this->language->load("instructors.common");
+        $this->language->load("instructors.edit");
+
+        $instructor = InstructorModel::getByPK($this->params[0]);
+
+        if (isset($_POST["edit"])) {
+            $errors = $this->valid($this->rolesEdit, $_POST);
+            $flag = true;
+
+            // If it forms Has Error
+            if (is_array($errors)) {
+                $this->addErrorsMethodToSession($errors);
+                $flag = false;
+            }
+
+            if ($flag) {
+               $this->setProperties($instructor, $_POST);
+               if ($instructor->save())  {
+                   $this->setMessage("success", ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName), MessagesType::Success->name );
+                   $this->redirect("/instructors");
+               } else {
+                   $this->setMessage("fail", ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName), MessagesType::Danger->name );
+               }
+            }
+        }
+
+
+        $this->authentication("instructors.edit", [
+            "messages"    => Session::flash("message"),
+            "departments" => DepartmentModel::all(),
+            "instructor" => $instructor,
+        ]);
+    }
+    /**
+     * Delete an instructor record from the database.
+     *
+     * This method is used to delete an instructor record from the database based on the provided
+     * identifier. It first loads the language file for messages related to instructor deletion.
+     * The method fetches the instructor ID from the request parameters, retrieves the corresponding
+     * instructor record using the `InstructorModel::getByPK()` method, and checks if the instructor
+     * exists. If the instructor is found and successfully deleted, a success message is set. Otherwise,
+     * a failure message is set. Finally, the method redirects the user to the "/instructors" page.
+     *
+     * @return void
+     */
+    #[NoReturn] public function delete(): void
+    {
+        $this->language->load("instructors.delete");
+
+        $id = $this->getParams()[0];
+
+        $instructor = InstructorModel::getByPK($id);
+
+        if (! $instructor) {
+            $this->setMessage("not_exist", '', MessagesType::Danger->name);
+        }
+
+        $name = $instructor->FirstName . ' ' . $instructor->LastName;
+
+        if ($instructor->delete()) {
+            $this->setMessage("success", $name, MessagesType::Success->name);
+        } else {
+            $this->setMessage("fail", $name, MessagesType::Danger->name);
+        }
+
+        $this->redirect("/instructors");
     }
 }
