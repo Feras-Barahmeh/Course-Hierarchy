@@ -166,6 +166,7 @@ trait Validation
      */
     public function posInt($value, string $nameField): bool
     {
+
         if ($value >= 0 && is_numeric($value)) return true;
         $this->pushToError("error_posInt", [$nameField]);
         return false;
@@ -199,6 +200,24 @@ trait Validation
         return true;
     }
 
+    /**
+     * check if value has an email structure
+     * @param mixed $value the value you want check
+     * @return bool
+     */
+    public function email(string $value): bool
+    {
+        return preg_match($this->patterns["email"], $value);
+    }
+    /**
+     * check if value has a date structure
+     * @param mixed $value the value you want check
+     * @return bool
+     */
+    public function date(string $value): bool
+    {
+        return preg_match($this->patterns["date"], $value);
+    }
     /**
      * method to call method has tow argument
      * @param string $nameMethod name method you want called
@@ -240,13 +259,16 @@ trait Validation
 
             // If method is index this mean the pattern container one param (is param not array)
             foreach ($methods as $method => $param) {
-                $nameField = $this->convertCamelToSpace($value);
-                if (! is_array($param)) {
-                    $this->callMethodContainOneParam($param, $post[$value], $nameField);
-                } else {
-                    $this->callMethodWithParam($method, $post[$value], $nameField, $param);
-                }
 
+                // TODO: Edit Check another values (until if field not required)
+                if (in_array("required", array_values($methods))) {
+                    $nameField = $this->convertCamelToSpace($value);
+                    if (! is_array($param)) {
+                        $this->callMethodContainOneParam($param, $post[$value], $nameField);
+                    } else {
+                        $this->callMethodWithParam($method, $post[$value], $nameField, $param);
+                    }
+                }
             }
         }
 
