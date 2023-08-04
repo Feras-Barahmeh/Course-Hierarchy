@@ -148,7 +148,7 @@
                 <label for="IfFullTime" class="form-label mb-1"><?= $is_full_time ?></label>
                 <select class="form-select" id="IfFullTime" name="IfFullTime" required>
                     <option selected disabled value="<?= $controller->getStorePost("IfFullTime") ?>">
-                        <?= $controller->getStorePost("IfFullTime") ? $yes : $no ?>
+                        <?= $controller->getStorePost("IfFullTime") ? $yes :$choose ?>
                     </option>
                     <option value="1"><?= $yes ?></option>
                     <option value="0"><?= $no ?></option>
@@ -162,7 +162,7 @@
                 <label for="IsActive" class="form-label mb-1"><?= $is_active ?></label>
                 <select class="form-select" id="IsActive" name="IsActive" required>
                     <option selected disabled value="<?= $controller->getStorePost("IsActive") ?>">
-                        <?= $controller->getStorePost("IsActive") ?  $yes : $no ?>
+                        <?= $controller->getStorePost("IsActive") ?  $yes :$choose ?>
                     </option>
                     <option value="1"><?= $yes ?></option>
                     <option value="0"><?= $no ?></option>

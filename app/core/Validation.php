@@ -268,6 +268,8 @@ trait Validation
      */
     public function valid($patterns, $post): bool|array
     {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 0);
         $this->language->load("template.errors");
         $this->words = $this->language->getDictionary();
 

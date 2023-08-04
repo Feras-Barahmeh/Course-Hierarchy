@@ -27,7 +27,9 @@ class InstructorsController extends AbstractController
         "Email"                         => ["required", "email", "between" => [LEN_TDL_EMAIL, 100]],
         "Salary"                        => ["required", "float"],
         "Password"                      => ["required", "between" => [2, 200]],
-        "NationalIdentificationNumber"  => ["required", "alphaNum"],
+        "NationalIdentificationNumber"  => ["required", "alphaNum", "equal" => [11]],
+        "IfFullTime"                    => ["required"],
+        "IsActive"                      => ["required"],
     ];
 
     private array $rolesEdit = [
@@ -53,9 +55,15 @@ class InstructorsController extends AbstractController
 
 
         $instructorsRecords = null;
-        $records = (new InstructorModel())->allLazy();
-        $this->putLazy($instructorsRecords, $records);
-
+        if (isset($_POST["search"])) {
+            $instructorsRecords = InstructorModel::get(InstructorModel::filterTable($_POST["value_search"]));
+        } else if (isset($_POST["resit"])) {
+            $records = (new InstructorModel())->allLazy(["ORDER BY " => "InstructorID DESC"]);
+            $this->putLazy($instructorsRecords, $records);
+        } else {
+            $records = (new InstructorModel())->allLazy(["ORDER BY " => "InstructorID DESC"]);
+            $this->putLazy($instructorsRecords, $records);
+        }
 
         $this->authentication("instructors.index", [
             "messages"    => Session::flash("message"),
@@ -175,6 +183,7 @@ class InstructorsController extends AbstractController
         $this->language->load("template.errors");
         $this->language->load("instructors.common");
         $this->language->load("instructors.add");
+
 
         $this->addNewInstructor();
 

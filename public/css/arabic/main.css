@@ -91,6 +91,9 @@ li {
     right: 0 !important;
     left: auto;
 }
+button.show-password {
+    left: -80%;
+}
 /* End General Settings */
 
 /* Start Popup */

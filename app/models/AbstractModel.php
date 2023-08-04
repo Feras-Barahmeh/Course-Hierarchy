@@ -3,11 +3,13 @@ namespace App\Models;
 
 
 use App\Core\Database\DatabaseHandler;
+use App\Helper\HandsHelper;
 use Exception;
 use PDOException;
 
 class AbstractModel
 {
+    use HandsHelper;
     const DATA_TYPE_BOOL = \PDO::PARAM_BOOL;
     const DATA_TYPE_INT = \PDO::PARAM_INT;
     const DATA_TYPE_STR = \PDO::PARAM_STR;
@@ -304,4 +306,20 @@ class AbstractModel
         return array_keys(static::$tableSchema);
     }
 
+    public static function filterTable($filterValues)
+    {
+        $sql = "
+            SELECT * FROM " . static::$tableName . " WHERE  
+        ";
+
+        if (! is_array($filterValues)) {
+            foreach (static::$tableSchema as $column => $type) {
+                $sql .= " $column " . " LIKE '%". $filterValues ."%' OR \n " ;
+            }
+
+            self::removeLastWord($sql);
+            return $sql;
+        }
+
+    }
 }

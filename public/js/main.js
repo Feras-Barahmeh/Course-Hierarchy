@@ -132,12 +132,11 @@ buttonsPopup.forEach(btnPopup => {
                 let input = textConfirm.closest(".input-container").querySelector("input");
                 event.preventDefault();
 
-                if (input.value === textConfirm.textContent) {
+
+                if (input.value.trim() === textConfirm.textContent.trim()) {
                     btn.removeEventListener('click', btnClickHandler);
                     input.value = '';
                     btn.click()
-                } else {
-
                 }
 
             };

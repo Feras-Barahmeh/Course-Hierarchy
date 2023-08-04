@@ -8,3 +8,4 @@ $_["error_float"]       = "الحقل <span class='highlight'> %s </span> يجب
 $_["error_alphaNum"]    = "الحقل <span class='highlight'> %s </span> يجب ان يتكون من احرف او عدد او كلاهما";
 $_["error_posInt"]      = "الحقل <span class='highlight'> %s </span> يحب ان يكون عدد اكبر او يساوي صفر";
 $_["error_numeric"]     = "الحقل <span class='highlight'> %s </span> يجب ان يكون عددي";
+$_["error_equal"]     = "<span class='highlight'> %s </span> الحقل <span class='highlight'> %s </span> يجب ان يتكون من ";

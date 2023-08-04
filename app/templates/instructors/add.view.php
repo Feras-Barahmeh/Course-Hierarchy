@@ -152,14 +152,14 @@
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-person-chalkboard"></i>
-                        <span class="text"><?= $instructors ?></span>
+                        <span class="text"><?= $text_instructor ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
                             <a href="/instructors" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text"><?= $instructors ?></span>
+                                <span class="text"><?= $text_instructors ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
@@ -437,7 +437,7 @@
                 <label for="IfFullTime" class="form-label mb-1"><?= $is_full_time ?></label>
                 <select class="form-select" id="IfFullTime" name="IfFullTime" required>
                     <option selected disabled value="<?= $controller->getStorePost("IfFullTime") ?>">
-                        <?= $controller->getStorePost("IfFullTime") ? $yes : $no ?>
+                        <?= $controller->getStorePost("IfFullTime") ? $yes :$choose ?>
                     </option>
                     <option value="1"><?= $yes ?></option>
                     <option value="0"><?= $no ?></option>
@@ -451,7 +451,7 @@
                 <label for="IsActive" class="form-label mb-1"><?= $is_active ?></label>
                 <select class="form-select" id="IsActive" name="IsActive" required>
                     <option selected disabled value="<?= $controller->getStorePost("IsActive") ?>">
-                        <?= $controller->getStorePost("IsActive") ?  $yes : $no ?>
+                        <?= $controller->getStorePost("IsActive") ?  $yes :$choose ?>
                     </option>
                     <option value="1"><?= $yes ?></option>
                     <option value="0"><?= $no ?></option>

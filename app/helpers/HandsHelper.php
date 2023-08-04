@@ -69,7 +69,7 @@ trait HandsHelper
      * @param string $str target text
      * @return int position
      */
-    public function posLastWord(string $str): int
+    public static function posLastWord(string $str): int
     {
         $str = rtrim($str);
 
@@ -89,9 +89,9 @@ trait HandsHelper
      * @param string $str the text you want remove last word from it
      * @return void
      */
-    public function removeLastWord(string &$str): void
+    public static function removeLastWord(string &$str): void
     {
-        $str = substr($str, 0, $this->posLastWord($str));
+        $str = substr($str, 0, self::posLastWord($str));
     }
 
     /**
