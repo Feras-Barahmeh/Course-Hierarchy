@@ -200,6 +200,23 @@ trait Validation
         return true;
     }
 
+    public function equal($value, $nameField, $compared): bool
+    {
+        $compared = $compared[0];
+        if (is_string($value)) {
+            if (mb_strlen($value) !== $compared) {
+                $this->pushToError("error_equal", [$nameField, $compared]);
+                return false;
+            }
+            return true;
+        }
+        if ($value !== $compared) {
+            $this->pushToError("error_equal", [$nameField, $compared]);
+            return false;
+        }
+        return true;
+
+    }
     /**
      * check if value has an email structure
      * @param mixed $value the value you want check
