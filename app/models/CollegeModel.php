@@ -22,20 +22,4 @@ class CollegeModel extends AbstractModel
 
     protected static string $primaryKey = "CollegeID";
 
-//    public static function filterTable($filterValues)
-//    {
-//        $sql = "
-//            SELECT * FROM " . static::$tableName . " WHERE
-//        ";
-//
-//        if (! is_array($filterValues)) {
-//            foreach (static::$tableSchema as $column => $type) {
-//                $sql .= " $column " . " LIKE '%". $filterValues ."%' OR \n " ;
-//            }
-//
-//            (new CollegeModel())->removeLastWord($sql);
-//            return $sql;
-//        }
-//
-//    }
 }

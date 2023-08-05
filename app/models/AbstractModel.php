@@ -152,8 +152,99 @@ class AbstractModel
         return false;
     }
 
+    /**
+     * Add JOIN clauses to the database query.
+     *
+     * This private static method is used to add JOIN clauses to the provided database query object based on the
+     * given options array. The method checks if a "join" option is present in the $options array. If the "join"
+     * option is found, the method iterates through the specified JOIN tables and conditions and appends the JOIN
+     * clauses to the $query string. The "join" option array should be in the following structure:
+     *
+     * Example of the "join" option array structure:
+     * [
+     *     "join" => [
+     *         "categories" => [
+     *             "type" => "INNER", // Use INNER, LEFT, RIGHT, etc. for different join types
+     *             "on" => "products.category_id = categories.id"
+     *         ],
+     *         // Add more join conditions here if needed
+     *     ]
+     * ]
+     *
+     * The "join" option allows customizing the database query with different types of joins and specifying the
+     * join conditions to link related tables in the query.
+     *
+     * @param string $query The database query object to which the JOIN clauses will be added. This object is modified
+     *                     by reference.
+     * @param array $options An associative array containing the options for customizing the database query.
+     *
+     * @return void
+     */
+    private static function addJoinOptionToQuery(string &$query, array $options): void
+    {
+        if (isset($options["join"])) {
+            $joins = $options["join"];
+
+            foreach ($joins as $table => $joinCondition) {
+                $query .= " {$joinCondition['type']} JOIN {$table} ON {$joinCondition['on']} ";
+            }
+        }
+    }
+    /**
+     * Add ordering to the database query.
+     *
+     * This private static method is used to add ordering to the provided database query object based on the
+     * given options array. The method checks if an "order" option is present in the $options array or if the
+     * value "order" exists in the array. If either condition is true, the method extracts the "type" and "column"
+     * values from the "order" option or uses default values if they are not provided. It then appends the ORDER BY
+     * clause to the $query string using the extracted values, ordering the results based on the specified column
+     * and type (ASC ending or DESC ending).
+     *  Example of the "order" option array structure:
+     *  [
+     *     "order" => [
+     *         "column" => "nameColumn", // Replace "nameColumn" with the desired column name for ordering (default: primary key)
+     *         "type" => "DESC" // Use "DESC" for descending order (default), or "ASC" for ascending order
+     *     ]
+     *  ]
+     * @param mixed $query The database query object to which the ordering will be added. This object is modified
+     *                     by reference.
+     * @param array $options An associative array containing the options for customizing the database query.
+     *
+     * @return void
+     */
+    private static function addOrderToQuery(&$query, array $options): void
+    {
+        if (isset($options["order"]) || in_array( "order", array_values($options))) {
+            
+            $type = $options["order"]["type"] ?? "DESC";
+            $column = $options["order"]["column"] ?? static::getPK();
+
+            $query .= " ORDER BY {$column} {$type} ";
+        }
+    }
+    /**
+     * Add options to the database query.
+     *
+     * This private static method is used to add options to the provided database query object based on the
+     * given options array. The method calls other private static methods, such as `addJoinOptionToQuery()` and
+     * `addOrderToQuery()`, to handle specific options. These options are typically used to customize the database
+     * query, such as adding join clauses or specifying the order of the results.
+     *
+     * @param mixed $query The database query object to which the options will be added. This object is modified
+     *                     by reference.
+     * @param array $options An associative array containing the options for customizing the database query.
+     *
+     * @return void
+     */
+    private static function addOptionsToQuery(mixed &$query, array $options): void
+    {
+        self::addJoinOptionToQuery($query, $options);
+        self::addOrderToQuery($query, $options);
+    }
     public static function get($query, $options=[]): false|\ArrayIterator
     {
+        self::addOptionsToQuery($query, $options);
+        
         $stmt = DatabaseHandler::factory()->prepare($query);
         $stmt->execute();
         if(method_exists(get_called_class(), '__construct')) {
@@ -213,16 +304,10 @@ class AbstractModel
         return (new $calledClass)->get("SELECT " . $column . " FROM " . static::$tableName . " WHERE " . $column . " = '$value'");
 
     }
-    public function allLazy(array $options = null): \Generator
+    public static function getLazy(array $options = null): \Generator
     {
         $query = "SELECT * FROM " . static::$tableName;
-        if ($options != null) {
-            foreach ($options as $key => $val) {
-                $query .= " " . $key . " " . $val;
-            }
-        }
-
-        $records = $this->get($query);
+        $records = self::get($query, $options);
         if ($records) {
             foreach ($records as $record) {
                 yield $record;
@@ -320,6 +405,5 @@ class AbstractModel
             self::removeLastWord($sql);
             return $sql;
         }
-
     }
 }

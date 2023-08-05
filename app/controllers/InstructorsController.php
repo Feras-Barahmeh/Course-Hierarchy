@@ -58,10 +58,10 @@ class InstructorsController extends AbstractController
         if (isset($_POST["search"])) {
             $instructorsRecords = InstructorModel::get(InstructorModel::filterTable($_POST["value_search"]));
         } else if (isset($_POST["resit"])) {
-            $records = (new InstructorModel())->allLazy(["ORDER BY " => "InstructorID DESC"]);
+            $records = InstructorModel::getLazy(["ORDER BY " => "InstructorID DESC"]);
             $this->putLazy($instructorsRecords, $records);
         } else {
-            $records = (new InstructorModel())->allLazy(["ORDER BY " => "InstructorID DESC"]);
+            $records = InstructorModel::getLazy(["ORDER BY " => "InstructorID DESC"]);
             $this->putLazy($instructorsRecords, $records);
         }
 

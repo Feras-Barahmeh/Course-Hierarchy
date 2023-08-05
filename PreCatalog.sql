@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 03, 2023 at 11:26 PM
+-- Generation Time: Aug 05, 2023 at 05:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 1);
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
 
 -- --------------------------------------------------------
 
@@ -60,10 +60,10 @@ CREATE TABLE `Colleges` (
 --
 
 INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudents`) VALUES
-(1, 'Enginnering', 20000),
-(2, 'Literature', 10000),
-(4, 'Business', 5535),
-(5, 'Medicine', 10000);
+(1, 'Engineering', 6000),
+(2, 'Literature', 1200),
+(3, 'Medicine', 1500),
+(4, 'Business', 1600);
 
 -- --------------------------------------------------------
 
@@ -89,15 +89,18 @@ CREATE TABLE `Courses` (
 CREATE TABLE `Departments` (
   `DepartmentID` int(11) UNSIGNED NOT NULL,
   `DepartmentName` varchar(100) NOT NULL,
-  `TotalStudents` smallint(5) DEFAULT 0
+  `TotalStudents` smallint(5) DEFAULT 0,
+  `CollegeID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Departments`
 --
 
-INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudents`) VALUES
-(1, 'Computer and communications engineering', 150);
+INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudents`, `CollegeID`) VALUES
+(1, 'Electricity', 1500, 1),
+(2, 'Computer and communications engineering', 1500, 1),
+(3, 'Civil Engineering', 1200, 1);
 
 -- --------------------------------------------------------
 
@@ -165,7 +168,7 @@ CREATE TABLE `Instructors` (
 --
 
 INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `Department`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
-(10, 'Instructor', 1, 'Bnz', 'instructor@stu.ttu.edu.jo', '', NULL, '', '', '', '0000-00-00', '0000-00-00', 5000.00, 20, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
+(10, 'Instructor', 1, 'Bnz', 'instructor@stu.ttu.edu.jo', '', NULL, '', '', '', '0000-00-00', '0000-00-00', 5000.00, 6, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
 
 -- --------------------------------------------------------
 
@@ -237,7 +240,8 @@ ALTER TABLE `Courses`
 --
 ALTER TABLE `Departments`
   ADD PRIMARY KEY (`DepartmentID`),
-  ADD UNIQUE KEY `DepartmentName` (`DepartmentName`);
+  ADD UNIQUE KEY `DepartmentName` (`DepartmentName`),
+  ADD KEY `FK_Collage_ID` (`CollegeID`);
 
 --
 -- Indexes for table `Enrollment`
@@ -291,7 +295,7 @@ ALTER TABLE `Admin`
 -- AUTO_INCREMENT for table `Colleges`
 --
 ALTER TABLE `Colleges`
-  MODIFY `CollegeID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `CollegeID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Courses`
@@ -303,7 +307,7 @@ ALTER TABLE `Courses`
 -- AUTO_INCREMENT for table `Departments`
 --
 ALTER TABLE `Departments`
-  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Enrollment`
@@ -321,7 +325,7 @@ ALTER TABLE `Guide`
 -- AUTO_INCREMENT for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `Students`
@@ -349,7 +353,7 @@ ALTER TABLE `Courses`
 -- Constraints for table `Departments`
 --
 ALTER TABLE `Departments`
-  ADD CONSTRAINT `FK_Collage_ID` FOREIGN KEY (`DepartmentID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Collage_ID` FOREIGN KEY (`CollegeID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Enrollment`

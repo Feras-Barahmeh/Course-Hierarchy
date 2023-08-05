@@ -46,10 +46,10 @@ class CollegesController extends AbstractController
         if (isset($_POST["search"])) {
             $collegesRecords = CollegeModel::get(CollegeModel::filterTable($_POST["value_search"]));
         } else if (isset($_POST["resit"])) {
-            $records = (new CollegeModel())->allLazy(["ORDER BY " => "TotalStudents DESC"]);
+            $records = CollegeModel::getLazy(["ORDER BY " => "TotalStudents DESC"]);
             $this->putLazy($collegesRecords, $records);
         } else {
-            $records = (new CollegeModel())->allLazy(["ORDER BY " => "TotalStudents DESC"]);
+            $records = CollegeModel::getLazy(["ORDER BY " => "TotalStudents DESC"]);
             $this->putLazy($collegesRecords, $records);
         }
 

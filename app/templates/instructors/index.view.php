@@ -152,7 +152,7 @@
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-person-chalkboard"></i>
-                        <span class="text"><?= $text_instructor ?></span>
+                        <span class="text"><?= $text_instructors ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
@@ -201,11 +201,39 @@
                 </li>
                 <!-- End With colleges -->
 
+            <!-- Start With Departments -->
 
-            <!-- start vote -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/departments/add', '/departments']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_departments ?> >> ">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span class="text"><?= $text_departments ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/departments" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_departments ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/departments/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_department ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <!-- End With Departments -->
+
+
+                <!-- start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Colleges >> ">
+                    has-sub-menu="true" title="vote >>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-vote-yea"></i>

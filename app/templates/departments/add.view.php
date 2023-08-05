@@ -152,14 +152,14 @@
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-person-chalkboard"></i>
-                        <span class="text"><?= $text_instructor ?></span>
+                        <span class="text"><?= $text_instructors ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
                             <a href="/instructors" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text"><?= $text_instructor ?></span>
+                                <span class="text"><?= $text_instructors ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
@@ -201,8 +201,36 @@
                 </li>
                 <!-- End With colleges -->
 
+            <!-- Start With Departments -->
 
-            <!-- start vote -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/departments/add', '/departments']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_departments ?> >> ">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span class="text"><?= $text_departments ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/departments" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_departments ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/departments/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_department ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <!-- End With Departments -->
+
+
+                <!-- start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
                     has-sub-menu="true" title="vote >>">
@@ -290,16 +318,28 @@
 
     </nav>
 </aside>
-<div class="container">
-    <?php
-    $messages = \App\Core\Session::flash("message");
 
+<main class="">
+
+    <h1 class="main-title">
+        <i class="fa-solid fa-user-plus"></i>
+        <span class="">
+            <?= $add_department  ?>
+        </span>
+    </h1>
+
+    <div class="container">
+    <?php
+
+    use App\Core\Session;
+
+    $messages =  Session::flash("message");
     if ($messages) {
         foreach ($messages as $message) {
             $type = strtolower($message[1]);
             $message = $message[0];
             ?>
-            <div class="alert alert-<?= $type ?> between-element plr-20 " kick-out="5000" role="alert">
+            <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="5000" role="alert">
                 <span class="flex f-align-center"><?= $message ?></span>
             </div>
             <?php
@@ -307,6 +347,84 @@
     }
     ?>
 </div>
+
+
+    <div class="container mt-20 ">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/departments/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_department  ?></button>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="container-form">
+            <form class="row g-3" method="POST" >
+                <div class="col-md-6">
+                    <label for="DepartmentName" class="form-label mb-1"><?= $name_department ?></label>
+                    <input type="text"
+                           class="form-control"
+                           id="DepartmentName"
+                           between="2,100"
+                           name="DepartmentName"
+                           value="<?= $controller->getStorePost("DepartmentName") ?>"
+                           required autocomplete="none"
+                    >
+
+                    <div class="valid-feedback">
+                        <?= $valid_feedback ?>
+                    </div>
+                    <div class="invalid-feedback">
+                        <?= $name_department_invalid_feedback  ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6 input" required>
+                    <label for="CollegeID" class="form-label mb-1"><?= $college ?></label>
+                    <select class="form-select" id="CollegeID" name="CollegeID" required>
+                        <option selected disabled value="<?= $controller->getStorePost("CollegeID") ?>">
+                            <?= $controller->getStorePost("CollegeID") ?>
+                        </option>
+
+                        <?php
+                            foreach ($colleges as $college) {
+                                ?>
+                                <option value="<?= $college->CollegeID ?>"><?= $college->CollegeName ?></option> <?php
+                            }
+                        ?>
+                    </select>
+                    <div class="invalid-feedback">
+                        <?= $invalid_feedback ?>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="TotalStudents" class="form-label mb-1"><?= $count_students ?></label>
+                    <input type="number"
+                           class="form-control"
+                           id="TotalStudents"
+                           between="0, 65535"
+                           name="TotalStudents"
+                           value="<?= $controller->getStorePost("TotalStudents") ?>"
+                           required
+                    >
+                    <div class="valid-feedback">
+                        <?= $valid_feedback ?>
+                    </div>
+                    <div class="invalid-feedback">
+                        <?= $number_students_invalid_feedback ?>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button class="main-btn" name="add" type="submit"><?= $add_department ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
 
 
 

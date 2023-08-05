@@ -205,7 +205,7 @@
             <!-- start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Colleges >> ">
+                    has-sub-menu="true" title="vote >>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-vote-yea"></i>
