@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 05, 2023 at 05:14 PM
+-- Generation Time: Aug 07, 2023 at 09:03 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -98,9 +98,9 @@ CREATE TABLE `Departments` (
 --
 
 INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudents`, `CollegeID`) VALUES
-(1, 'Electricity', 1500, 1),
-(2, 'Computer and communications engineering', 1500, 1),
-(3, 'Civil Engineering', 1200, 1);
+(2, 'Computer And Communications Engineering', 1500, 1),
+(3, 'Civil Engineering', 1300, 1),
+(13, 'Electricity', 1500, 1);
 
 -- --------------------------------------------------------
 
@@ -307,7 +307,7 @@ ALTER TABLE `Courses`
 -- AUTO_INCREMENT for table `Departments`
 --
 ALTER TABLE `Departments`
-  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `Enrollment`
