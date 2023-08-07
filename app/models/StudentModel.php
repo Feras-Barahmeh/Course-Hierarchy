@@ -17,6 +17,8 @@ class StudentModel extends AbstractModel
     public  $Email;
     public  $PhoneNumber;
     public  $Privilege;
+    public  $Password;
+    public  $language;
 
     protected static string $tableName = "Students";
 
@@ -32,6 +34,8 @@ class StudentModel extends AbstractModel
         "Email"                 => self::DATA_TYPE_STR,
         "PhoneNumber"           => self::DATA_TYPE_STR,
         "Privilege"             => self::DATA_TYPE_INT,
+        "Password"             => self::DATA_TYPE_STR,
+        "language"             => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "StudentID";

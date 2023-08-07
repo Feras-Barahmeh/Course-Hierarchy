@@ -11,22 +11,9 @@
             <?= $edit .' '. ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName) ?> <?= $text_instructor ?>
         </span>
     </h1>
-
+    @extend('layout.messages')@
     <div class="container mt-20">
-        <?php
-            if ($messages) {
-                foreach ($messages as $message) {
 
-                    $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
-                    $message = $message[0];
-                    ?>
-                    <div class="alert alert-<?= $type ?> between-element  plr-10 ptb-5 " kick-out="5000" role="alert">
-                        <span class="flex f-align-center"><?= $message ?></span>
-                    </div>
-                    <?php
-                }
-            }
-        ?>
         <div class="row mb-20">
             <div class="action col-lg-12 col-md-4 d-flex">
                 <a href="/instructors/" class="ml-auto">

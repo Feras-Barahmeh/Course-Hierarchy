@@ -66,7 +66,6 @@ class InstructorsController extends AbstractController
         }
 
         $this->authentication("instructors.index", [
-            "messages"    => Session::flash("message"),
             "instructors" => $instructorsRecords,
         ]);
     }
@@ -90,7 +89,7 @@ class InstructorsController extends AbstractController
     {
         $columns = array_keys($values);
         foreach ($columns as $column) {
-            if (! in_array($column, self::neglectingColumns)) {
+            if (! in_array($column, self::$neglectingColumns)) {
                 $instructor->{$column} = $values[$column];
             }
         }
@@ -188,7 +187,6 @@ class InstructorsController extends AbstractController
         $this->addNewInstructor();
 
         $this->authentication("instructors.add", [
-            "messages"    => Session::flash("message"),
             "departments" => DepartmentModel::all(),
         ]);
     }
@@ -246,7 +244,6 @@ class InstructorsController extends AbstractController
 
 
         $this->authentication("instructors.edit", [
-            "messages"    => Session::flash("message"),
             "departments" => DepartmentModel::all(),
             "instructor" => $instructor,
         ]);

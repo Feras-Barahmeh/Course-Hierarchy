@@ -19,22 +19,10 @@
             </div>
         </div>
     </div>
+    @extend('layout.messages')@
     <div class="container mt-20 container-form">
 
-        <?php
-            if ($messages) {
-                foreach ($messages as $message) {
 
-                    $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
-                    $message = $message[0];
-                    ?>
-                    <div class="alert alert-<?= $type ?> between-element  plr-10 ptb-5 " kick-out="5000" role="alert">
-                        <span class="flex f-align-center"><?= $message ?></span>
-                    </div>
-                    <?php
-                }
-            }
-        ?>
         <form class="row g-3" method="POST" >
             <div class="col-md-4 input" required>
                 <label for="FirstName" class="form-label mb-1"><?= $first_name ?></label>
@@ -110,11 +98,12 @@
             <div class="col-md-4 input" required>
                 <label for="Department" class="form-label mb-1"><?= $department ?></label>
                 <select class="form-select" id="Department" name="Department" required>
-
+                    <option value=""></option>
                     <?php
                         foreach ($departments as $department) {
+
                             ?>
-                                <option value="<?= $department->DepartmentID ?>"><?= $department->DepartmentName ?></option>
+                                <option <?= $controller::setSelectedAttribute($department->DepartmentID, $controller->getStorePost("DepartmentID") ) ?> value="<?= $department->DepartmentID ?>"><?= $department->DepartmentName ?></option>
                             <?php
                         }
                     ?>
@@ -148,10 +137,14 @@
                 <label for="IfFullTime" class="form-label mb-1"><?= $is_full_time ?></label>
                 <select class="form-select" id="IfFullTime" name="IfFullTime" required>
                     <option selected disabled value="<?= $controller->getStorePost("IfFullTime") ?>">
-                        <?= $controller->getStorePost("IfFullTime") ? $yes :$choose ?>
+                        <?= $controller->getStorePost("IfFullTime") ?  $yes :$choose ?>
                     </option>
-                    <option value="1"><?= $yes ?></option>
-                    <option value="0"><?= $no ?></option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IfFullTime") ) ?> value="1">
+                        <?= $yes ?>
+                    </option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IfFullTime") ) ?> value="0">
+                        <?= $no ?>
+                    </option>
                 </select>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
@@ -164,8 +157,8 @@
                     <option selected disabled value="<?= $controller->getStorePost("IsActive") ?>">
                         <?= $controller->getStorePost("IsActive") ?  $yes :$choose ?>
                     </option>
-                    <option value="1"><?= $yes ?></option>
-                    <option value="0"><?= $no ?></option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IsActive") ) ?> value="1"><?= $yes ?></option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IsActive") ) ?> value="0"><?= $no ?></option>
                 </select>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>

@@ -152,7 +152,7 @@
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-person-chalkboard"></i>
-                        <span class="text"><?= $text_instructor ?></span>
+                        <span class="text"><?= $text_instructors ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
@@ -201,8 +201,36 @@
                 </li>
                 <!-- End With colleges -->
 
+            <!-- Start With Departments -->
 
-            <!-- start vote -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/departments/add', '/departments']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_departments ?> >> ">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span class="text"><?= $text_departments ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/departments" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_departments ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/departments/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_department ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <!-- End With Departments -->
+
+
+                <!-- start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
                     has-sub-menu="true" title="vote >>">
@@ -308,22 +336,31 @@
             </div>
         </div>
     </div>
+    <div class="container">
+    <?php
+
+    use App\Core\Session;
+
+    $messages =  Session::flash("message");
+  
+    if ($messages) {
+        foreach ($messages as $message) {
+
+            $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
+            $message = $message[0];
+            ?>
+            <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="5000" role="alert">
+                <span class="flex f-align-center"><?= $message ?></span>
+            </div>
+            <?php
+        }
+    }
+    ?>
+</div>
+
     <div class="container mt-20 container-form">
 
-        <?php
-            if ($messages) {
-                foreach ($messages as $message) {
 
-                    $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
-                    $message = $message[0];
-                    ?>
-                    <div class="alert alert-<?= $type ?> between-element  plr-10 ptb-5 " kick-out="5000" role="alert">
-                        <span class="flex f-align-center"><?= $message ?></span>
-                    </div>
-                    <?php
-                }
-            }
-        ?>
         <form class="row g-3" method="POST" >
             <div class="col-md-4 input" required>
                 <label for="FirstName" class="form-label mb-1"><?= $first_name ?></label>
@@ -399,11 +436,12 @@
             <div class="col-md-4 input" required>
                 <label for="Department" class="form-label mb-1"><?= $department ?></label>
                 <select class="form-select" id="Department" name="Department" required>
-
+                    <option value=""></option>
                     <?php
                         foreach ($departments as $department) {
+
                             ?>
-                                <option value="<?= $department->DepartmentID ?>"><?= $department->DepartmentName ?></option>
+                                <option <?= $controller::setSelectedAttribute($department->DepartmentID, $controller->getStorePost("DepartmentID") ) ?> value="<?= $department->DepartmentID ?>"><?= $department->DepartmentName ?></option>
                             <?php
                         }
                     ?>
@@ -437,10 +475,14 @@
                 <label for="IfFullTime" class="form-label mb-1"><?= $is_full_time ?></label>
                 <select class="form-select" id="IfFullTime" name="IfFullTime" required>
                     <option selected disabled value="<?= $controller->getStorePost("IfFullTime") ?>">
-                        <?= $controller->getStorePost("IfFullTime") ? $yes :$choose ?>
+                        <?= $controller->getStorePost("IfFullTime") ?  $yes :$choose ?>
                     </option>
-                    <option value="1"><?= $yes ?></option>
-                    <option value="0"><?= $no ?></option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IfFullTime") ) ?> value="1">
+                        <?= $yes ?>
+                    </option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IfFullTime") ) ?> value="0">
+                        <?= $no ?>
+                    </option>
                 </select>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
@@ -453,8 +495,8 @@
                     <option selected disabled value="<?= $controller->getStorePost("IsActive") ?>">
                         <?= $controller->getStorePost("IsActive") ?  $yes :$choose ?>
                     </option>
-                    <option value="1"><?= $yes ?></option>
-                    <option value="0"><?= $no ?></option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IsActive") ) ?> value="1"><?= $yes ?></option>
+                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IsActive") ) ?> value="0"><?= $no ?></option>
                 </select>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>

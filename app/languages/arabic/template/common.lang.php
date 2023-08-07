@@ -39,7 +39,7 @@ $_["are_you_sure_delete"] = "هل أنت متأكد؟";
 $_["to_confirm"] = "للتأكيد، اكتب";
 $_["this_box"] = "في هذا الحقل أدناه";
 $_["apply"] = "تطبيق";
-$_["cancel"] = "إلغاء";
+$_["cansel"] = "إلغاء";
 // End popup
 
 // Start Validation

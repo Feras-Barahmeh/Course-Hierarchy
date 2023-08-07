@@ -152,7 +152,7 @@ button.show-password {
 }
 .popup.fed .close-btn {
     position: absolute;
-    right: 0;
+    left: 0;
     top: -9px;
     background-color: transparent;
     border: none;
