@@ -151,5 +151,27 @@ trait HandsHelper
     {
         return hash_equals($encrypt, crypt($str, $encrypt));
     }
-
+    /**
+     * Get the "selected" attribute for a dropdown option based on a comparison.
+     *
+     * This public static method is used to determine whether a dropdown option should have the "selected" attribute
+     * based on a comparison between two values. The method takes two parameters: `$value` and `$compared`. The `$value`
+     * parameter represents the value of the dropdown option, and the `$compared` parameter represents the value to
+     * compare against.
+     *
+     * If the `$value` is equal to the `$compared`, the method returns the string "selected", indicating that the option
+     * should be marked as selected in the dropdown. If the values are not equal, the method returns an empty string.
+     *
+     * This method is commonly used in generating dropdowns with preselected options, where the selected option is based
+     * on the comparison of the option value with some specific value.
+     *
+     * @param mixed $value The value of the dropdown option.
+     * @param mixed $compared The value to compare against to determine if the option should be marked as selected.
+     *
+     * @return string Returns "selected" if the values are equal, or an empty string if the values are not equal.
+     */
+    public static function setSelectedAttribute($value, $compared): string
+    {
+        return $value == $compared ? "selected" : '';
+    }
 }
