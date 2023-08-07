@@ -37,9 +37,42 @@ trait HandsHelper
         }
         return parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) == $urls;
     }
-    public function getStorePost($nameAttribute, $object = null)
+    /**
+     * Get the value for a form input field (POST data or object property).
+     *
+     * This method is used to retrieve the value for a specific form input field. The value is obtained from
+     * the POST data if it exists, or from an object property if provided. The method takes three parameters:
+     * `$nameAttribute`, `$object`, and `$propertyObject`. The `$nameAttribute` parameter represents the name
+     * attribute of the form input field. If the corresponding POST data is available (submitted via a form),
+     * the method returns the value from the POST data. If not, the method checks if an `$object` instance is
+     * provided. If `$object` is null, an empty string is returned. If `$object` is not null, the method checks
+     * if `$propertyObject` is provided. If `$propertyObject` is provided, the method returns the value of the
+     * specified property from the `$object` instance. If `$propertyObject` is not provided, the method returns
+     * the value of the property matching the `$nameAttribute` from the `$object` instance.
+     *
+     * @param string $nameAttribute The name attribute of the form input field.
+     * @param mixed $object (Optional) An object instance from which to retrieve the property value.
+     * @param string $propertyObject (Optional) The name of the property to retrieve from the object instance.
+     *
+     * @return mixed|null The value of the form input field from POST data, object property, or null if not found.
+     * @version 1.2
+     */
+    public function getStorePost($nameAttribute, $object = null, $propertyObject=null): mixed
     {
-        return $_POST[$nameAttribute] ?? (is_null($object) ? '' : $object->$nameAttribute);
+        if (isset($_POST[$nameAttribute])) {
+            return $_POST[$nameAttribute];
+        }
+
+        if (is_null($object)) {
+            return '';
+        }
+
+        if (!is_null($propertyObject)) {
+            return $object->$propertyObject;
+        }
+
+        return $object->$nameAttribute;
+//        return $_POST[$nameAttribute] ?? (is_null($object) ? '' : $object->$nameAttribute);
     }
 
     /**
