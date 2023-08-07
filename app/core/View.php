@@ -4,6 +4,7 @@ namespace App\Core;
 
 use AllowDynamicProperties;
 use ErrorException;
+use App\Enums\Language;
 
 #[AllowDynamicProperties]
 class View extends Template
@@ -43,9 +44,15 @@ class View extends Template
 
     private function prepareParams($controller, $prams): array
     {
-        
+
+        if (! isset($this->controller->language)) {
+            $language = Auth::user()->{LANGUAGE_NAME_COLUMNS_DB} == Language::English->value ? strtolower(Language::English->name): strtolower( Language::Arabic->name);
+        } else {
+            $language = $controller->language->getLang();
+        }
+
         $default = [
-            "lang" => $controller->language->getLang(),
+            "lang" => $language,
             "file_css" => $controller->getController(),
             "file_js"   => $controller->getController(),
             "controller" => $controller

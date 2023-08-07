@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Auth;
 use App\Core\View;
 use ErrorException;
 
@@ -14,7 +15,8 @@ class NotFoundController extends AbstractController
      */
     public function controllerNotFount(): void
     {
-        View::view("NotFound.controller");
+        $this->language->load("notfound.controller");
+        View::view("NotFound.controller", $this, ["file_css" => "notfound", "file_js" => "notfound"]);
     }
 
     /**
@@ -24,6 +26,7 @@ class NotFoundController extends AbstractController
      */
     public function actionNotFound(): void
     {
-        View::view("NotFound.action");
+        $this->language->load("notfound.action");
+        View::view("NotFound.action", $this, ["file_css" => "notfound", "file_js" => "notfound"]);
     }
 }

@@ -41,13 +41,13 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu" >
-                            <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                            <a href="/students/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_student ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                            <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-trash"></i>
                                 <span class="text"><?= $delete_student ?></span>
                             </a>
