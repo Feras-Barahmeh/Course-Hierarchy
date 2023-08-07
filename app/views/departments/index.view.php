@@ -43,6 +43,7 @@
                     <tr>
                         <td><?= $id  ?></td>
                         <td><?= $name_department ?></td>
+                        <td><?= $college_name ?></td>
                         <td><?= $count_students  ?></td>
                         <td><?= $controls  ?></td>
                     </tr>
@@ -50,11 +51,11 @@
                     <tbody>
                     <?php
                     foreach ($departments as $department) {
-
                         ?>
                         <tr>
                             <td><?= $department->DepartmentID ?></td>
                             <td><?= $department->DepartmentName ?></td>
+                            <td><?= $department->CollegeName ?></td>
                             <td><?= $department->TotalStudents ?></td>
                             <td class="exclude-hover">
                                 <a href="/departments/edit/<?= $department->DepartmentID ?>">

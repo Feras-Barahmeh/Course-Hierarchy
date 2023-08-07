@@ -4,9 +4,11 @@
     use App\Core\Session;
 
     $messages =  Session::flash("message");
+  
     if ($messages) {
         foreach ($messages as $message) {
-            $type = strtolower($message[1]);
+
+            $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
             $message = $message[0];
             ?>
             <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="5000" role="alert">

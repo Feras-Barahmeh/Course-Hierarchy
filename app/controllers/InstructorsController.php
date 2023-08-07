@@ -90,7 +90,7 @@ class InstructorsController extends AbstractController
     {
         $columns = array_keys($values);
         foreach ($columns as $column) {
-            if (! in_array($column, $this->neglectingColumns)) {
+            if (! in_array($column, self::neglectingColumns)) {
                 $instructor->{$column} = $values[$column];
             }
         }
@@ -191,30 +191,6 @@ class InstructorsController extends AbstractController
             "messages"    => Session::flash("message"),
             "departments" => DepartmentModel::all(),
         ]);
-    }
-    /**
-     * Set properties of an InstructorModel object with new values.
-     *
-     * This private method is used to set the properties of an InstructorModel object with new values
-     * provided in the $newValues array. The method iterates through the keys (columns) of the $newValues
-     * array and assigns the corresponding values to the $instructor object. It ignores the properties
-     * specified in the $neglectingColumns array, allowing only certain properties to be updated with new values.
-     *
-     * @param InstructorModel $instructor An instance of the InstructorModel object to be updated.
-     * @param array $newValues An associative array containing new property values to update the InstructorModel.
-     *
-     * @return void
-     */
-    private function setProperties(InstructorModel $instructor, array $newValues): void
-    {
-       $editColumns = array_keys($newValues);
-       
-       foreach ($editColumns as $column) {
-           if (! in_array($column, $this->neglectingColumns)) {
-               $instructor->{$column} = $newValues[$column];
-           }
-       }
-
     }
 
     /**

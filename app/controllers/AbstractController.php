@@ -9,6 +9,7 @@ use App\Core\View;
 use App\Enums\Language;
 use App\Enums\MessagesType;
 use App\Helper\HandsHelper;
+use App\Models\InstructorModel;
 use ErrorException;
 use Generator;
 use App\Core\Cookie;
@@ -60,7 +61,7 @@ abstract  class AbstractController
      *
      * @var array
      */
-    public array $neglectingColumns = ["edit", "add", "submit", "ConfirmPassword"];
+    public static  array $neglectingColumns = ["edit", "add", "submit", "ConfirmPassword"];
     /**
      * to set name controller
      * @param string $controller the name controller
@@ -224,6 +225,40 @@ abstract  class AbstractController
             View::view($view, $this, $migrationInfo);
         } else {
             $this->redirect("/auth/accessDenied");
+        }
+    }
+
+    /**
+     * Set properties of an InstructorModel object with new values.
+     *
+     * This private method is used to set the properties of an InstructorModel object with new values
+     * provided in the $newValues array. The method iterates through the keys (columns) of the $newValues
+     * array and assigns the corresponding values to the $instructor object. It ignores the properties
+     * specified in the $neglectingColumns array, allowing only certain properties to be updated with new values.
+     *
+     * @param object $instructor An instance of the InstructorModel object to be updated.
+     * @param array $newValues An associative array containing new property values to update the InstructorModel.
+     *
+     * @return void
+     */
+    public static  function setProperties(object &$instructor, array $newValues): void
+    {
+        $editColumns = array_keys($newValues);
+
+        foreach ($editColumns as $column) {
+            if (! in_array($column, self::$neglectingColumns)) {
+                $instructor->{$column} = $newValues[$column];
+            }
+        }
+    }
+
+    public function saveRecord(&$instance, $messageParams, $redirectPath): void
+    {
+        if ($instance->save()) {
+            $this->setMessage("success", $messageParams, MessagesType::Success->name);
+            $this->redirect($redirectPath);
+        }  else {
+            $this->setMessage("fail", $messageParams, MessagesType::Danger->name);
         }
     }
 

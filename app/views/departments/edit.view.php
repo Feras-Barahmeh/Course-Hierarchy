@@ -7,7 +7,7 @@
     <h1 class="main-title">
         <i class="fa-solid fa-user-plus"></i>
         <span class="">
-            <?= $add_department  ?>
+            <?= $edit ?> <?= $department->DepartmentName ?> <?= $text_department ?>
         </span>
     </h1>
 
@@ -24,15 +24,15 @@
 
 
         <div class="container-form">
-            <form class="row g-3" method="POST" >
-                <div class="col-md-6 input" required>
-                    <label for="DepartmentName" class="form-label mb-1"><?= $name_department ?></label>
+            <form class="row g-3" method="POST">
+                <div class="col-md-6">
+                    <label for="DepartmentName" class="form-label mb-1"><?= $new_name_department ?></label>
                     <input type="text"
                            class="form-control"
                            id="DepartmentName"
                            between="2,100"
                            name="DepartmentName"
-                           value="<?= $controller->getStorePost("DepartmentName") ?>"
+                           value="<?= $controller->getStorePost("DepartmentName", $department) ?>"
                            required autocomplete="none"
                     >
 
@@ -47,14 +47,14 @@
                 <div class="col-md-6 input" required>
                     <label for="CollegeID" class="form-label mb-1"><?= $college ?></label>
                     <select class="form-select" id="CollegeID" name="CollegeID" required>
-                        <option selected disabled value="">
-
-                        </option>
 
                         <?php
+                            $select = '';
                             foreach ($colleges as $college) {
+                                if ($college->CollegeID == $department->CollegeID) $select = "selected" ;else $select = '';
                                 ?>
-                                <option <?= $controller::setSelectedAttribute($controller->getStorePost("CollegeID"), $college->CollegeID) ?> value="<?= $college->CollegeID ?>"><?= $college->CollegeName ?></option> <?php
+                                    <option <?= $select ?> value="<?= $college->CollegeID ?>"><?= $college->CollegeName ?></option>
+                                <?php
                             }
                         ?>
                     </select>
@@ -71,7 +71,7 @@
                            id="TotalStudents"
                            between="0, 65535"
                            name="TotalStudents"
-                           value="<?= $controller->getStorePost("TotalStudents") ?>"
+                           value="<?= $controller->getStorePost("TotalStudents", $department) ?>"
                            required
                     >
                     <div class="valid-feedback">
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="col-12">
-                    <button class="main-btn" name="add" type="submit"><?= $add_department ?></button>
+                    <button class="main-btn" name="edit" type="submit"><?= $add_department ?></button>
                 </div>
             </form>
         </div>

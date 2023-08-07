@@ -4,12 +4,10 @@ namespace App\Controllers;
 
 use App\Core\Session;
 use App\Core\Validation;
-use App\Core\View;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Models\CollegeModel;
 use ErrorException;
-use http\Message;
 use JetBrains\PhpStorm\NoReturn;
 
 class CollegesController extends AbstractController
@@ -57,11 +55,6 @@ class CollegesController extends AbstractController
             "colleges" => $collegesRecords,
         ]);
     }
-    private function setProperties(&$collage): void
-    {
-        $collage->CollegeName = $_POST["CollegeName"];
-        $collage->TotalStudents = $_POST["TotalStudents"];
-    }
 
     private function saveCollege($college): void
     {
@@ -100,7 +93,7 @@ class CollegesController extends AbstractController
                 // Check College Name is unique
                 $CollegeName = $_POST["CollegeName"];
                 if (! $college->countRow("CollegeName", $CollegeName)) {
-                    $this->setProperties($college);
+                    $this->setProperties($college, $_POST);
                     $this->saveCollege($college);
                 } else {
                     $this->setMessage("already_exits", $CollegeName, MessagesType::Danger->value);
@@ -135,7 +128,7 @@ class CollegesController extends AbstractController
             }
 
             if ($flag) {
-                $this->setProperties($college);
+                $this->setProperties($college, $_POST);
                 $this->saveCollege($college);
             }
         }

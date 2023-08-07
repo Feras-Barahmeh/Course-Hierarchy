@@ -334,9 +334,11 @@
     use App\Core\Session;
 
     $messages =  Session::flash("message");
+  
     if ($messages) {
         foreach ($messages as $message) {
-            $type = strtolower($message[1]);
+
+            $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
             $message = $message[0];
             ?>
             <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="5000" role="alert">
@@ -361,7 +363,7 @@
 
         <div class="container-form">
             <form class="row g-3" method="POST" >
-                <div class="col-md-6">
+                <div class="col-md-6 input" required>
                     <label for="DepartmentName" class="form-label mb-1"><?= $name_department ?></label>
                     <input type="text"
                            class="form-control"
@@ -383,14 +385,14 @@
                 <div class="col-md-6 input" required>
                     <label for="CollegeID" class="form-label mb-1"><?= $college ?></label>
                     <select class="form-select" id="CollegeID" name="CollegeID" required>
-                        <option selected disabled value="<?= $controller->getStorePost("CollegeID") ?>">
-                            <?= $controller->getStorePost("CollegeID") ?>
+                        <option selected disabled value="">
+
                         </option>
 
                         <?php
                             foreach ($colleges as $college) {
                                 ?>
-                                <option value="<?= $college->CollegeID ?>"><?= $college->CollegeName ?></option> <?php
+                                <option <?= $controller::setSelectedAttribute($controller->getStorePost("CollegeID"), $college->CollegeID) ?> value="<?= $college->CollegeID ?>"><?= $college->CollegeName ?></option> <?php
                             }
                         ?>
                     </select>

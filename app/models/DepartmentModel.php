@@ -4,6 +4,8 @@ namespace App\Models;
 
 
 
+use App\Core\Database\DatabaseHandler;
+
 class DepartmentModel extends AbstractModel
 {
 
@@ -14,7 +16,7 @@ class DepartmentModel extends AbstractModel
 
     protected static string $tableName = "Departments";
 
-    protected static array $tableSchema = [
+    public static array $tableSchema = [
         "DepartmentID"   => self::DATA_TYPE_INT,
         "DepartmentName"     => self::DATA_TYPE_STR,
         "TotalStudents" => self::DATA_TYPE_INT,
@@ -24,4 +26,13 @@ class DepartmentModel extends AbstractModel
         "DepartmentName",
     ];
     protected static string $primaryKey = "DepartmentID";
+
+    public static function departments($columns='*', $filter=null)
+    {
+        $sql = "SELECT ". static::$tableName .".*, ".CollegeModel::getTableName().".{$columns} FROM " . static::$tableName ." INNER JOIN " . CollegeModel::getTableName() . " ON " . CollegeModel::getTableName().".". CollegeModel::getPK() . ' = ' . DepartmentModel::$tableName . '.CollegeID';
+        $sql .= $filter;
+        $stmt = DatabaseHandler::factory()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_CLASS);
+    }
 }

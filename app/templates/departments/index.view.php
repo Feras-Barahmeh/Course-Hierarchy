@@ -334,9 +334,11 @@
     use App\Core\Session;
 
     $messages =  Session::flash("message");
+  
     if ($messages) {
         foreach ($messages as $message) {
-            $type = strtolower($message[1]);
+
+            $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
             $message = $message[0];
             ?>
             <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="5000" role="alert">
@@ -379,6 +381,7 @@
                     <tr>
                         <td><?= $id  ?></td>
                         <td><?= $name_department ?></td>
+                        <td><?= $college_name ?></td>
                         <td><?= $count_students  ?></td>
                         <td><?= $controls  ?></td>
                     </tr>
@@ -386,11 +389,11 @@
                     <tbody>
                     <?php
                     foreach ($departments as $department) {
-
                         ?>
                         <tr>
                             <td><?= $department->DepartmentID ?></td>
                             <td><?= $department->DepartmentName ?></td>
+                            <td><?= $department->CollegeName ?></td>
                             <td><?= $department->TotalStudents ?></td>
                             <td class="exclude-hover">
                                 <a href="/departments/edit/<?= $department->DepartmentID ?>">

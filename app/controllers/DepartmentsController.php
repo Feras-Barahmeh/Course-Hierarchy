@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Core\Session;
 use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
 use ErrorException;
+use JetBrains\PhpStorm\NoReturn;
 
 class DepartmentsController extends AbstractController
 {
@@ -23,7 +23,14 @@ class DepartmentsController extends AbstractController
     private array $rolesAdd = [
         "DepartmentName"         => ["required", "alpha", "between" => [4, 100]],
         "TotalStudents"       => ["numeric", "between" => [0, 65535]],
+        "CollegeID"       => ["required", "numeric"],
     ];
+    private array $rolesEdit = [
+        "DepartmentName"         => ["required", "alpha", "between" => [4, 100]],
+        "TotalStudents"       => ["numeric", "between" => [0, 65535]],
+        "CollegeID"       => ["required", "numeric"],
+    ];
+
 
     /**
      * #[GET('/departments')]
@@ -35,22 +42,21 @@ class DepartmentsController extends AbstractController
         $this->language->load("template.common");
         $this->language->load("departments.common");
         $this->language->load("departments.index");
-
-        $departmentsRecords = null;
+        
+        $records = null;
         if (isset($_POST["search"])) {
+            $records = DepartmentModel::customSearchQuery($_POST["value_search"]);
+            $records = DepartmentModel::departments('CollegeName', $records);
 
-            $departmentsRecords = DepartmentModel::get(DepartmentModel::filterTable($_POST["value_search"]));
         } else if (isset($_POST["resit"])) {
-            $records = DepartmentModel::getLazy(["order"]);
-            $this->putLazy($departmentsRecords, $records);
+            $records = DepartmentModel::departments('CollegeName');
         } else {
-            $records = DepartmentModel::getLazy(["order"]);
+            $records = DepartmentModel::departments('CollegeName');
 
-            $this->putLazy($departmentsRecords, $records);
         }
 
         $this->authentication("departments.index", [
-            "departments" => $departmentsRecords,
+            "departments" => $records,
         ]);
     }
 
@@ -84,10 +90,8 @@ class DepartmentsController extends AbstractController
                 $DepartmentName = $_POST["DepartmentName"];
 
                 if (! $department->countRow("DepartmentName", $DepartmentName)) {
-                    $department->DepartmentName = $_POST["DepartmentName"];
-                    $department->TotalStudents = $_POST["TotalStudents"];
-                    $department->CollegeID = $_POST["CollegeID"];
 
+                    self::setProperties($department, $_POST);
                     if ($department->save()) {
                         $this->setMessage("success", $department->DepartmentName, MessagesType::Success->name);
                         $this->redirect("/departments");
@@ -102,8 +106,74 @@ class DepartmentsController extends AbstractController
         }
 
         $this->authentication("departments.add", [
-            "messages" => Session::flash("message"),
             "colleges" => $colleges,
         ]);
+    }
+
+
+    /**
+     * #[GET('/departments/edit')]
+     * @throws ErrorException
+     */
+    public function edit(): void
+    {
+        $this->language->load("template.common");
+        $this->language->load("departments.common");
+        $this->language->load("departments.edit");
+
+        if (isset($this->params[0]) && DepartmentModel::countRow(DepartmentModel::getPK(),$this->params[0])) {
+            $pk = $this->params[0];
+        } else {
+            $this->redirect("/departments");
+        }
+
+        $department = DepartmentModel::getByPK($pk);
+        $colleges = CollegeModel::all();
+
+        if (isset($_POST["edit"])) {
+
+            $errors = $this->valid($this->rolesEdit, $_POST);
+            $flag = true;
+
+            // If it forms Has Error
+            if (is_array($errors)) {
+                $this->addErrorsMethodToSession($errors);
+                $flag = false;
+            }
+
+            if ($flag) {
+                self::setProperties($department, $_POST);
+
+                $this->saveRecord($department, $department->DepartmentName, "/departments");
+           }
+        }
+
+
+        $this->authentication("departments.edit", [
+            "department" => $department,
+            "colleges" => $colleges,
+        ]);
+    }
+    #[NoReturn] public function delete(): void
+    {
+        $this->language->load("departments.delete");
+
+        $id = $this->getParams()[0];
+
+        $department = DepartmentModel::getByPK($id);
+
+        if (! $department) {
+            $this->setMessage("not_exist", '', MessagesType::Danger->name);
+        }
+
+        $name = $department->DepartmentName;
+
+        if ($department->delete()) {
+            $this->setMessage("success", $name, MessagesType::Success->name);
+        } else {
+            $this->setMessage("fail", $name, MessagesType::Danger->name);
+        }
+
+        $this->redirect("/departments");
     }
 }
