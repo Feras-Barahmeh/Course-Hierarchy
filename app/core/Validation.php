@@ -199,6 +199,89 @@ trait Validation
         
         return true;
     }
+    /**
+     * Validate the maximum value of a given field.
+     *
+     * This method is used to validate whether a given value does not exceed a specified maximum value.
+     * The method takes three parameters: `$value`, `$nameField`, and `$params`. The `$value` parameter represents
+     * the value to be validated, `$nameField` is the name of the field being validated (used for error messages),
+     * and `$params` is either an array or a string representing the maximum allowed value.
+     *
+     * The method determines the maximum allowed value based on the `$params` parameter. If `$params` is an array,
+     * the first element is considered as the maximum value. If `$params` is a string, it is converted to an integer
+     * and used as the maximum value.
+     *
+     * The method performs appropriate validation based on the type of the value. If the value is a string, it checks
+     * the length of the string against the maximum value. If the value is numeric, it directly compares the value
+     * to the maximum.
+     *
+     * If the value exceeds the maximum allowed value, an error message is pushed to the error stack. Otherwise, the
+     * method returns true.
+     *
+     * @param mixed $value The value to be validated.
+     * @param string $nameField The name of the field being validated (used for error messages).
+     * @param array|string $params The maximum allowed value. If an array, the first element is used as the maximum.
+     *                            If a string, it is converted to an integer.
+     *
+     * @return bool Returns true if the validation passes, or false if the value exceeds the maximum allowed value.
+     */
+    public function max(mixed $value, string $nameField, array|string $params): bool
+    {
+        $max = (int) $params[0];
+        $flag=null;
+
+        if (gettype($value) === "string" && ! ctype_digit($value)) {
+            $flag =  mb_strlen($value) <= $max;
+        } elseif (is_numeric($value)) {
+            $flag = $value <= $max;
+        }
+
+        if (! $flag) {
+            $this->pushToError("error_max", [$nameField, $max]);
+        }
+        return true;
+    }
+    /**
+     * Validate the minimum value of a given field.
+     *
+     * This method is used to validate whether a given value meets a specified minimum value requirement.
+     * The method takes three parameters: `$value`, `$nameField`, and `$params`. The `$value` parameter represents
+     * the value to be validated, `$nameField` is the name of the field being validated (used for error messages),
+     * and `$params` is an array or a string representing the minimum allowed value.
+     *
+     * The method determines the minimum allowed value based on the first element of the `$params` array, which is
+     * converted to an integer.
+     *
+     * The method performs appropriate validation based on the type of the value. If the value is a string, it checks
+     * the length of the string against the minimum value. If the value is numeric, it directly compares the value
+     * to the minimum.
+     *
+     * If the value does not meet the minimum requirement, an error message is pushed to the error stack. Otherwise,
+     * the method returns true.
+     *
+     * @param mixed $value The value to be validated.
+     * @param string $nameField The name of the field being validated (used for error messages).
+     * @param array|string $params The minimum allowed value.
+     *
+     * @return bool Returns true if the validation passes, or false if the value does not meet the minimum requirement.
+     */
+    public function min(mixed $value, string $nameField, array|string $params): bool
+    {
+        $min = (int) $params[0];
+        $flag=null;
+
+
+        if (gettype($value) === "string" && ! ctype_digit($value)) {
+            $flag =  mb_strlen($value) >= $min;
+        } elseif (is_numeric($value)) {
+            $flag = $value >= $min;
+        }
+
+        if (! $flag) {
+            $this->pushToError("error_min", [$nameField, $min]);
+        }
+        return true;
+    }
 
     public function equal($value, $nameField, $compared): bool
     {
