@@ -185,7 +185,7 @@ trait Validation
 
         $flag = false;
 
-        if (is_string($value)) {
+        if (gettype($value) === "string" && ! ctype_digit($value)) {
             $length = mb_strlen($value);
             $flag = $length >= $min && $length <= $max;
         } elseif (is_numeric($value)) {
@@ -366,11 +366,10 @@ trait Validation
 
             // If method is index this mean the pattern container one param (is param not array)
             foreach ($methods as $method => $param) {
-                
-                // TODO: Edit Check another values (until if field not required)
+
                 $isRequired = in_array("required", array_values($methods));
 
-                if (! $isRequired && $post[$value] != null) {
+                if (in_array("required", array_values($methods)) || ! $isRequired && $post[$value] != null) {
                     $nameField = $this->convertCamelToSpace($value);
                     if (! is_array($param)) {
                         $this->callMethodContainOneParam($param, $post[$value], $nameField);
