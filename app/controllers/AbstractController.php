@@ -182,6 +182,7 @@ abstract  class AbstractController
             $records->next();
         }
     }
+
     /**
      * Set a message and add it to the messages' container.
      *
@@ -194,12 +195,12 @@ abstract  class AbstractController
      * @param string $key The message key to retrieve the message text from the language feed.
      * @param string|array|null $params Optional. Parameters to customize the message content.
      *                            It can be a single string or an array of strings.
-     * @param string $type The message type. Can be one of 'success', 'info', 'warning', or 'danger'.
+     * @param string|object $type The message type. Can be one of 'success', 'info', 'warning', or 'danger'.
      *                     This determines the visual style and presentation of the message.
      *
      * @return void This method does not return any value.
      */
-    public function setMessage(string $key, string|array|null $params, string $type): void
+    public function setMessage(string $key, string|array|null $params, string|object $type): void
     {
         if ($params == null) $params = '';
         $message = $this->language->feedKey($key,  $params);

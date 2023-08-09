@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Cassandra\Date;
+use App\Core\Database\DatabaseHandler;
+
 
 class StudentModel extends AbstractModel
 {
@@ -19,6 +20,7 @@ class StudentModel extends AbstractModel
     public  $Privilege;
     public  $Password;
     public  $language;
+    public  $StudentCollegeID;
 
     protected static string $tableName = "Students";
 
@@ -35,7 +37,7 @@ class StudentModel extends AbstractModel
         "PhoneNumber"           => self::DATA_TYPE_STR,
         "Privilege"             => self::DATA_TYPE_INT,
         "Password"             => self::DATA_TYPE_STR,
-        "language"             => self::DATA_TYPE_INT,
+        "StudentCollegeID"             => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "StudentID";

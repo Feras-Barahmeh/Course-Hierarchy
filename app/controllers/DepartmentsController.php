@@ -45,14 +45,15 @@ class DepartmentsController extends AbstractController
         
         $records = null;
         if (isset($_POST["search"])) {
-            $records = DepartmentModel::customSearchQuery($_POST["value_search"]);
-            $records = DepartmentModel::departments('CollegeName', $records);
-
+            $records = DepartmentModel::fetch(false, ["College" => [
+                    "on" => ["CollegeID" => CollegeModel::getPK()],
+                    "like" => $_POST["value_search"],
+                ]
+            ]);
         } else if (isset($_POST["resit"])) {
-            $records = DepartmentModel::departments('CollegeName');
+            $records = DepartmentModel::fetch(false, ["College" => ["on" => ["CollegeID" => CollegeModel::getPK()] ]] );
         } else {
-            $records = DepartmentModel::departments('CollegeName');
-
+            $records = DepartmentModel::fetch(false, ["College" => ["on" => ["CollegeID" => CollegeModel::getPK()] ]] );
         }
 
         $this->authentication("departments.index", [

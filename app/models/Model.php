@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Core\Database\DatabaseHandler;
-use mysql_xdevapi\Statement;
 
 /**
  * Model Class Contain static method help you do action whit DB
@@ -19,39 +18,16 @@ class Model
     {
         return DatabaseHandler::factory()->prepare($sql);
     }
+
     /**
      * @param $query string the query you want execute
-     * @return
+     * @return false|array
      */
-    public static function execute(string $query)
+    public static function execute(string $query): false|array
     {
         $stmt = self::prepare($query);
         if ($stmt->execute()) {
             return $stmt->fetchAll();
-        }
-        return false;
-    }
-
-    /**
-     * return count column from table
-     * @param string $column name column you want count
-     * @param string $table name table contain this column
-     * @return false|int return count columns
-     * @version 1.0
-     * @author Feras Barahemeh
-     */
-    public static function enumerate(string $column, string $table): false|int
-    {
-        $sql = "
-            SELECT 
-                COUNT(" . $colum . ") AS count
-            FROM 
-                " . $table ."
-        ";
-
-        $stmt = self::prepare($sql);
-        if ($stmt->execute()) {
-            return $stmt->fetch()["count"];
         }
         return false;
     }

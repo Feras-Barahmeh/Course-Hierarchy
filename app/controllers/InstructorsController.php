@@ -54,19 +54,18 @@ class InstructorsController extends AbstractController
         $this->language->load("instructors.index");
 
 
-        $instructorsRecords = null;
+        $records = null;
         if (isset($_POST["search"])) {
-            $instructorsRecords = InstructorModel::get(InstructorModel::filterTable($_POST["value_search"]));
+            $records = InstructorModel::fetch(true,  ["like" => $_POST["value_search"]]);
+
         } else if (isset($_POST["resit"])) {
-            $records = InstructorModel::getLazy(["ORDER BY " => "InstructorID DESC"]);
-            $this->putLazy($instructorsRecords, $records);
+            $records = InstructorModel::fetch(true);
         } else {
-            $records = InstructorModel::getLazy(["ORDER BY " => "InstructorID DESC"]);
-            $this->putLazy($instructorsRecords, $records);
+            $records = InstructorModel::fetch(true);
         }
 
         $this->authentication("instructors.index", [
-            "instructors" => $instructorsRecords,
+            "instructors" => $records,
         ]);
     }
     /**

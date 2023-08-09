@@ -40,29 +40,30 @@ class CollegesController extends AbstractController
         $this->language->load("colleges.common");
         $this->language->load("colleges.index");
 
-        $collegesRecords = null;
+        $records = null;
         if (isset($_POST["search"])) {
-            $collegesRecords = CollegeModel::get(CollegeModel::filterTable($_POST["value_search"]));
+            $table = CollegeModel::getTableName();
+            self::removeLastChar($table);
+            $records = CollegeModel::fetch(true,  ["like" => $_POST["value_search"]]);
+
         } else if (isset($_POST["resit"])) {
-            $records = CollegeModel::getLazy(["ORDER BY " => "TotalStudents DESC"]);
-            $this->putLazy($collegesRecords, $records);
+            $records = CollegeModel::fetch();
         } else {
-            $records = CollegeModel::getLazy(["ORDER BY " => "TotalStudents DESC"]);
-            $this->putLazy($collegesRecords, $records);
+            $records = CollegeModel::fetch();
         }
 
         $this->authentication("colleges.index", [
-            "colleges" => $collegesRecords,
+            "colleges" => $records,
         ]);
     }
 
     private function saveCollege($college): void
     {
         if ($college->save()) {
-            $this->setMessage("success", $college->CollegeName, MessagesType::Success->value);
+            $this->setMessage("success", $college->CollegeName, MessagesType::Success);
             $this->redirect("/colleges");
         }  else {
-            $this->setMessage("fail", $college->CollegeName, MessagesType::Danger->value);
+            $this->setMessage("fail", $college->CollegeName, MessagesType::Danger);
         }
     }
     /**
@@ -96,7 +97,7 @@ class CollegesController extends AbstractController
                     $this->setProperties($college, $_POST);
                     $this->saveCollege($college);
                 } else {
-                    $this->setMessage("already_exits", $CollegeName, MessagesType::Danger->value);
+                    $this->setMessage("already_exits", $CollegeName, MessagesType::Danger->name);
                 }
             }
         }

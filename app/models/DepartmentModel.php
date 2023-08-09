@@ -27,12 +27,4 @@ class DepartmentModel extends AbstractModel
     ];
     protected static string $primaryKey = "DepartmentID";
 
-    public static function departments($columns='*', $filter=null)
-    {
-        $sql = "SELECT ". static::$tableName .".*, ".CollegeModel::getTableName().".{$columns} FROM " . static::$tableName ." INNER JOIN " . CollegeModel::getTableName() . " ON " . CollegeModel::getTableName().".". CollegeModel::getPK() . ' = ' . DepartmentModel::$tableName . '.CollegeID';
-        $sql .= $filter;
-        $stmt = DatabaseHandler::factory()->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_CLASS);
-    }
 }
