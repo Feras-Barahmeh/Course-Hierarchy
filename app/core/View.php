@@ -45,7 +45,7 @@ class View extends Template
     private function prepareParams($controller, $prams): array
     {
 
-        if (! isset($this->controller->language)) {
+        if (Auth::isLogged()) {
             $language = Auth::user()->{LANGUAGE_NAME_COLUMNS_DB} == Language::English->value ? strtolower(Language::English->name): strtolower( Language::Arabic->name);
         } else {
             $language = $controller->language->getLang();
