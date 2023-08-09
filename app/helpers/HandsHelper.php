@@ -126,6 +126,21 @@ trait HandsHelper
     {
         $str = substr($str, 0, self::posLastWord($str));
     }
+    /**
+     * Remove last character from string
+     * @param string $str the text you want remove last word from it
+     * @return void
+     */
+    public static function removeLastChar(string &$str): void
+    {
+        $str = trim($str);
+        $str = substr($str, 0, strlen($str) - 1);
+    }
+
+    public static function getLastWord($str)
+    {
+        return substr($str, self::posLastWord($str), strlen($str));
+    }
 
     /**
      * encrypt string
