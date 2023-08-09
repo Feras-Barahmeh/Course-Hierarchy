@@ -366,9 +366,11 @@ trait Validation
 
             // If method is index this mean the pattern container one param (is param not array)
             foreach ($methods as $method => $param) {
-
+                
                 // TODO: Edit Check another values (until if field not required)
-                if (in_array("required", array_values($methods))) {
+                $isRequired = in_array("required", array_values($methods));
+
+                if (! $isRequired && $post[$value] != null) {
                     $nameField = $this->convertCamelToSpace($value);
                     if (! is_array($param)) {
                         $this->callMethodContainOneParam($param, $post[$value], $nameField);
