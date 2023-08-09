@@ -9,3 +9,6 @@ $_["error_alphaNum"]    = "<span class='highlight'> %s </span> Is Must Be Alpha 
 $_["error_posInt"]      = "<span class='highlight'> %s </span> Integer Positive";
 $_["error_numeric"]     = "<span class='highlight'> %s </span> Must Be Numeric";
 $_["error_equal"]     = "<span class='highlight'> %s </span> Must equal <span class='highlight'> %s </span>";
+$_["error_max"]     = "Maximum value of <span class='highlight'>%s</span>is<span class='highlight'> %s</span>";
+$_["error_min"]     = "Minimum value of <span class='highlight'>%s</span>is<span class='highlight'> %s</span>";
+$_["error_email"]     = "Email <span class='highlight'>%s</span> Not Valid";

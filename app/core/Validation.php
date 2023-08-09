@@ -307,7 +307,12 @@ trait Validation
      */
     public function email(string $value): bool
     {
-        return preg_match($this->patterns["email"], $value);
+        $flag = preg_match($this->patterns["email"], $value);
+        if (! $flag) {
+            $this->pushToError("error_email", [$value]);
+            return false;
+        }
+        return true;
     }
     /**
      * check if value has a date structure
