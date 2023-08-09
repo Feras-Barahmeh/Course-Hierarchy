@@ -322,12 +322,13 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-person-chalkboard"></i>
+        <i class="fa-solid fa-building"></i>
         <span class="">
 
-            <?= $title ?>
+            <?= $text_students ?>
         </span>
     </h1>
+
 
     <div class="container">
     <?php
@@ -353,19 +354,19 @@
 
 
     <!-- Start Table -->
-    <div class="container">
+    <div class="container container-table responsive-table">
         <div class="row mb-20">
             <form action="" class="col-lg-6 col-md-4" METHOD="POST">
                 <div class="input-group flex-nowrap">
                     <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
                     <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
-                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_instructor  ?>" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_student  ?>" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </form>
 
             <div class="action col-lg-6 col-md-4 d-flex">
-                <a href="/instructors/add" class="ml-auto">
-                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_instructor  ?></button>
+                <a href="/colleges/add" class="ml-auto">
+                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_student  ?></button>
                 </a>
             </div>
         </div>
@@ -373,57 +374,26 @@
 
 
         <?php
-        if ($instructors) {
+        if ($students) {
             ?>
             <div class="container-table responsive-table">
-                <table class="table pagination-table upper">
+                <table class="table pagination-table">
                     <thead class="table-dark">
                     <tr>
                         <td><?= $id  ?></td>
-                        <td><?= $first_name ?></td>
-                        <td><?= $last_name  ?></td>
-                        <td><?= $email  ?></td>
-                        <td><?= $national_id_num  ?></td>
-                        <td><?= $department  ?></td>
-                        <td><?= $phone_number  ?></td>
-                        <td><?= $address  ?></td>
-                        <td><?= $city  ?></td>
-                        <td><?= $state  ?></td>
-                        <td><?= $country  ?></td>
-                        <td><?= $DOB  ?></td>
-                        <td><?= $hire_date  ?></td>
-                        <td><?= $salary  ?></td>
-                        <td><?= $years_of_experience  ?></td>
-                        <td><?= $is_full_time  ?></td>
-                        <td><?= $is_active  ?></td>
+                        <td><?= $name_student ?></td>
                         <td><?= $controls  ?></td>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-
-                    foreach ($instructors as $instructor) {
+                    foreach ($students as $collage) {
                         ?>
                         <tr>
-                            <td><?= $instructor->InstructorID ?></td>
-                            <td><?= $instructor->FirstName ?></td>
-                            <td><?= $instructor->LastName ?></td>
-                            <td><?= $instructor->Email ?></td>
-                            <td><?= $instructor->NationalIdentificationNumber ?></td>
-                            <td><?= $instructor->Department ?></td>
-                            <td><?= $instructor->PhoneNumber ?></td>
-                            <td><?= $instructor->Address ?></td>
-                            <td><?= $instructor->City ?></td>
-                            <td><?= $instructor->State ?></td>
-                            <td><?= $instructor->Country ?></td>
-                            <td><?= $instructor->DOB ?></td>
-                            <td><?= $instructor->HireDate ?></td>
-                            <td><?= $instructor->Salary ?></td>
-                            <td><?= $instructor->YearsOfExperience ?></td>
-                            <td><?= $instructor->IfFullTime ? $yes : $no ?></td>
-                            <td><?= $instructor->IsActive ? $yes : $no ?></td>
+                            <td><?= $collage->CollegeID ?></td>
+                            <td><?= $collage->CollegeName ?></td>
                             <td class="exclude-hover">
-                                <a href="/instructors/edit/<?= $instructor->InstructorID ?>">
+                                <a href="/students/edit/<?= $collage->CollegeID ?>">
                                     <button type="button" class="btn btn-success description" description="<?= $edit ?>">
                                         <i class="fa fa-edit"></i>
                                     </button>
@@ -440,7 +410,7 @@
                                             <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
                                             <h4 class="title">
                                                 <?= $are_you_sure_delete ?>
-                                                <span class="highlight"><?= $instructor->FirstName ?></span>
+                                                <span class="highlight"><?= $collage->CollegeName ?></span>
                                             </h4>
 
                                             <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
@@ -450,13 +420,13 @@
                                             <div class="row g-3 align-items-center">
                                                 <div class="col-12 input-container">
                                                     <label for="confirmText" class="col-form-label no-select">
-                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $instructor->FirstName ?></span>
+                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $collage->CollegeName ?></span>
                                                         <?= $this_box ?>
                                                     </label>
                                                     <input type="text" id="confirmText" class="form-control">
                                                     <div class="buttons mt-10">
                                                         <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
-                                                        <a href="/instructors/delete/<?= $instructor->InstructorID ?>" >
+                                                        <a href="/students/delete/<?= $collage->CollegeID ?>" >
                                                             <button class="btn btn-danger" apply> <?= $apply  ?> </button>
                                                         </a>
                                                     </div>

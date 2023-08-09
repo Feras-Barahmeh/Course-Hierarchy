@@ -11,7 +11,7 @@
         </span>
     </h1>
 
-
+    @extend('layout.messages')@
 
     <div class="container mt-20 ">
         <div class="row mb-20">
@@ -21,17 +21,7 @@
                 </a>
             </div>
         </div>
-        <?php
-            if ($messages != null) {
-                foreach ($messages as $message) {
-                    ?>
-                        <div class="alert alert-danger plr-10 ptb-5 " role="alert">
-                            <?= $message[0]  ?>
-                        </div>
-                    <?php
-                }
-            }
-        ?>
+
 
         <div class="container-form">
             <form class="row g-3" method="POST" >

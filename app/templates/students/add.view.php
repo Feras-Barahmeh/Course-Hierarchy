@@ -129,19 +129,18 @@
                         <i class="fa-solid fa-arrow-down arrow "></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
-                        <li class="li-aside-menu">
-                            <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
-                                <i class="fa-solid fa-eye"></i>
-                                <span class="text"><?= $students ?></span>
-                            </a>
-                        </li>
                         <li class="li-aside-menu" >
                             <a href="/students/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_student ?></span>
                             </a>
                         </li>
-
+                        <li class="li-aside-menu">
+                            <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                                <i class="fa fa-trash"></i>
+                                <span class="text"><?= $delete_student ?></span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- End With Student -->
@@ -322,13 +321,21 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-person-chalkboard"></i>
+        <i class="fa-solid fa-user-plus"></i>
         <span class="">
-
             <?= $title ?>
         </span>
     </h1>
 
+    <div class="container">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/students/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_students  ?></button>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="container">
     <?php
 
@@ -351,143 +358,128 @@
     ?>
 </div>
 
+    <div class="container mt-20 container-form">
 
-    <!-- Start Table -->
-    <div class="container">
-        <div class="row mb-20">
-            <form action="" class="col-lg-6 col-md-4" METHOD="POST">
-                <div class="input-group flex-nowrap">
-                    <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
-                    <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
-                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_instructor  ?>" aria-label="Username" aria-describedby="addon-wrapping">
+
+        <form class="row g-3" method="POST" >
+            <div class="col-md-4 input" required>
+                <label for="FirstName" class="form-label mb-1"><?= $first_name ?></label>
+                <input type="text" class="form-control" id="FirstName" between="2,50" name="FirstName" value="<?= $controller->getStorePost("FirstName") ?>" required autocomplete="none">
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
                 </div>
-            </form>
-
-            <div class="action col-lg-6 col-md-4 d-flex">
-                <a href="/instructors/add" class="ml-auto">
-                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_instructor  ?></button>
-                </a>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback_first_name ?>
+                </div>
             </div>
-        </div>
+
+            <div class="col-md-4 input" required>
+                <label for="LastName" class="form-label mb-1"><?= $last_name  ?></label>
+                <input type="text" class="form-control" id="LastName" between="2,50" name="LastName" value="<?= $controller->getStorePost("LastName") ?>" required>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback_last_name ?>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 input" required>
+                <label for="Email" class="form-label mb-1"><?= $email ?></label>
+                <input type="email" class="form-control" id="Email" name="Email" email-input value="<?= $controller->getStorePost("Email") ?>" required>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 input" required>
+                <label for="Password" class="form-label mb-1"><?= $password ?></label>
+                <input type="password" class="form-control" id="Password" name="Password" value="<?= $controller->getStorePost("Password") ?>"  required>
+
+                <button class="show-password" show-password="false" description="show Password">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
+            <div class="col-md-4 input" required>
+                <label for="ConfirmPassword" class="form-label mb-1"><?= $confirm_password ?></label>
+                <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"  value="<?= $controller->getStorePost("ConfirmPassword") ?>" required>
+                <button class="show-password" show-password="false" description="show Password">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 input" required>
+                <label for="NumberHoursSuccess" class="form-label mb-1"><?= $to_pass_hours ?></label>
+                <input type="number"
+                       class="form-control"
+                       id="NumberHoursSuccess"
+                       name="NumberHoursSuccess"
+                       between="0, 165"
+                       value="<?= $controller->getStorePost("NumberHoursSuccess") ?>" required>
+
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
 
 
 
-        <?php
-        if ($instructors) {
-            ?>
-            <div class="container-table responsive-table">
-                <table class="table pagination-table upper">
-                    <thead class="table-dark">
-                    <tr>
-                        <td><?= $id  ?></td>
-                        <td><?= $first_name ?></td>
-                        <td><?= $last_name  ?></td>
-                        <td><?= $email  ?></td>
-                        <td><?= $national_id_num  ?></td>
-                        <td><?= $department  ?></td>
-                        <td><?= $phone_number  ?></td>
-                        <td><?= $address  ?></td>
-                        <td><?= $city  ?></td>
-                        <td><?= $state  ?></td>
-                        <td><?= $country  ?></td>
-                        <td><?= $DOB  ?></td>
-                        <td><?= $hire_date  ?></td>
-                        <td><?= $salary  ?></td>
-                        <td><?= $years_of_experience  ?></td>
-                        <td><?= $is_full_time  ?></td>
-                        <td><?= $is_active  ?></td>
-                        <td><?= $controls  ?></td>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <div class="col-md-4 input" required>
+                <label for="CollegeID" class="form-label mb-1"><?= $college_name ?></label>
+                <select class="form-select" id="CollegeID" name="CollegeID" required>
+                    <option value=""></option>
                     <?php
+                        foreach ($colleges as $college) {
 
-                    foreach ($instructors as $instructor) {
-                        ?>
-                        <tr>
-                            <td><?= $instructor->InstructorID ?></td>
-                            <td><?= $instructor->FirstName ?></td>
-                            <td><?= $instructor->LastName ?></td>
-                            <td><?= $instructor->Email ?></td>
-                            <td><?= $instructor->NationalIdentificationNumber ?></td>
-                            <td><?= $instructor->Department ?></td>
-                            <td><?= $instructor->PhoneNumber ?></td>
-                            <td><?= $instructor->Address ?></td>
-                            <td><?= $instructor->City ?></td>
-                            <td><?= $instructor->State ?></td>
-                            <td><?= $instructor->Country ?></td>
-                            <td><?= $instructor->DOB ?></td>
-                            <td><?= $instructor->HireDate ?></td>
-                            <td><?= $instructor->Salary ?></td>
-                            <td><?= $instructor->YearsOfExperience ?></td>
-                            <td><?= $instructor->IfFullTime ? $yes : $no ?></td>
-                            <td><?= $instructor->IsActive ? $yes : $no ?></td>
-                            <td class="exclude-hover">
-                                <a href="/instructors/edit/<?= $instructor->InstructorID ?>">
-                                    <button type="button" class="btn btn-success description" description="<?= $edit ?>">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                </a>
-
-                                <button type="button" class="btn btn-danger description" btn-popup description="<?= $delete ?>">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-
-                                <!-- start popup -->
-                                <div class="popup confirm">
-                                    <div class="content">
-                                        <div class="header">
-                                            <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
-                                            <h4 class="title">
-                                                <?= $are_you_sure_delete ?>
-                                                <span class="highlight"><?= $instructor->FirstName ?></span>
-                                            </h4>
-
-                                            <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
-                                        </div>
-
-                                        <div class="confirm">
-                                            <div class="row g-3 align-items-center">
-                                                <div class="col-12 input-container">
-                                                    <label for="confirmText" class="col-form-label no-select">
-                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $instructor->FirstName ?></span>
-                                                        <?= $this_box ?>
-                                                    </label>
-                                                    <input type="text" id="confirmText" class="form-control">
-                                                    <div class="buttons mt-10">
-                                                        <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
-                                                        <a href="/instructors/delete/<?= $instructor->InstructorID ?>" >
-                                                            <button class="btn btn-danger" apply> <?= $apply  ?> </button>
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End popup -->
-                            </td>
-                        </tr>
-                        <?php
-
-                    }
+                            ?>
+                                <option
+                                    <?= $controller->setSelectedAttribute( $controller->getStorePost("CollegeID"), $college->CollegeID ) ?>
+                                        value="<?= $college->CollegeID ?>"
+                                >
+                                    <?= $college->CollegeName ?>
+                                </option>
+                            <?php
+                        }
                     ?>
-                    </tbody>
-                </table>
+
+                </select>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
             </div>
-            <?php
-        }
-        else {
-            ?> <div class="alert alert-danger p-1">No Colleges</div> <?php
-        }
-        ?>
+
+            <div class="col-md-4 input" required>
+                <label for="Gender" class="form-label mb-1"><?= $gender ?></label>
+                <select class="form-select" id="Gender" name="Gender" required>
+                    <option value="<?= $controller->getStorePost("Gender") ?>"><?= $controller->getStorePost("Gender") ?></option>
+                    <option value="Male"><?= $male ?></option>
+                    <option value="Female"><?= $female ?></option>
+                </select>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+            </div>
 
 
+            <div class="col-12">
+                <button class="main-btn" name="add" type="submit"><?= $add_student ?></button>
+            </div>
+        </form>
     </div>
-    <!-- End Table -->
-
 </main>
 
 

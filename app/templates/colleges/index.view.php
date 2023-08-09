@@ -129,18 +129,19 @@
                         <i class="fa-solid fa-arrow-down arrow "></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $students ?></span>
+                            </a>
+                        </li>
                         <li class="li-aside-menu" >
-                            <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                            <a href="/students/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_student ?></span>
                             </a>
                         </li>
-                        <li class="li-aside-menu">
-                            <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
-                                <i class="fa fa-trash"></i>
-                                <span class="text"><?= $delete_student ?></span>
-                            </a>
-                        </li>
+
                     </ul>
                 </li>
                 <!-- End With Student -->
@@ -328,23 +329,29 @@
         </span>
     </h1>
 
-    <div class="container">
-        <?php
-        $messages = \App\Core\Session::flash("message");
 
-        if ($messages) {
-            foreach ($messages as $message) {
-                $type = strtolower($message[1]);
-                $message = $message[0];
-                ?>
-                <div class="alert alert-<?= $type ?> between-element plr-20 " kick-out="5000" role="alert">
-                    <span class="flex f-align-center"><?= $message ?></span>
-                </div>
-                <?php
-            }
+    <div class="container">
+    <?php
+
+    use App\Core\Session;
+
+    $messages =  Session::flash("message");
+  
+    if ($messages) {
+        foreach ($messages as $message) {
+
+            $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
+            $message = $message[0];
+            ?>
+            <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                <span class="flex f-align-center"><?= $message ?></span>
+            </div>
+            <?php
         }
-        ?>
-    </div>
+    }
+    ?>
+</div>
+
 
     <!-- Start Table -->
         <div class="container container-table responsive-table">

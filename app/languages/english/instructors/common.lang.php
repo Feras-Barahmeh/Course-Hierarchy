@@ -1,4 +1,4 @@
-<?php
+    <?php
 $_["already_exits"]              = "Instructors <span class='highlight'> %s </span> Already Exits";
 $_["text_instructors"]              = "Instructors";
 $_["invalid_feedback"]              = " Please provide a valid";
