@@ -4,9 +4,7 @@ namespace App\Models;
 
 use App\Core\Database\DatabaseHandler;
 use App\Helper\HandsHelper;
-use Exception;
-use JetBrains\PhpStorm\NoReturn;
-use PDOException;
+use ArrayIterator;
 
 class AbstractModel
 {
@@ -98,7 +96,7 @@ class AbstractModel
     }
 
 
-    public static function all(): bool|\ArrayIterator
+    public static function all(): bool|ArrayIterator
     {
         $query = "SELECT * FROM " . static::$tableName;
         $stmt = DatabaseHandler::factory()->prepare($query);
@@ -118,7 +116,7 @@ class AbstractModel
 
 
         if ((is_array($results) && !empty($results)))  {
-            return new \ArrayIterator($results);
+            return new ArrayIterator($results);
         }
 
         return false;
@@ -154,98 +152,301 @@ class AbstractModel
     }
 
     /**
-     * Add JOIN clauses to the database query.
+     * Append columns with aliases for selection in an SQL query based on provided options.
      *
-     * This private static method is used to add JOIN clauses to the provided database query object based on the
-     * given options array. The method checks if a "join" option is present in the $options array. If the "join"
-     * option is found, the method iterates through the specified JOIN tables and conditions and appends the JOIN
-     * clauses to the $query string. The "join" option array should be in the following structure:
+     * This private static method is used to append columns with aliases for selection in an SQL query based on the provided
+     * `$columns` array or string, and the main table name. The method takes three parameters: `$sql` (a reference to the SQL query),
+     * `$table` (the name of the main table), and `$columns` (the columns to be selected with aliases).
      *
-     * Example of the "join" option array structure:
-     * [
-     *     "join" => [
-     *         "categories" => [
-     *             "type" => "INNER", // Use INNER, LEFT, RIGHT, etc. for different join types
-     *             "on" => "products.category_id = categories.id"
-     *         ],
-     *         // Add more join conditions here if needed
-     *     ]
-     * ]
+     * The method handles both string and array formats for specifying columns. If a string is provided, the method appends the column
+     * with the specified alias to the SQL query. If an array of columns is provided, the method iterates through each column and
+     * appends them to the SQL query with their respective aliases.
      *
-     * The "join" option allows customizing the database query with different types of joins and specifying the
-     * join conditions to link related tables in the query.
+     * The resulting SQL query includes the specified columns for selection, each with its assigned alias.
      *
-     * @param string $query The database query object to which the JOIN clauses will be added. This object is modified
-     *                     by reference.
-     * @param array $options An associative array containing the options for customizing the database query.
+     * @param string $sql A reference to the SQL query to which columns with aliases are appended for selection.
+     * @param string $table The name of the main table.
+     * @param string|array $columns The columns to be selected with aliases.
      *
      * @return void
      */
-    private static function addJoinOptionToQuery(string &$query, array $options): void
+    private static function appendColumnsWithAliases(string &$sql, string $table, array|string $columns): void
     {
-        if (isset($options["join"])) {
-            $joins = $options["join"];
 
-            foreach ($joins as $table => $joinCondition) {
-                $joinCondition['type'] = $joinCondition['type'] ?? '';
-                $query .= " {$joinCondition['type']} JOIN {$table} ON {$joinCondition['on']} ";
+        if (is_string($columns)) {
+            $sql .= $table . '.' . $columns . " AS {$columns}, ";
+        }
+
+        if (is_array($columns)) {
+            foreach ($columns as $column) {
+                $sql .= $table . '.' . $column . " AS {$column}, ";
             }
         }
+        self::removeLastChar($sql);
     }
-    /**
-     * Add ordering to the database query.
-     *
-     * This private static method is used to add ordering to the provided database query object based on the
-     * given options array. The method checks if an "order" option is present in the $options array or if the
-     * value "order" exists in the array. If either condition is true, the method extracts the "type" and "column"
-     * values from the "order" option or uses default values if they are not provided. It then appends the ORDER BY
-     * clause to the $query string using the extracted values, ordering the results based on the specified column
-     * and type (ASC ending or DESC ending).
-     *  Example of the "order" option array structure:
-     *  [
-     *     "order" => [
-     *         "column" => "nameColumn", // Replace "nameColumn" with the desired column name for ordering (default: primary key)
-     *         "type" => "DESC" // Use "DESC" for descending order (default), or "ASC" for ascending order
-     *     ]
-     *  ]
-     * @param mixed $query The database query object to which the ordering will be added. This object is modified
-     *                     by reference.
-     * @param array $options An associative array containing the options for customizing the database query.
-     *
-     * @return void
-     */
-    private static function addOrderToQuery(mixed &$query, array $options): void
-    {
-        if (isset($options["order"]) || in_array( "order", array_values($options))) {
-            
-            $type = $options["order"]["type"] ?? "DESC";
-            $column = $options["order"]["column"] ?? static::getPK();
 
-            $query .= " ORDER BY {$column} {$type} ";
+    /**
+     * Set columns for selection in an SQL query based on provided options.
+     *
+     * This private static method is used to set columns for selection in an SQL query based on the provided `$options`
+     * array, main table name, and joint table model. The method takes three parameters: `$sql` (a reference to the SQL query),
+     * `$table` (the name of the main table), and `$JointModel` (the class representing the joint table model).
+     *
+     * The method checks if "columns" are specified in the `$options` array. If no columns are specified, it retrieves the columns
+     * from the joint table's schema using the `$JointModel::getTableSchema()` method and adds them to the SQL query.
+     *
+     * If specific columns are provided in the "columns" option, the method adds those columns to the SQL query for selection.
+     *
+     * The resulting SQL query includes the specified columns for selection.
+     *
+     * @param string $sql A reference to the SQL query to which columns are added for selection.
+     * @param string $table The name of the main table.
+     * @param $JointModel
+     * @return void
+     */
+    private static function setColumns(string &$sql, string $table, $JointModel): void
+    {
+        if (! isset($options["columns"])) {
+            $columns = $JointModel::getTableSchema();
+            self::appendColumnsWithAliases($sql, $table, $columns);
+        } else {
+            self::appendColumnsWithAliases($sql, $table, $options["columns"]);
         }
+        $sql .= ' ';
     }
     /**
-     * Add options to the database query.
+     * Set the join type and target joint table in an SQL query based on provided options.
      *
-     * This private static method is used to add options to the provided database query object based on the
-     * given options array. The method calls other private static methods, such as `addJoinOptionToQuery()` and
-     * `addOrderToQuery()`, to handle specific options. These options are typically used to customize the database
-     * query, such as adding join clauses or specifying the order of the results.
+     * This private static method is used to set the join type and target joint table in an SQL query based on the provided `$options`
+     * array and the class representing the joint table. The method takes three parameters: `$sql` (a reference to the SQL query),
+     * `$options` (the array of join options), and `$jointTable` (the class representing the joint table).
      *
-     * @param mixed $query The database query object to which the options will be added. This object is modified
-     *                     by reference.
-     * @param array $options An associative array containing the options for customizing the database query.
+     * The method checks if a join type is specified in the `$options` array. If a join type is provided, it sets the specified join
+     * type (INNER, LEFT, RIGHT, etc.) for the SQL query. If no join type is provided, the method sets the default join type to INNER.
+     *
+     * The method then appends the join type and the target joint table to the SQL query, completing the join clause for the specified table.
+     *
+     * @param string $sql A reference to the SQL query to which the join type and target joint table are added.
+     * @param array $options An array of join options for constructing the SQL query.
+     * @param string $jointTable The class representing the joint table.
      *
      * @return void
      */
-    private static function addOptionsToQuery(mixed &$query, array $options): void
+    private static function setTypeJoin(string &$sql, array $options, string $jointTable): void
     {
-        self::addJoinOptionToQuery($query, $options);
-        self::addOrderToQuery($query, $options);
+        $type = $options["type"] ?? "INNER ";
+        $sql .= " {$type} JOIN {$jointTable}s ";
     }
-    public static function get($query, $options=[]): false|\ArrayIterator
+    /**
+     * Set join conditions for a table in an SQL query based on provided options.
+     *
+     * This private static method is used to set join conditions for a table in an SQL query based on the provided `$condition`
+     * array and the target joint table. The method takes three parameters: `$sql` (a reference to the SQL query), `$condition`
+     * (the array of join conditions), and `$jointTable` (the class representing the joint table).
+     *
+     * The method checks if "on" conditions are specified in the `$condition` array. If "on" conditions are provided, the method
+     * constructs the join conditions by iterating through each entry in the "on" array and generating equality conditions between
+     * columns from the main table and the joint table.
+     *
+     * If no "on" conditions are provided, the method sets a default join condition based on the primary keys of both the main
+     * table and the joint table.
+     *
+     * The resulting join conditions are appended to the SQL query, completing the join clause for the specified table.
+     *
+     * @param string $sql A reference to the SQL query to which join conditions are added.
+     * @param array $condition An array of join conditions for constructing the SQL query.
+     * @param string $jointTable The class representing the joint table.
+     *
+     * @return void
+     */
+    private static function setConditionJoin(string &$sql, array $condition, string $jointTable): void
     {
-        self::addOptionsToQuery($query, $options);
+      
+        $on = ' ';
+        if (isset($condition["on"])) {
+
+            $conditions = $condition["on"];
+            foreach ($conditions as $leftColumn => $rightColumn) {
+                $on .= static::getTableName() . ".{$leftColumn} = {$jointTable::getTableName()}.{$rightColumn} ";
+            }
+        } else {
+            $on = static::getTableName() . '.' . $jointTable::getPK() . ' = ' . $jointTable::getTableName() . '.'. $jointTable::getPK();
+        }
+
+        $sql .= " ON {$on}";
+    }
+    /**
+     * Add custom "WHERE" conditions to an SQL query based on provided options.
+     *
+     * This private static method is used to add custom "WHERE" conditions to an SQL query based on the provided `$where` array,
+     * which contains user-defined conditions. The method takes two parameters: `$sql` (a reference to the SQL query) and
+     * `$where` (the array of custom "WHERE" conditions).
+     *
+     * The method checks if there are "where" conditions specified in the `$where` array. If such conditions are present,
+     * the method appends the provided custom "WHERE" conditions directly to the SQL query.
+     *
+     * @param string $sql A reference to the SQL query to which custom "WHERE" conditions are added.
+     * @param array $where An array of user-defined "WHERE" conditions for constructing the SQL query.
+     *
+     * @return void
+     */
+    private static function addWhere(string &$sql, array $where): void
+    {
+        if (isset($where["where"])) {
+            $sql .= $where["where"];
+        }
+        
+    }
+    /**
+     * Add "LIKE" conditions to an SQL query based on provided table options.
+     *
+     * This private static method is used to add "LIKE" conditions to an SQL query based on the provided `$tables` array,
+     * which contains join and filter options. The method takes two parameters: `$sql` (a reference to the SQL query) and
+     * `$tables` (the array of table options).
+     *
+     * The method iterates through each entry in the `$tables` array and checks if there are "like" conditions specified for
+     * any of the tables. If a "like" condition is found, the method appends "LIKE" conditions for each column in the table's
+     * schema to the SQL query.
+     *
+     * If the SQL query does not end with the "WHERE" keyword, the method adds it before appending the "LIKE" conditions.
+     *
+     * @param string $sql A reference to the SQL query to which "LIKE" conditions are added.
+     * @param array $tables An array of join and filter options for constructing the SQL query.
+     *
+     * @return void
+     */
+    private static function like(string &$sql, array $tables): void
+    {
+        $last = self::getLastWord($sql);
+        if (strtolower($last) != "where" ) $sql .= " where ";
+
+        foreach ($tables as $table => $options) {
+            if (isset($options["like"])) {
+                $value = $options["like"];
+                foreach (static::$tableSchema as $column => $type) {
+                    $sql .= " " . static::getTableName() . ".$column " . " LIKE '%". $value ."%' OR \n " ;
+                }
+            }
+        }
+        self::removeLastWord($sql);
+    }
+    /**
+     * Create a custom SQL query with join clauses based on provided join options.
+     *
+     * This method generates a custom SQL query with join clauses based on the provided `$joins` array. The method takes one parameter:
+     * `$joins`, which is an array containing join and filter options for constructing the query.
+     *
+     * The method starts by initializing an SQL string with the "SELECT" keyword and columns from the main table of the model.
+     * It then iterates through each entry in the `$joins` array, adding join clauses, join type, and condition clauses based on the
+     * options provided for each table.
+     *
+     * For each table to be joined, the method sets the appropriate columns for the joined table and adds the table to the SQL query.
+     * It also sets the join type (INNER, LEFT, RIGHT, etc.) based on the provided options and adds the join condition clause.
+     *
+     * The resulting SQL query includes join clauses for multiple tables, each with its join type and condition.
+     *
+     * @param array $joins An array of join and filter options for constructing the custom SQL query.
+     *
+     * @return string The generated SQL query string with join clauses based on the provided join options.
+     */
+    public static function createJoin(array $joins): string
+    {
+        $sql = "SELECT ";
+
+        self::setColumns($sql, static::$tableName, static::class);
+        $sql .= ', ';
+
+        foreach ($joins as $table => $options) {
+
+            $table = is_string($options) ? $options : $table;
+
+            $model =  "App\Models\\".$table . "Model";
+
+            self::setColumns($sql, $table.'s', $model);
+
+            $sql .= " FROM " . static::getTableName() . ' ';
+            self::setTypeJoin($sql, $options, $table);
+
+            self::setConditionJoin($sql, $options, $model);
+        
+        }
+        
+        return $sql;
+    }
+
+    /**
+     * Fetch records from the main table without joins based on provided options.
+     *
+     * This private static method is used to fetch records from the main table of the model when no join options are provided.
+     * The method takes one parameter: `$joins`, which is an array of options for constructing the fetch query.
+     *
+     * If no `$joins` array is provided, the method uses the `all()` method to fetch all records from the main table.
+     * If the `$joins` array is provided and contains a "like" key, the method constructs a custom SQL query with a "LIKE"
+     * condition for each column in the main table. This allows fetching records based on a search value using the "LIKE" operation.
+     *
+     * @param array|null $joins An array of options for constructing the fetch query. If provided and contains a "like" key,
+     *                          a custom SQL query will be constructed for performing a search operation.
+     *
+     * @return bool|array|ArrayIterator An array of objects representing the fetched records from the main table of the model.
+     */
+    private static function fetchWithoutJoin(?array $joins): bool|array|ArrayIterator
+    {
+
+        if (isset($joins["like"])) {
+            $sql = "SELECT * FROM " . static::getTableName() . " WHERE ";
+            $value = $joins["like"];
+
+            foreach (static::$tableSchema as $column => $type) {
+                $sql .= " " . static::getTableName() . ".$column " . " LIKE '%". $value ."%' OR \n " ;
+            }
+
+            self::removeLastWord($sql);
+            return static::get($sql);
+        }
+        return  !$joins ?? static::all();
+    }
+
+    /**
+     * Fetch records from the database based on provided options.
+     *
+     * This method allows fetching records from the database based on the given options. The method takes two parameters:
+     * `$pure` and `$joins`. The `$pure` parameter controls whether the fetch operation should be purely based on the main table
+     * or include joins. If `$pure` is true, the method calls `fetchWithoutJoin()` to fetch records without joins. If `$pure` is false,
+     * the method uses the provided `$joins` array to create a customized SQL query with joins, conditions, and search filters.
+     *
+     * If `$joins` is provided, the method constructs a SQL query using the `createJoin()`, `addWhere()`, and `like()` methods
+     * based on the provided join and filter information. The query is then executed, and the fetched records are returned as an array
+     * of objects with the class represented by the current model.
+     *
+     * If `$joins` is not provided, the method fetches all records from the main table using the `all()` method.
+     *
+     * @param bool $pure If true, fetch records without joins. If false, use provided join and filter options.
+     * @param array|null $joins An array of join and filter options for constructing a customized SQL query.
+     *
+     * @return bool|array|ArrayIterator|null An array of objects representing the fetched records from the database.
+     */
+    public static function fetch(bool $pure=false, array $joins=null): bool|array|ArrayIterator|null
+    {
+        if ($pure) {
+            return self::fetchWithoutJoin($joins);
+        }
+
+        if ($joins) {
+            $sql = self::createJoin($joins);
+            self::addWhere($sql, $joins);
+
+            self::like($sql, $joins);
+            
+            $stmt = DatabaseHandler::factory()->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_CLASS);
+        }
+        return  static::all();
+
+    }
+    public static function get($query, $options=[]): false|ArrayIterator
+    {
         
         $stmt = DatabaseHandler::factory()->prepare($query);
         $stmt->execute();
@@ -256,36 +457,9 @@ class AbstractModel
         }
 
         if ((is_array($results) && !empty($results))) {
-            return new \ArrayIterator($results);
+            return new ArrayIterator($results);
         }
         return false;
-    }
-    /**
-     * Execute a database query with options and return the results as objects.
-     *
-     * This public static method is used to execute a database query with optional customizations
-     * based on the provided options. It takes two parameters: `$options` and `$query`. The `$options`
-     * parameter is an associative array containing options to customize the database query, such as
-     * filtering, ordering, and joining. The `$query` parameter is an optional SQL query string, and if
-     * not provided, a default SELECT query for the corresponding table is used. The method then calls
-     * `addOptionsToQuery()` to add the specified options to the query and prepares the query using the
-     * PDO interface. Finally, the method executes the query and returns the results as an array of objects,
-     * where each object represents a row from the result set.
-     *
-     * @param array $options An associative array containing options for customizing the database query.
-     * @param string $query (Optional) The SQL query string to be executed. If not provided, a default
-     *                      SELECT query for the corresponding table is used.
-     *
-     * @return array Returns an array of objects representing the result set of the executed query.
-     */
-    public static function execute(array $options, string $query=''): array
-    {
-        $query = ($query == '') ? "SELECT ". static::getTableName(). ".* FROM " . static::getTableName() : $query;
-        self::addOptionsToQuery($query, $options);
-
-        $stmt = DatabaseHandler::factory()->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_CLASS);
     }
 
     public static function row($sql)
@@ -295,6 +469,7 @@ class AbstractModel
     }
 
     /**
+     * Get table name for model
      * @return mixed
      */
     public static function getTableName(): mixed
@@ -303,69 +478,48 @@ class AbstractModel
     }
 
     /**
+     * Get primary key model
      * @return mixed
      */
     public static function getPK(): mixed
     {
         return static::$primaryKey;
     }
+
     /**
-     * @return mixed
+     * Get the column names of the table associated with the current model.
+     *
+     * This method retrieves and returns an array containing the column names of the database table
+     * associated with the current model. The table schema is determined based on the static property
+     * $tableSchema, which should be defined in the derived class.
+     *
+     * @return array Returns an array of strings representing the column names of the associated table,
+     *              return associative array (type each column) if withType be true
      */
-    public static function getTableSchema(): mixed
+    public static function getTableSchema(bool $withType=false): array
     {
-        return static::$tableSchema;
+        if ($withType) {
+            return static::$tableSchema;            
+        }
+        return array_keys(static::$tableSchema);
+
     }
 
     /**
      * Method to check if value exist in db or not get column and value this column
-     * @author Feras Barahmeh
-     * @version 1.0.0
-     *
      * @param string|null $column select the column you want count
      * @param string $value value column you want search it
-     * @return false|\ArrayIterator false if value not exist and values to this column otherwise
+     * @return false|ArrayIterator false if value not exist and values to this column otherwise
      *
+     *@version 1.0.0
+     *
+     * @author Feras Barahmeh
      */
-    public static function countRow(string|null $column, string $value): false|\ArrayIterator
+    public static function countRow(string|null $column, string $value): false|ArrayIterator
     {
         $calledClass = get_called_class();
         return (new $calledClass)->get("SELECT " . $column . " FROM " . static::$tableName . " WHERE " . $column . " = '$value'");
 
-    }
-    public static function getLazy(array $options = null): \Generator
-    {
-        $query = "SELECT * FROM " . static::$tableName;
-        $records = self::get($query, $options);
-        if ($records) {
-            foreach ($records as $record) {
-                yield $record;
-            }
-        }
-
-    }
-    /**
-     * Count the number of records in the database table associated with the current model.
-     *
-     * This static method is used to count the number of records in the database table associated
-     * with the current model. It executes a SQL query to fetch the count and returns the result.
-     * The table name and primary key column are obtained from the static properties $tableName and
-     * $primaryKey defined in the derived class.
-     *
-     * @return mixed Returns the count of records as an integer, or null if the query fails.
-     * @version 1.0
-     * @author Feras Barahemeh
-     */
-    public static function enumerate(): mixed
-    {
-        $sql = "
-            SELECT 
-                COUNT(" . static::$primaryKey . ") AS count
-            FROM 
-                " . static::$tableName ."
-        ";
-
-        return (new AbstractModel)->row($sql)->count;
     }
     /**
      * Check if a value exists in any of the specified columns of the database table associated with the current model.
@@ -404,89 +558,5 @@ class AbstractModel
        }
         
         return  true;
-    }
-
-    /**
-     * Get the column names of the table associated with the current model.
-     *
-     * This method retrieves and returns an array containing the column names of the database table
-     * associated with the current model. The table schema is determined based on the static property
-     * $tableSchema, which should be defined in the derived class.
-     *
-     * @return array Returns an array of strings representing the column names of the associated table.
-     */
-    public function getColumns(): array
-    {
-        return array_keys(static::$tableSchema);
-    }
-
-    /**
-     * @param $filterValues
-     * @param $sql
-     * @return mixed|string|void
-     * @deprecated new version is search method
-     */
-    public static function filterTable($filterValues, $sql=null)
-    {
-        $sql = $sql == null ? "
-            SELECT * FROM " . static::$tableName . " WHERE  
-        " : $sql;
-
-        if (! is_array($filterValues)) {
-            foreach (static::$tableSchema as $column => $type) {
-                $sql .= " $column " . " LIKE '%". $filterValues ."%' OR \n " ;
-            }
-
-            self::removeLastWord($sql);
-            return $sql;
-        }
-    }
-
-    /**
-     * Perform a search query with filter values and optional customizations.
-     *
-     * This public static method is used to perform a search query on the database table. It takes two parameters:
-     * `$filterValues` and `$options`. The `$filterValues` parameter can either be a single string or an array of filter
-     * values to search for in the database. The `$options` parameter is an associative array containing options for
-     * customizing the search query, such as filtering, ordering, and joining.
-     *
-     * If `$filterValues` is a single string, the method constructs a search query using the LIKE operator to search for
-     * the specified value in all columns of the table. If `$filterValues` is an array, the method will not execute the
-     * query but will return the constructed SQL query string that can be executed later.
-     *
-     * Example of the `$options` array:
-     * [
-     *     "order" => [
-     *         "column" => "nameColumn", // Replace "nameColumn" with the desired column name for ordering (default: primary key)
-     *         "type" => "DESC" // Use "DESC" for descending order (default), or "ASC" for ascending order
-     *     ],
-     *     "join" => [
-     *         "table name" => [
-     *             "type" => "INNER", // Use INNER, LEFT, RIGHT, etc. for different join types
-     *             "on" => "products.category_id = categories.id"
-     *         ],
-     *         // Add more join conditions here if needed
-     *     ]
-     *     // Add more options here if needed
-     * ]
-     *
-     * @param mixed $filterValues The value or array of values to search for in the database table
-     *
-     * @return string|null If `$filterValues` is a single string, the method will not execute the query but will return
-     *                      the constructed SQL query string. If `$filterValues` is an array, the method returns null.
-     */
-    public static function customSearchQuery(mixed $filterValues): ?string
-    {
-        $sql = '';
-        if (! is_array($filterValues)) {
-            $sql .= " WHERE ";
-            foreach (static::$tableSchema as $column => $type) {
-                $sql .= " " . static::getTableName() . ".$column " . " LIKE '%". $filterValues ."%' OR \n " ;
-            }
-
-            self::removeLastWord($sql);
-            return $sql;
-        }
-        return  $sql;
     }
 }
