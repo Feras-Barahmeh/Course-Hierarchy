@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 07, 2023 at 09:03 PM
+-- Generation Time: Aug 09, 2023 at 10:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -178,24 +178,28 @@ INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `Department`, `LastName`
 
 CREATE TABLE `Students` (
   `StudentID` int(11) UNSIGNED NOT NULL,
-  `NumberHoursSuccess` tinyint(3) NOT NULL,
-  `AdmissionYear` date NOT NULL,
+  `NumberHoursSuccess` int(10) UNSIGNED NOT NULL,
+  `AdmissionYear` year(4) DEFAULT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
-  `DOB` date NOT NULL COMMENT 'Date Of Birth',
+  `Password` varchar(255) NOT NULL,
+  `StudentCollegeID` int(11) UNSIGNED NOT NULL,
+  `DOB` date DEFAULT NULL COMMENT 'Date Of Birth',
   `Gender` enum('Male','Female') NOT NULL,
-  `Address` varchar(200) NOT NULL,
+  `Address` varchar(200) DEFAULT NULL,
   `Email` varchar(100) NOT NULL,
   `Privilege` tinyint(3) UNSIGNED NOT NULL,
-  `PhoneNumber` varchar(11) DEFAULT NULL
+  `PhoneNumber` varchar(11) DEFAULT NULL,
+  `language` tinyint(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `Students`
 --
 
-INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`) VALUES
-(1, 50, '2023-07-14', 'Feras ', 'Barahmeh', '2013-07-17', 'Male', 'Amman-Jordan', 'ferasbarahmhe55@gmail.com', 0, '0785012269');
+INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`) VALUES
+(3, 150, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReOCycf/bQRYwqQUen6DXJCt8b1yNTYs8.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0),
+(4, 156, '2015', 'khaled', 'Barhmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', '', 'khaled@stu.ttu.edu.jo', 4, '', 0);
 
 -- --------------------------------------------------------
 
@@ -325,13 +329,13 @@ ALTER TABLE `Guide`
 -- AUTO_INCREMENT for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `UniversityMajors`
