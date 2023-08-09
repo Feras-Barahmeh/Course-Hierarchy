@@ -11,18 +11,8 @@
         </span>
     </h1>
 
+    @extend('layout.messages')@
     <div class="container mt-20">
-        <?php
-            if ($messages != null) {
-                foreach ($messages as $message) {
-                    ?>
-                        <div class="alert alert-danger plr-10 ptb-5 " role="alert">
-                            <?= $message[0]  ?>
-                        </div>
-                    <?php
-                }
-            }
-        ?>
         <div class="row mb-20">
             <div class="action col-lg-12 col-md-4 d-flex">
                 <a href="/colleges/" class="ml-auto">

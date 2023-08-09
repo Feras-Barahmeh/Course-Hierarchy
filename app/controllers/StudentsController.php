@@ -2,16 +2,20 @@
 
 namespace App\Controllers;
 
+use App\Core\Session;
 use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
+use App\Helper\HandsHelper;
 use App\Models\CollegeModel;
 use App\Models\StudentModel;
 use ErrorException;
+use JetBrains\PhpStorm\NoReturn;
 
 class StudentsController extends AbstractController
 {
     use Validation;
+    use HandsHelper;
     public static int $authentication = Privilege::Admin->value;
     /**
      * patterns check forms when add
@@ -24,6 +28,13 @@ class StudentsController extends AbstractController
         "Password"         => ["required"],
         "Gender"         => ["required", "max" => [6]],
         "Email"         => ["required", "email", "max" => [100]],
+    ];
+    private array $rolesEdit = [
+        "NumberHoursSuccess"  => ["required", "numeric", "max" => [165]],
+        "AdmissionYear"  => ["numeric", "between" => []],
+        "StudentCollegeID"  => ["required", "numeric"],
+        "FirstName"         => ["required", "required", "max" => [50]],
+        "LastName"         => ["required", "required", "max" => [50]],
     ];
     /**
      * #[GET('/students')]
@@ -102,15 +113,16 @@ class StudentsController extends AbstractController
                 $this->addErrorsMethodToSession($errors);
                 $flag = false;
             }
-
+            if ($_POST["Password"] !== $_POST["ConfirmPassword"]) {
+                $this->setMessage("error_not_match_password", '', MessagesType::Danger);
+                $flag = false;
+            }
             if ($flag) {
                 $student = new StudentModel();
-                if ($_POST["Password"] !== $_POST["ConfirmPassword"]) {
-                    $this->setMessage("error_not_match_password", '', MessagesType::Danger);
-                }
 
                 if (! $student->countRow("Email", $_POST["Email"])) {
                     $this->setProperties($student, $_POST);
+                    $student->Password = self::encryption($_POST["Password"]);
                     $student->Privilege = Privilege::Student->value;
                     $this->saveStudent($student);
 
@@ -126,5 +138,68 @@ class StudentsController extends AbstractController
         $this->authentication("students.add", [
             "colleges" => $colleges,
         ]);
+    }
+
+    /**
+     * #[GET('/students/edit')]
+     * @throws ErrorException
+     */
+    public function edit(): void
+    {
+        $this->language->load("template.common");
+        $this->language->load("students.common");
+        $this->language->load("students.edit");
+        $student = StudentModel::getByPK($this->params[0]);
+        if (! $student) {
+            $this->redirect("/students");
+        }
+        if (isset($_POST["edit"])) {
+            
+            $this->rolesEdit["AdmissionYear"]["between"] = [date('Y') - 10, date("Y")];
+
+            $errors = $this->valid($this->rolesEdit, $_POST);
+            $flag = true;
+
+            // If it forms Has Error
+            if (is_array($errors)) {
+                $this->addErrorsMethodToSession($errors);
+                $flag = false;
+            }
+
+            if ($flag) {
+                $this->setProperties($student, $_POST);
+                $this->saveStudent($student);
+            }
+        }
+
+
+        $colleges = CollegeModel::all();
+
+        $this->authentication("students.edit", [
+            "student" => $student,
+            "colleges" => $colleges,
+        ]);
+    }
+    #[NoReturn] public function delete(): void
+    {
+        $this->language->load("students.delete");
+
+        $id = $this->getParams()[0];
+
+        $student = StudentModel::getByPK($id);
+
+        if (! $student) {
+            $this->setMessage("not_exist", '', MessagesType::Danger);
+        }
+
+        $name = $student->FirstName . ' ' . $student->LastName;
+
+        if ($student->delete()) {
+            $this->setMessage("success", $name, MessagesType::Success);
+        } else {
+            $this->setMessage("fail", $name, MessagesType::Danger);
+        }
+
+        $this->redirect("/students");
     }
 }

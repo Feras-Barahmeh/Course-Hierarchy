@@ -137,7 +137,12 @@ trait HandsHelper
         $str = substr($str, 0, strlen($str) - 1);
     }
 
-    public static function getLastWord($str)
+    /**
+     * Get last word from string
+     * @param string $str the text you want remove last word from it
+     * @return string last word
+     */
+    public static function getLastWord($str): string
     {
         return substr($str, self::posLastWord($str), strlen($str));
     }

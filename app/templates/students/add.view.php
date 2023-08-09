@@ -129,18 +129,19 @@
                         <i class="fa-solid fa-arrow-down arrow "></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $students ?></span>
+                            </a>
+                        </li>
                         <li class="li-aside-menu" >
                             <a href="/students/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_student ?></span>
                             </a>
                         </li>
-                        <li class="li-aside-menu">
-                            <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
-                                <i class="fa fa-trash"></i>
-                                <span class="text"><?= $delete_student ?></span>
-                            </a>
-                        </li>
+
                     </ul>
                 </li>
                 <!-- End With Student -->
@@ -439,15 +440,15 @@
 
 
             <div class="col-md-4 input" required>
-                <label for="CollegeID" class="form-label mb-1"><?= $college_name ?></label>
-                <select class="form-select" id="CollegeID" name="CollegeID" required>
+                <label for="StudentCollegeID" class="form-label mb-1"><?= $college_name ?></label>
+                <select class="form-select" id="StudentCollegeID" name="StudentCollegeID" required>
                     <option value=""></option>
                     <?php
                         foreach ($colleges as $college) {
 
                             ?>
                                 <option
-                                    <?= $controller->setSelectedAttribute( $controller->getStorePost("CollegeID"), $college->CollegeID ) ?>
+                                    <?= $controller->setSelectedAttribute( $controller->getStorePost("StudentCollegeID"), $college->CollegeID ) ?>
                                         value="<?= $college->CollegeID ?>"
                                 >
                                     <?= $college->CollegeName ?>

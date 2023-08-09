@@ -109,8 +109,8 @@
 
                             ?>
                                 <option
-                                    <?= $controller->setSelectedAttribute( $controller->getStorePost("StudentCollegeID"), $college->StudentCollegeID ) ?>
-                                        value="<?= $college->StudentCollegeID ?>"
+                                    <?= $controller->setSelectedAttribute( $controller->getStorePost("StudentCollegeID"), $college->CollegeID ) ?>
+                                        value="<?= $college->CollegeID ?>"
                                 >
                                     <?= $college->CollegeName ?>
                                 </option>

@@ -7,10 +7,7 @@ $_["fail_email_unique"]              = "This email <span class='highlight'> %s <
 
 $_["password"]              = "Password";
 $_["confirm_password"]              = "Confirm Password";
-$_["first_name"]              = "First Name";
-$_["last_name"]              = "Last Name";
-$_["email"]              = "Email";
-$_["college_name"]              = "Name College";
+
 
 
 // Start Errors

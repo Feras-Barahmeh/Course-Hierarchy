@@ -137,7 +137,6 @@ class CollegesController extends AbstractController
 
 
         $this->authentication("colleges.edit", [
-            "messages" => Session::flash("message"),
             "collage" => $college,
         ]);
     }

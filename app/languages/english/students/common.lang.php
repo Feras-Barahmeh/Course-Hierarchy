@@ -9,6 +9,16 @@ $_["delete"]              = "Delete";
 $_["edit"]              = "Edit";
 $_["to_students"]              = "To Students";
 $_["to_pass_hours"]              = "Number Passed Hours Success";
+$_["first_name"]              = "First Name";
+$_["last_name"]              = "Last Name";
+$_["college_name"]              = "Name College";
+$_["phone_number"]              = "Phone Number";
+$_["admission_year"]              = "AdmissionYear";
+$_["DOB"]              = "DOB";
+$_["address"]              = "Address";
+
 $_["gender"]              = "Gender";
 $_["female"]              = "Female";
 $_["male"]              = "Male";
+
+$_["email"]              = "Email";
