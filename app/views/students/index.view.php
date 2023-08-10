@@ -15,7 +15,7 @@
     @extend('layout.messages')@
 
     <!-- Start Table -->
-    <div class="container container-table responsive-table">
+    <div class="container">
         <div class="row mb-20">
             <form action="" class="col-lg-6 col-md-4" METHOD="POST">
                 <div class="input-group flex-nowrap">
@@ -89,7 +89,7 @@
                                             <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
                                             <h4 class="title">
                                                 <?= $are_you_sure_delete ?>
-                                                <span class="highlight"><?= $student->CollegeName ?></span>
+                                                <span class="highlight"><?= $student->FirstName ?></span>
                                             </h4>
 
                                             <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
@@ -99,7 +99,7 @@
                                             <div class="row g-3 align-items-center">
                                                 <div class="col-12 input-container">
                                                     <label for="confirmText" class="col-form-label no-select">
-                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $student->CollegeName ?></span>
+                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $student->FirstName ?></span>
                                                         <?= $this_box ?>
                                                     </label>
                                                     <input type="text" id="confirmText" class="form-control">
@@ -129,7 +129,7 @@
             <?php
         }
         else {
-            ?> <div class="alert alert-danger p-1">No Colleges</div> <?php
+            ?> <div class="alert alert-danger p-1"><?= $no_students ?></div> <?php
         }
         ?>
 

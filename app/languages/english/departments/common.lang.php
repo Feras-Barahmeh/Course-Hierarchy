@@ -5,3 +5,4 @@ $_["text_department"]              = "Department";
 $_["college"]              = "College";
 $_["to_department"]              = "To Departments";
 $_["count_students"]              = "Count Students";
+$_["valid_feedback"]              = "Looks good!";

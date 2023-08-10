@@ -15,7 +15,7 @@
     @extend('layout.messages')@
 
     <!-- Start Table -->
-        <div class="container container-table responsive-table">
+        <div class="container">
             <div class="row mb-20">
                 <form action="" class="col-lg-6 col-md-4" METHOD="POST">
                     <div class="input-group flex-nowrap">
@@ -54,7 +54,7 @@
                                             <tr>
                                                 <td><?= $collage->CollegeID ?></td>
                                                 <td><?= $collage->CollegeName ?></td>
-                                                <td><?= $collage->TotalStudents ?></td>
+                                                <td><?= $collage->TotalStudentsInCollege ?></td>
                                                 <td class="exclude-hover">
                                                     <a href="/colleges/edit/<?= $collage->CollegeID ?>">
                                                         <button type="button" class="btn btn-success description" description="<?= $edit ?>">
@@ -113,7 +113,7 @@
                     <?php
                 }
                 else {
-                    ?> <div class="alert alert-danger p-1">No Colleges</div> <?php
+                    ?> <div class="alert alert-danger p-1"><?= $no_college ?></div> <?php
                 }
             ?>
 

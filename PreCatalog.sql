@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 09, 2023 at 10:48 PM
+-- Generation Time: Aug 10, 2023 at 04:20 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 1);
 
 -- --------------------------------------------------------
 
@@ -52,18 +52,15 @@ INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `langu
 CREATE TABLE `Colleges` (
   `CollegeID` int(11) UNSIGNED NOT NULL,
   `CollegeName` varchar(100) NOT NULL,
-  `TotalStudents` smallint(5) UNSIGNED NOT NULL
+  `TotalStudentsInCollege` smallint(5) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Colleges`
 --
 
-INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudents`) VALUES
-(1, 'Engineering', 6000),
-(2, 'Literature', 1200),
-(3, 'Medicine', 1500),
-(4, 'Business', 1600);
+INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudentsInCollege`) VALUES
+(1, ' كلية هندسة', 1);
 
 -- --------------------------------------------------------
 
@@ -89,18 +86,9 @@ CREATE TABLE `Courses` (
 CREATE TABLE `Departments` (
   `DepartmentID` int(11) UNSIGNED NOT NULL,
   `DepartmentName` varchar(100) NOT NULL,
-  `TotalStudents` smallint(5) DEFAULT 0,
+  `TotalStudentsInDepartment` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `CollegeID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `Departments`
---
-
-INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudents`, `CollegeID`) VALUES
-(2, 'Computer And Communications Engineering', 1500, 1),
-(3, 'Civil Engineering', 1300, 1),
-(13, 'Electricity', 1500, 1);
 
 -- --------------------------------------------------------
 
@@ -163,13 +151,6 @@ CREATE TABLE `Instructors` (
   `language` tinyint(2) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `Instructors`
---
-
-INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `Department`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
-(10, 'Instructor', 1, 'Bnz', 'instructor@stu.ttu.edu.jo', '', NULL, '', '', '', '0000-00-00', '0000-00-00', 5000.00, 6, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -198,8 +179,7 @@ CREATE TABLE `Students` (
 --
 
 INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`) VALUES
-(3, 150, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReOCycf/bQRYwqQUen6DXJCt8b1yNTYs8.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0),
-(4, 156, '2015', 'khaled', 'Barhmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', '', 'khaled@stu.ttu.edu.jo', 4, '', 0);
+(1, 15, NULL, 'مجد', 'براهمة', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -299,7 +279,7 @@ ALTER TABLE `Admin`
 -- AUTO_INCREMENT for table `Colleges`
 --
 ALTER TABLE `Colleges`
-  MODIFY `CollegeID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `CollegeID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Courses`
@@ -311,7 +291,7 @@ ALTER TABLE `Courses`
 -- AUTO_INCREMENT for table `Departments`
 --
 ALTER TABLE `Departments`
-  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Enrollment`
@@ -329,13 +309,13 @@ ALTER TABLE `Guide`
 -- AUTO_INCREMENT for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `UniversityMajors`

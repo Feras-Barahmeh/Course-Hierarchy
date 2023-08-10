@@ -59,9 +59,9 @@ class InstructorsController extends AbstractController
             $records = InstructorModel::fetch(true,  ["like" => $_POST["value_search"]]);
 
         } else if (isset($_POST["resit"])) {
-            $records = InstructorModel::fetch(true);
+            $records = InstructorModel::fetch();
         } else {
-            $records = InstructorModel::fetch(true);
+            $records = InstructorModel::fetch();
         }
 
         $this->authentication("instructors.index", [

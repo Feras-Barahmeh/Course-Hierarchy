@@ -2,7 +2,6 @@
 $_["already_exits"]              = "Instructors <span class='highlight'> %s </span> Already Exits";
 $_["text_instructors"]              = "Instructors";
 $_["invalid_feedback"]              = " Please provide a valid";
-$_["valid_feedback"]              = "Looks good!";
 $_["instructor"]              = "Instructor";
 $_["text_instructor"]              = "Instructor";
 $_["email"]              = "Email";

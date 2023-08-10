@@ -7,3 +7,4 @@ $_["id"]              = "ID";
 $_["controls"]              = "Controls";
 $_["delete"]              = "Delete";
 $_["edit"]              = "Edit";
+$_["no_students"] = "Not Added Students Yet";

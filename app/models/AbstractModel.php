@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Core\Database\DatabaseHandler;
 use App\Helper\HandsHelper;
 use ArrayIterator;
+use PDOStatement;
 
 class AbstractModel
 {
@@ -15,7 +16,7 @@ class AbstractModel
     const DATA_TYPE_DECIMAL = 4;
     const DATA_TYPE_DATE = 5;
 
-    private function bindParams(\PDOStatement &$stmt): void
+    private function bindParams(PDOStatement &$stmt): void
     {
         foreach (static::$tableSchema as $columnName => $type)
         {
@@ -30,7 +31,13 @@ class AbstractModel
             }
         }
     }
-
+    public static function lastRecord()
+    {
+        $sql = "SELECT LAST_INSERT_ID()";
+        $stmt = self::prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch()[0];
+    }
     private static function buildNameParamSQL(): string
     {
         $query  = '';
@@ -50,7 +57,7 @@ class AbstractModel
         ini_set('display_errors', 1);
 
         if ($stmt->execute()) {
-            $this->{static::$primaryKey} = DatabaseHandler::lastRecord();
+            $this->{static::$primaryKey} = self::lastRecord();
             return true;
         }
 
@@ -94,7 +101,22 @@ class AbstractModel
             return $this->update();
         }
     }
-
+    /**
+     * Prepare an SQL query for execution using the database handler.
+     *
+     * This private static method is used to prepare an SQL query for execution using the database handler from the
+     * DatabaseHandler class. The method takes a single parameter: `$sql` (a reference to the SQL query).
+     *
+     * The method returns a prepared statement that can be executed to interact with the database.
+     *
+     * @param string $sql A reference to the SQL query to be prepared for execution.
+     *
+     * @return PDOStatement|false Returns a prepared statement for the SQL query, or false on failure.
+     */
+    protected static function prepare(string &$sql): mixed
+    {
+        return DatabaseHandler::factory()->prepare($sql);
+    }
 
     public static function all(): bool|ArrayIterator
     {
@@ -436,8 +458,7 @@ class AbstractModel
             self::addWhere($sql, $joins);
 
             self::like($sql, $joins);
-            
-            $stmt = DatabaseHandler::factory()->prepare($sql);
+            $stmt = self::prepare($sql);
             $stmt->execute();
 
             return $stmt->fetchAll(\PDO::FETCH_CLASS);
@@ -515,12 +536,32 @@ class AbstractModel
      *
      * @author Feras Barahmeh
      */
-    public static function countRow(string|null $column, string $value): false|ArrayIterator
+    public static function ifExist(string|null $column, string $value): false|ArrayIterator
     {
         $calledClass = get_called_class();
         return (new $calledClass)->get("SELECT " . $column . " FROM " . static::$tableName . " WHERE " . $column . " = '$value'");
 
     }
+
+    public static function count($column='*', $where=[])
+    {
+        $sql = "SELECT COUNT({$column}) AS NumberRows FROM  " . static::getTableName();
+        
+        if ($where) {
+            $sql .= " WHERE ";
+            foreach ($where as $column => $value) {
+                $sql .= " {$column} = '{$value}'";
+            }
+        }
+
+        $stmt = self::prepare($sql);
+        if ($stmt->execute()) {
+            return $stmt->fetch()["NumberRows"];
+        }
+        return false;
+    }
+
+
     /**
      * Check if a value exists in any of the specified columns of the database table associated with the current model.
      *

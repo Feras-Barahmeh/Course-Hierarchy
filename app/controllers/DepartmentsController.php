@@ -7,6 +7,7 @@ use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
+use App\Models\StudentModel;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -90,9 +91,10 @@ class DepartmentsController extends AbstractController
                 // Check College Name is unique
                 $DepartmentName = $_POST["DepartmentName"];
 
-                if (! $department->countRow("DepartmentName", $DepartmentName)) {
+                if (! $department->ifExist("DepartmentName", $DepartmentName)) {
 
                     self::setProperties($department, $_POST);
+
                     if ($department->save()) {
                         $this->setMessage("success", $department->DepartmentName, MessagesType::Success->name);
                         $this->redirect("/departments");
@@ -122,7 +124,7 @@ class DepartmentsController extends AbstractController
         $this->language->load("departments.common");
         $this->language->load("departments.edit");
 
-        if (isset($this->params[0]) && DepartmentModel::countRow(DepartmentModel::getPK(),$this->params[0])) {
+        if (isset($this->params[0]) && DepartmentModel::ifExist(DepartmentModel::getPK(),$this->params[0])) {
             $pk = $this->params[0];
         } else {
             $this->redirect("/departments");

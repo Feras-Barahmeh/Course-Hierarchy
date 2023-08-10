@@ -6,7 +6,6 @@
     <h1 class="main-title">
         <i class="fa-solid fa-person-chalkboard"></i>
         <span class="">
-
             <?= $title ?>
         </span>
     </h1>
@@ -34,6 +33,7 @@
 
 
         <?php
+
         if ($instructors) {
             ?>
             <div class="container-table responsive-table">
@@ -141,7 +141,7 @@
             <?php
         }
         else {
-            ?> <div class="alert alert-danger p-1">No Colleges</div> <?php
+            ?> <div class="alert alert-danger p-1"><?= $no_instructor ?></div> <?php
         }
         ?>
 

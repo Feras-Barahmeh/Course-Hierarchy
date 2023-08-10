@@ -21,7 +21,7 @@
             <p class="title fs-15 fw-500 text-truncate"><?= $main ?> </p>
             <ul class="plr-10">
                 <li class="li-aside-menu <?= $controller->compareURL('/') === true ? 'active' : '' ?>"
-                    has-sub-menu="false" title="Home">
+                    has-sub-menu="false" title="<?= $home ?>">
 
                     <a href="/" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-home"></i>
@@ -33,17 +33,17 @@
                 <!-- Start With Student -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/students/add', '/students']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Students >> ">
+                    has-sub-menu="true" title="<?= $text_students ?> ">
                     <button  class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-users"></i>
-                        <span class="text"><?= $students  ?></span>
+                        <span class="text"><?= $text_students  ?></span>
                         <i class="fa-solid fa-arrow-down arrow "></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
                             <a href="/students" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
                                 <i class="fa-solid fa-eye"></i>
-                                <span class="text"><?= $students ?></span>
+                                <span class="text"><?= $text_students ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu" >
@@ -60,7 +60,7 @@
                 <!-- Start With Instructor -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/instructors/add', '/instructors']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Instructors >> ">
+                    has-sub-menu="true" title="<?= $text_instructors ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-person-chalkboard"></i>
@@ -89,7 +89,7 @@
                 <!-- Start With colleges -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/colleges/add', '/colleges']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Colleges >> ">
+                    has-sub-menu="true" title="<?= $collages ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-building-columns"></i>
@@ -117,7 +117,7 @@
 
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/departments/add', '/departments']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="<?= $text_departments ?> >> ">
+                    has-sub-menu="true" title="<?= $text_departments ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-layer-group"></i>
@@ -145,7 +145,7 @@
                 <!-- start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="vote >>">
+                    has-sub-menu="true" title="<?= $votes ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-vote-yea"></i>
@@ -181,7 +181,7 @@
                 <!-- Start With Settings -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/settings/language', '/settings']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="Settings >> ">
+                    has-sub-menu="true" title="<?= $settings ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-gears"></i>
@@ -209,13 +209,13 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate"><?= $account ?> </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/help') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Help">
+                <li class="li-aside-menu <?= $controller->compareURL('/help') === true ? 'active' : '' ?> " has-sub-menu="false"  title="<?= $help ?>">
                     <a href="#" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-info-circle"></i>
                         <span class="text"><?= $help ?></span>
                     </a>
                 </li>
-                <li class="li-aside-menu <?= $controller->compareURL('/logout') === true ? 'active' : '' ?> " has-sub-menu="false"  title="Logout">
+                <li class="li-aside-menu <?= $controller->compareURL('/logout') === true ? 'active' : '' ?> " has-sub-menu="false"  title="<?= $logout ?>">
                     <a href="/auth/logout" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-arrow-left"></i>
                         <span class="text"><?= $logout ?></span>

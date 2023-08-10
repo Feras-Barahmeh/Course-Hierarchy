@@ -64,24 +64,6 @@
                 </div>
 
 
-                <div class="col-md-6">
-                    <label for="TotalStudents" class="form-label mb-1"><?= $count_students ?></label>
-                    <input type="number"
-                           class="form-control"
-                           id="TotalStudents"
-                           between="0, 65535"
-                           name="TotalStudents"
-                           value="<?= $controller->getStorePost("TotalStudents") ?>"
-                           required
-                    >
-                    <div class="valid-feedback">
-                        <?= $valid_feedback ?>
-                    </div>
-                    <div class="invalid-feedback">
-                        <?= $number_students_invalid_feedback ?>
-                    </div>
-                </div>
-
                 <div class="col-12">
                     <button class="main-btn" name="add" type="submit"><?= $add_department ?></button>
                 </div>

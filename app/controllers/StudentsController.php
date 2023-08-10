@@ -8,6 +8,7 @@ use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
 use App\Models\CollegeModel;
+use App\Models\DepartmentModel;
 use App\Models\StudentModel;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
@@ -120,10 +121,11 @@ class StudentsController extends AbstractController
             if ($flag) {
                 $student = new StudentModel();
 
-                if (! $student->countRow("Email", $_POST["Email"])) {
+                if (! $student->ifExist("Email", $_POST["Email"])) {
                     $this->setProperties($student, $_POST);
                     $student->Password = self::encryption($_POST["Password"]);
                     $student->Privilege = Privilege::Student->value;
+                    CollegeModel::increasingStudent($student->StudentCollegeID);
                     $this->saveStudent($student);
 
                 } else {
@@ -194,7 +196,10 @@ class StudentsController extends AbstractController
 
         $name = $student->FirstName . ' ' . $student->LastName;
 
+        $idCollege = $student->StudentCollegeID;
+
         if ($student->delete()) {
+            CollegeModel::decreasingStudent($idCollege);
             $this->setMessage("success", $name, MessagesType::Success);
         } else {
             $this->setMessage("fail", $name, MessagesType::Danger);

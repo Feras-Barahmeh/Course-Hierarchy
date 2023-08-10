@@ -14,7 +14,7 @@
     @extend('layout.messages')@
 
     <!-- Start Table -->
-    <div class="container container-table responsive-table">
+    <div class="container">
         <div class="row mb-20">
             <form action="" class="col-lg-6 col-md-4" METHOD="POST">
                 <div class="input-group flex-nowrap">

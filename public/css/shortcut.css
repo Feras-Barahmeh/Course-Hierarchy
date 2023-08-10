@@ -651,6 +651,9 @@
     overflow-y: hidden;
     position: relative;
 }
+.container-table::-webkit-scrollbar  {
+    width: 10px;
+}
 .bar-pagination {
     width: 100%;
     display: flex;

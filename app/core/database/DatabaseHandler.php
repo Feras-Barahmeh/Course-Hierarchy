@@ -23,11 +23,4 @@ abstract class DatabaseHandler
         }
         return PDODatabaseHandler::getInstance();
     }
-
-    public static function lastRecord()
-    {
-        $stmt = self::factory()->prepare("SELECT LAST_INSERT_ID()");
-        $stmt->execute();
-        return $stmt->fetch()[0];
-    }
 }

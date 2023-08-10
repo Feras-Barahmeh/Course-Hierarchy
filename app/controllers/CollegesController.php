@@ -7,6 +7,7 @@ use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Models\CollegeModel;
+use App\Models\StudentModel;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -93,8 +94,9 @@ class CollegesController extends AbstractController
 
                 // Check College Name is unique
                 $CollegeName = $_POST["CollegeName"];
-                if (! $college->countRow("CollegeName", $CollegeName)) {
+                if (! $college->ifExist("CollegeName", $CollegeName)) {
                     $this->setProperties($college, $_POST);
+                    $college->TotalStudentsInCollege = StudentModel::count("StudentID", ["StudentCollegeID" => CollegeModel::lastRecord()]);
                     $this->saveCollege($college);
                 } else {
                     $this->setMessage("already_exits", $CollegeName, MessagesType::Danger->name);

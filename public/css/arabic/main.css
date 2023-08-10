@@ -34,6 +34,9 @@ li {
     text-decoration: none;
     list-style: none;
 }
+input {
+    direction: rtl;
+}
 .main-color {
     color: var(--bg-black-100);
 }
@@ -92,7 +95,11 @@ li {
     left: auto;
 }
 button.show-password {
-    left: -80%;
+    left: 5%;
+    right: unset;
+}
+.asterisk-required {
+    right: 0;
 }
 /* End General Settings */
 
@@ -455,6 +462,7 @@ aside[expanded="false"]  .menu > ul > li > ul[sub-menu] {
 
 /* Start Main  */
 main {
+    overflow-x: hidden;
     transition: all .3s ease-in-out;
 }
 aside[expanded="true"] ~ main {

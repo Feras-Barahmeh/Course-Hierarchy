@@ -113,7 +113,7 @@ class AuthController extends AbstractController
 
                 $passwordColumn = $columns["password"];
 
-                $nameColumn = $this->searchColumnContainName($user->getColumns());
+                $nameColumn = $this->searchColumnContainName($user::getTableSchema());
 
                 $valid = $this->verifyPassword($user->$passwordColumn, $password, $user->{$nameColumn});
 

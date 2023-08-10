@@ -429,6 +429,7 @@ aside[expanded="false"]  .menu > ul > li > ul[sub-menu] {
 
 /* Start Main  */
 main {
+    overflow-x: hidden;
     transition: all .3s ease-in-out;
 }
 aside[expanded="true"] ~ main {

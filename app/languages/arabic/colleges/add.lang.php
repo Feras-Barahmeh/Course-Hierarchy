@@ -7,5 +7,5 @@ $_["fail"]              = "فشل اضافة كلية  <span class='highlight'> 
 
 $_["to_college"]              = "العودة للكليات";
 $_["name_college"]              = "اسم الكلية";
-$_["name_college_invalid-feedback"] = "يجب أن يكون اسم الكلية بين 5 و 100 حرف";
+$_["name_college_invalid_feedback"] = "يجب أن يكون اسم الكلية بين 5 و 100 حرف";
 $_["number_students_invalid-feedback"] = "يجب أن يكون عدد الطلاب بين 0 و 65,535";

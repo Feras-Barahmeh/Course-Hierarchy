@@ -15,7 +15,7 @@ $_["search"]                          = "بحث";
 // Start Aside
 $_["main"]                = "الرئيسية";
 $_["home"]                = "الصفحة الرئيسية";
-$_["students"]            = "الطلاب";
+$_["text_students"]            = "الطلاب";
 $_["add_student"]         = "إضافة طالب";
 $_["delete_student"]      = "حذف طالب";
 $_["text_instructors"]         = "المدربين";
@@ -43,5 +43,5 @@ $_["cansel"] = "إلغاء";
 // End popup
 
 // Start Validation
-$_["valid-feedback"] = "تبدو جيدة!";
+$_["valid_feedback"] = "تبدو جيدة!";
 // End Validation
