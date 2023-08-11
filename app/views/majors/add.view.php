@@ -39,7 +39,9 @@
 
             <div class="col-md-6 input" required>
                 <label for="NumberHoursMajor" class="form-label mb-1"><?= $number_hours_major ?></label>
-                <input type="number" class="form-control" id="NumberHoursMajor" between="132,165" name="NumberHoursMajor" value="<?= $controller->getStorePost("NumberHoursMajor") ?>" required autocomplete="none">
+                <input type="number" class="form-control" id="NumberHoursMajor"  between="130, 257"
+                       name="NumberHoursMajor" value="<?= $controller->getStorePost("NumberHoursMajor") ?>"
+                       required autocomplete="none">
                 <div class="valid-feedback">
                     <?= $valid_feedback ?>
                 </div>

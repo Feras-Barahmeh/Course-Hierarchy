@@ -21,7 +21,6 @@ class MajorModel extends AbstractModel
         "CoursesNumber" => self::DATA_TYPE_INT,
         "MajorDepartmentID" => self::DATA_TYPE_INT,
         "MajorCollegeID" => self::DATA_TYPE_INT,
-        "NumberStudentInMajor" => self::DATA_TYPE_INT,
         "MajorName" => self::DATA_TYPE_STR,
     ];
     protected static array $Unique = [

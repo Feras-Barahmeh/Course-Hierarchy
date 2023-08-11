@@ -64,7 +64,7 @@
                             <td><?= $major->DepartmentName ?></td>
                             <td><?= $major->CollegeName ?></td>
                             <td class="exclude-hover">
-                                <a href="/majors/edit/<?= $major->DepartmentID ?>">
+                                <a href="/majors/edit/<?= $major->MajorID ?>">
                                     <button type="button" class="btn btn-success description" description="<?= $edit ?>">
                                         <i class="fa fa-edit"></i>
                                     </button>
@@ -81,7 +81,7 @@
                                             <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
                                             <h4 class="title">
                                                 <?= $are_you_sure_delete ?>
-                                                <span class="highlight"><?= $major->DepartmentName ?></span>
+                                                <span class="highlight"><?= $major->MajorName ?></span>
                                             </h4>
 
                                             <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
@@ -91,13 +91,13 @@
                                             <div class="row g-3 align-items-center">
                                                 <div class="col-12 input-container">
                                                     <label for="confirmText" class="col-form-label no-select">
-                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $major->DepartmentName ?></span>
+                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $major->MajorName ?></span>
                                                         <?= $this_box ?>
                                                     </label>
                                                     <input type="text" id="confirmText" class="form-control">
                                                     <div class="buttons mt-10">
                                                         <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
-                                                        <a href="/majors/delete/<?= $major->DepartmentID ?>" >
+                                                        <a href="/majors/delete/<?= $major->MajorID ?>" >
                                                             <button class="btn btn-danger" apply> <?= $apply  ?> </button>
                                                         </a>
                                                     </div>

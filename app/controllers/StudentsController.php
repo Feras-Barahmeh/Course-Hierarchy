@@ -32,6 +32,7 @@ class StudentsController extends AbstractController
         "Password"         => ["required"],
         "Gender"         => ["required", "max" => [6]],
         "Email"         => ["required", "email", "max" => [100]],
+        "MajorID"         => ["required"],
     ];
     private array $rolesEdit = [
         "NumberHoursSuccess"    => ["required", "numeric", "max" => [165]],
@@ -40,6 +41,7 @@ class StudentsController extends AbstractController
         "FirstName"             => ["required", "required", "max" => [50]],
         "LastName"              => ["required", "required", "max" => [50]],
         "DOB"                   => ["date"],
+        "MajorID"         => ["required"]
     ];
     /**
      * #[GET('/students')]
@@ -126,6 +128,7 @@ class StudentsController extends AbstractController
                 $this->setMessage("error_not_match_password", '', MessagesType::Danger);
                 $flag = false;
             }
+
             if ($flag) {
                 $student = new StudentModel();
 
@@ -217,7 +220,6 @@ class StudentsController extends AbstractController
         $idMajor = $student->StudentMajor;
 
         $major = CollegeModel::row("SELECT * FROM " . MajorModel::getTableName() . " Where  " . MajorModel::getPK() . " = '{$idMajor}'");
-
 
         if ($student->delete()) {
             self::decrement(CollegeModel::class, "TotalStudentsInCollege", $idCollege);

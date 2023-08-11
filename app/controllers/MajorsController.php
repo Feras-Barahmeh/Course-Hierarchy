@@ -18,16 +18,16 @@ class MajorsController extends AbstractController
 
     public static int $authentication = Privilege::Admin->value;
     private array $rolesAdd = [
-        "NumberHoursMajor"      => ["required", "between" => [130, 257]],
-        "CoursesNumber"         => ["required", "int", "between" => [40, 85]],
+        "NumberHoursMajor"      => ["required", "posInt", "between" => [130, 257]],
+        "CoursesNumber"         => ["required", "int", "posInt","between" => [40, 85]],
         "MajorName"             => ["required", "alpha", "max" => [100]],
-        "MajorDepartmentID"     => ["required", "numeric"],
+        "MajorDepartmentID"     => ["required", "posInt", "numeric"],
     ];
     private array $rolesEdit = [
-        "NumberHoursMajor"      => ["required", "between" => [130, 257]],
-        "CoursesNumber"         => ["required", "int", "between" => [40, 85]],
+        "NumberHoursMajor"      => ["required", "posInt", "between" => [130, 257]],
+        "CoursesNumber"         => ["required", "int", "posInt", "between" => [40, 85]],
         "MajorName"             => ["required", "alpha", "max" => [100]],
-        "MajorDepartmentID"     => ["required", "numeric"],
+        "MajorDepartmentID"     => ["required", "posInt", "numeric"],
     ];
 
     /**

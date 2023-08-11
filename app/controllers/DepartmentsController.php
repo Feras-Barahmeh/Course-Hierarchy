@@ -8,13 +8,15 @@ use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
-use App\Models\StudentModel;
+use App\Models\Model;
+use App\Models\OperationHandler;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
 
 class DepartmentsController extends AbstractController
 {
     use Validation;
+    use OperationHandler;
     public static int $authentication = Privilege::Admin->value;
 
 
@@ -169,15 +171,16 @@ class DepartmentsController extends AbstractController
         $department = DepartmentModel::getByPK($id);
 
         if (! $department) {
-            $this->setMessage("not_exist", '', MessagesType::Danger->name);
+            $this->setMessage("not_exist", '', MessagesType::Danger);
+            $this->redirect("/departments");
         }
 
-        $name = $department->DepartmentName;
-
         if ($department->delete()) {
-            $this->setMessage("success", $name, MessagesType::Success->name);
+            self::decrement(CollegeModel::class, "TotalStudentsInCollege", $department->CollegeID, $department->TotalStudentsInDepartment);
+            $this->setMessage("success", $department->DepartmentName, MessagesType::Success);
+
         } else {
-            $this->setMessage("fail", $name, MessagesType::Danger->name);
+            $this->setMessage("fail", $department->DepartmentName, MessagesType::Danger);
         }
 
         $this->redirect("/departments");

@@ -102,7 +102,7 @@
 
             <div class="col-md-4 input" required>
                 <label for="MajorID" class="form-label mb-1"><?= $major_name ?></label>
-                <select class="form-select" id="StudentMajor" name="MajorID" required>
+                <select class="form-select" id="MajorID" name="MajorID" required>
                     <option value=""></option>
                     <?php
                     foreach ($majors as $major) {

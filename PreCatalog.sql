@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2023 at 10:34 PM
+-- Generation Time: Aug 12, 2023 at 12:15 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -60,7 +60,7 @@ CREATE TABLE `Colleges` (
 --
 
 INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudentsInCollege`) VALUES
-(1, 'Enginnering', 1);
+(1, 'Engineering', 1);
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,7 @@ CREATE TABLE `Courses` (
 CREATE TABLE `Departments` (
   `DepartmentID` int(11) UNSIGNED NOT NULL,
   `DepartmentName` varchar(100) NOT NULL,
-  `TotalStudentsInDepartment` smallint(5) UNSIGNED DEFAULT 0,
+  `TotalStudentsInDepartment` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `CollegeID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -95,7 +95,7 @@ CREATE TABLE `Departments` (
 --
 
 INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudentsInDepartment`, `CollegeID`) VALUES
-(1, 'Computer and communications Engineering', 1, 1);
+(1, 'Computer and Communications Engineering', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -163,7 +163,7 @@ CREATE TABLE `Instructors` (
 --
 
 INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
-(1, 'Naem', 1, 'Alodat', 'naem@stu.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1500.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
+(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1500.00, 10, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
 
 -- --------------------------------------------------------
 
@@ -174,7 +174,7 @@ INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`
 CREATE TABLE `Majors` (
   `MajorID` int(11) UNSIGNED NOT NULL,
   `NumberHoursMajor` tinyint(3) UNSIGNED NOT NULL,
-  `NumberStudentInMajor` smallint(5) UNSIGNED DEFAULT 0,
+  `NumberStudentInMajor` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   `CoursesNumber` tinyint(3) UNSIGNED NOT NULL,
   `MajorName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `MajorDepartmentID` int(11) UNSIGNED NOT NULL,
@@ -186,8 +186,7 @@ CREATE TABLE `Majors` (
 --
 
 INSERT INTO `Majors` (`MajorID`, `NumberHoursMajor`, `NumberStudentInMajor`, `CoursesNumber`, `MajorName`, `MajorDepartmentID`, `MajorCollegeID`) VALUES
-(2, 162, 1, 62, 'intelligent system Engineering', 1, 1),
-(3, 182, NULL, 45, 'new ', 1, 1);
+(1, 162, 1, 62, 'Intelligent System Engineering', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +217,7 @@ CREATE TABLE `Students` (
 --
 
 INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`) VALUES
-(1, 15, NULL, 'Majd ', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 2);
+(1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -343,13 +342,13 @@ ALTER TABLE `Instructors`
 -- AUTO_INCREMENT for table `Majors`
 --
 ALTER TABLE `Majors`
-  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

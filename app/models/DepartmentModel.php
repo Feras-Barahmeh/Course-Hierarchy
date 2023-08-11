@@ -15,7 +15,6 @@ class DepartmentModel extends AbstractModel
     public static array $tableSchema = [
         "DepartmentID"   => self::DATA_TYPE_INT,
         "DepartmentName"     => self::DATA_TYPE_STR,
-        "TotalStudentsInDepartment" => self::DATA_TYPE_INT,
         "CollegeID" => self::DATA_TYPE_INT,
     ];
     protected static array $Unique = [

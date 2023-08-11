@@ -161,7 +161,7 @@
 
                 <div class="col-md-6">
                     <label for="Address" class="form-label mb-1"><?= $address ?></label>
-                    <input type="number"
+                    <input type="text"
                            class="form-control"
                            id="Address"
                            between="2, 100"
