@@ -113,7 +113,6 @@ class MajorsController extends AbstractController
             if ($flag) {
                 $majorName = FilterInput::str($_POST["MajorName"]);
                 if (! MajorModel::ifExist("MajorName", $majorName)) {
-                    // TODO: Set Total Student
                     $major = new MajorModel();
                     self::setProperties($major, $_POST);
                     $college = DepartmentModel::row("Select CollegeID FROM Departments Where DepartmentID = {$_POST['MajorDepartmentID']}" )->CollegeID;
