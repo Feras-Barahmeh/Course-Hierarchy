@@ -10,7 +10,7 @@ class InstructorModel extends AbstractModel
     public $InstructorID;
     public  $FirstName;
     public  $LastName;
-    public  $Department;
+    public  $InstructorDepartmentID;
     public  $Email;
     public  $PhoneNumber;
     public  $Address;
@@ -35,9 +35,10 @@ class InstructorModel extends AbstractModel
         "InstructorID"                  => self::DATA_TYPE_INT,
         "FirstName"                     => self::DATA_TYPE_STR,
         "LastName"                      => self::DATA_TYPE_STR,
-        "Department"                    => self::DATA_TYPE_INT,
+        "InstructorDepartmentID"        => self::DATA_TYPE_INT,
         "Email"                         => self::DATA_TYPE_STR,
         "PhoneNumber"                   => self::DATA_TYPE_STR,
+        "Address"                   => self::DATA_TYPE_STR,
         "City"                          => self::DATA_TYPE_STR,
         "State"                         => self::DATA_TYPE_STR,
         "Country"                       => self::DATA_TYPE_STR,

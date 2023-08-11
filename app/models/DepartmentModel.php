@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-
-
-use App\Core\Database\DatabaseHandler;
-
 class DepartmentModel extends AbstractModel
 {
 

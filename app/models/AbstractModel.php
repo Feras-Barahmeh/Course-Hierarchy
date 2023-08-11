@@ -234,69 +234,9 @@ class AbstractModel
         } else {
             self::appendColumnsWithAliases($sql, $table, $options["columns"]);
         }
-        $sql .= ' ';
+        $sql .= ', ';
     }
-    /**
-     * Set the join type and target joint table in an SQL query based on provided options.
-     *
-     * This private static method is used to set the join type and target joint table in an SQL query based on the provided `$options`
-     * array and the class representing the joint table. The method takes three parameters: `$sql` (a reference to the SQL query),
-     * `$options` (the array of join options), and `$jointTable` (the class representing the joint table).
-     *
-     * The method checks if a join type is specified in the `$options` array. If a join type is provided, it sets the specified join
-     * type (INNER, LEFT, RIGHT, etc.) for the SQL query. If no join type is provided, the method sets the default join type to INNER.
-     *
-     * The method then appends the join type and the target joint table to the SQL query, completing the join clause for the specified table.
-     *
-     * @param string $sql A reference to the SQL query to which the join type and target joint table are added.
-     * @param array $options An array of join options for constructing the SQL query.
-     * @param string $jointTable The class representing the joint table.
-     *
-     * @return void
-     */
-    private static function setTypeJoin(string &$sql, array $options, string $jointTable): void
-    {
-        $type = $options["type"] ?? "INNER ";
-        $sql .= " {$type} JOIN {$jointTable}s ";
-    }
-    /**
-     * Set join conditions for a table in an SQL query based on provided options.
-     *
-     * This private static method is used to set join conditions for a table in an SQL query based on the provided `$condition`
-     * array and the target joint table. The method takes three parameters: `$sql` (a reference to the SQL query), `$condition`
-     * (the array of join conditions), and `$jointTable` (the class representing the joint table).
-     *
-     * The method checks if "on" conditions are specified in the `$condition` array. If "on" conditions are provided, the method
-     * constructs the join conditions by iterating through each entry in the "on" array and generating equality conditions between
-     * columns from the main table and the joint table.
-     *
-     * If no "on" conditions are provided, the method sets a default join condition based on the primary keys of both the main
-     * table and the joint table.
-     *
-     * The resulting join conditions are appended to the SQL query, completing the join clause for the specified table.
-     *
-     * @param string $sql A reference to the SQL query to which join conditions are added.
-     * @param array $condition An array of join conditions for constructing the SQL query.
-     * @param string $jointTable The class representing the joint table.
-     *
-     * @return void
-     */
-    private static function setConditionJoin(string &$sql, array $condition, string $jointTable): void
-    {
-      
-        $on = ' ';
-        if (isset($condition["on"])) {
 
-            $conditions = $condition["on"];
-            foreach ($conditions as $leftColumn => $rightColumn) {
-                $on .= static::getTableName() . ".{$leftColumn} = {$jointTable::getTableName()}.{$rightColumn} ";
-            }
-        } else {
-            $on = static::getTableName() . '.' . $jointTable::getPK() . ' = ' . $jointTable::getTableName() . '.'. $jointTable::getPK();
-        }
-
-        $sql .= " ON {$on}";
-    }
     /**
      * Add custom "WHERE" conditions to an SQL query based on provided options.
      *
@@ -315,7 +255,7 @@ class AbstractModel
     private static function addWhere(string &$sql, array $where): void
     {
         if (isset($where["where"])) {
-            $sql .= $where["where"];
+            $sql .= $where["where"] . "\n";
         }
         
     }
@@ -370,13 +310,13 @@ class AbstractModel
      * @param array $joins An array of join and filter options for constructing the custom SQL query.
      *
      * @return string The generated SQL query string with join clauses based on the provided join options.
+     *
+     * @version 1.2
+     * @author Feras Barahmeh
      */
     public static function createJoin(array $joins): string
     {
-        $sql = "SELECT ";
-
-        self::setColumns($sql, static::$tableName, static::class);
-        $sql .= ', ';
+        $sql = "SELECT " . static::getTableName() .'.*, ';
 
         foreach ($joins as $table => $options) {
 
@@ -386,13 +326,30 @@ class AbstractModel
 
             self::setColumns($sql, $table.'s', $model);
 
-            $sql .= " FROM " . static::getTableName() . ' ';
-            self::setTypeJoin($sql, $options, $table);
-
-            self::setConditionJoin($sql, $options, $model);
-        
         }
+        self::removeLastChar($sql);
+        $sql .= "\n FROM " . static::getTableName() . ' ';
+
+        $tables = array_keys($joins);
         
+        foreach ($tables as $table) {
+            $tableJoint = $joins[$table];
+            $type = $tableJoint["type"] ?? "\nINNER ";
+            $sql .= " {$type} JOIN \n{$table}s ";
+            
+            // Start Condition Join
+            if (isset($tableJoint["on"])) {
+                $on = $tableJoint["on"];
+                $onSql = ' ';
+                foreach ($on as $left => $right) {
+                    $onSql .= "\n ON ".static::getTableName().".{$left} = ".$table."s.{$right} ";
+                }
+                $sql .= $onSql;
+            } else {
+                throw new \Error("Must Contain Conditions");
+            }
+        }
+        $sql .= "\n";
         return $sql;
     }
 
@@ -491,6 +448,7 @@ class AbstractModel
 
     /**
      * Get table name for model
+     *
      * @return mixed
      */
     public static function getTableName(): mixed
@@ -499,7 +457,8 @@ class AbstractModel
     }
 
     /**
-     * Get primary key model
+     * Get name primary key model
+     *
      * @return mixed
      */
     public static function getPK(): mixed

@@ -38,7 +38,7 @@
         if ($students) {
             ?>
             <div class="container-table responsive-table">
-                <table class="table pagination-table">
+                <table class="table pagination-table upper">
                     <thead class="table-dark">
                     <tr>
                         <td><?= $id  ?></td>

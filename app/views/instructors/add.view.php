@@ -1,3 +1,9 @@
+<?php
+
+use App\Enums\ActiveUser;
+use App\Enums\FullTime;
+
+?>
 @extend('layout.header')@
 @extend('layout.nav')@
 @extend('layout.aside')@
@@ -96,14 +102,17 @@
             </div>
 
             <div class="col-md-4 input" required>
-                <label for="Department" class="form-label mb-1"><?= $department ?></label>
-                <select class="form-select" id="Department" name="Department" required>
+                <label for="InstructorDepartmentID" class="form-label mb-1"><?= $department ?></label>
+                <select class="form-select" id="InstructorDepartmentID" name="InstructorDepartmentID" required>
                     <option value=""></option>
                     <?php
                         foreach ($departments as $department) {
 
                             ?>
-                                <option <?= $controller::setSelectedAttribute($department->DepartmentID, $controller->getStorePost("DepartmentID") ) ?> value="<?= $department->DepartmentID ?>"><?= $department->DepartmentName ?></option>
+                                <option <?= $controller::setSelectedAttribute($department->DepartmentID, $controller->getStorePost("InstructorDepartmentID") ) ?>
+                                        value="<?= $department->DepartmentID ?>">
+                                    <?= $department->DepartmentName ?>
+                                </option>
                             <?php
                         }
                     ?>
@@ -139,10 +148,10 @@
                     <option selected disabled value="<?= $controller->getStorePost("IfFullTime") ?>">
                         <?= $controller->getStorePost("IfFullTime") ?  $yes :$choose ?>
                     </option>
-                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IfFullTime") ) ?> value="1">
+                    <option <?= $controller::setSelectedAttribute(FullTime::Yes->value, $controller->getStorePost("IfFullTime") ) ?> value="1">
                         <?= $yes ?>
                     </option>
-                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IfFullTime") ) ?> value="0">
+                    <option <?= $controller::setSelectedAttribute(FullTime::No->value, $controller->getStorePost("IfFullTime") ) ?> value="0">
                         <?= $no ?>
                     </option>
                 </select>
@@ -157,8 +166,8 @@
                     <option selected disabled value="<?= $controller->getStorePost("IsActive") ?>">
                         <?= $controller->getStorePost("IsActive") ?  $yes :$choose ?>
                     </option>
-                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IsActive") ) ?> value="1"><?= $yes ?></option>
-                    <option <?= $controller::setSelectedAttribute($department->IfFullTime, $controller->getStorePost("IsActive") ) ?> value="0"><?= $no ?></option>
+                    <option <?= $controller::setSelectedAttribute(ActiveUser::Yes->value, $controller->getStorePost("IsActive") ) ?> value="1"><?= $yes ?></option>
+                    <option <?= $controller::setSelectedAttribute(ActiveUser::No->value, $controller->getStorePost("IsActive") ) ?> value="0"><?= $no ?></option>
                 </select>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>

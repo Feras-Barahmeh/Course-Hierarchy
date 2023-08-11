@@ -2,14 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Core\Session;
+use App\Core\FilterInput;
 use App\Core\Validation;
-use App\Core\View;
 use App\Enums\Language;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
-use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
 use App\Models\InstructorModel;
 use ErrorException;
@@ -23,17 +21,17 @@ class InstructorsController extends AbstractController
     private array $rolesAdd = [
         "FirstName"                     => ["required", "alpha", "between" => [2, 50]],
         "LastName"                      => ["required", "between" => [2, 50]],
-        "Department"                    => ["required", "int", "posInt"],
+        "InstructorDepartmentID"        => ["required", "int", "posInt"],
         "Email"                         => ["required", "email", "between" => [LEN_TDL_EMAIL, 100]],
         "Salary"                        => ["required", "float"],
-        "Password"                      => ["required", "between" => [2, 200]],
+        "Password"                      => ["required", "alphaNum"],
         "NationalIdentificationNumber"  => ["required", "alphaNum", "equal" => [11]],
         "IfFullTime"                    => ["required"],
         "IsActive"                      => ["required"],
     ];
 
     private array $rolesEdit = [
-        "PhoneNumber"                   => ["numeric", "between" => [10, 10]],
+        "PhoneNumber"                   => ["numeric", "equal" => [10]],
         "Address"                       => ["between" => [2, 100]],
         "City"                          => ["alpha", "between" => [2, 50]],
         "State"                         => ["alpha", "between" => [2, 50]],
@@ -53,19 +51,20 @@ class InstructorsController extends AbstractController
         $this->language->load("instructors.common");
         $this->language->load("instructors.index");
 
+        $extensionQuery = [
+            "Department" => [
+                "on" => ["InstructorDepartmentID" => DepartmentModel::getPK()],
+            ]
+        ];
 
-        $records = null;
         if (isset($_POST["search"])) {
-            $records = InstructorModel::fetch(true,  ["like" => $_POST["value_search"]]);
-
-        } else if (isset($_POST["resit"])) {
-            $records = InstructorModel::fetch();
-        } else {
-            $records = InstructorModel::fetch();
+            $extensionQuery["Department"]["like"] = FilterInput::str($_POST["value_search"]);
         }
 
+        $instructors = InstructorModel::fetch(false, $extensionQuery);
+
         $this->authentication("instructors.index", [
-            "instructors" => $records,
+            "instructors" => $instructors,
         ]);
     }
     /**
@@ -155,6 +154,7 @@ class InstructorsController extends AbstractController
                 $this->setInstructorColumnsValues($instructor, $_POST);
 
 
+                // TODO: Change To If Exist
                 if ($instructor::existsInTable($_POST["Email"]) !== true) {
                     $this->setMessage(
                         "fail_email_unique",
@@ -219,6 +219,7 @@ class InstructorsController extends AbstractController
         $this->language->load("instructors.edit");
 
         $instructor = InstructorModel::getByPK($this->params[0]);
+        if (! $instructor) $this->redirect("/instructors");
 
         if (isset($_POST["edit"])) {
             $errors = $this->valid($this->rolesEdit, $_POST);
@@ -264,6 +265,7 @@ class InstructorsController extends AbstractController
         $this->language->load("instructors.delete");
 
         $id = $this->getParams()[0];
+        FilterInput::int($id);
 
         $instructor = InstructorModel::getByPK($id);
 

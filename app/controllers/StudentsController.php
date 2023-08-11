@@ -2,13 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Core\Session;
+use App\Core\FilterInput;
 use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
 use App\Models\CollegeModel;
-use App\Models\DepartmentModel;
 use App\Models\StudentModel;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
@@ -31,11 +30,12 @@ class StudentsController extends AbstractController
         "Email"         => ["required", "email", "max" => [100]],
     ];
     private array $rolesEdit = [
-        "NumberHoursSuccess"  => ["required", "numeric", "max" => [165]],
-        "AdmissionYear"  => ["numeric", "between" => []],
-        "StudentCollegeID"  => ["required", "numeric"],
-        "FirstName"         => ["required", "required", "max" => [50]],
-        "LastName"         => ["required", "required", "max" => [50]],
+        "NumberHoursSuccess"    => ["required", "numeric", "max" => [165]],
+        "AdmissionYear"         => ["numeric", "between" => []],
+        "StudentCollegeID"      => ["required", "numeric"],
+        "FirstName"             => ["required", "required", "max" => [50]],
+        "LastName"              => ["required", "required", "max" => [50]],
+        "DOB"                   => ["date"],
     ];
     /**
      * #[GET('/students')]
@@ -48,22 +48,21 @@ class StudentsController extends AbstractController
         $this->language->load("students.common");
         $this->language->load("students.index");
 
-        $records = null;
+        $extensionQuery = [
+            "College" => [
+                "on" => [
+                    "StudentCollegeID" => CollegeModel::getPK()
+                ],
+            ]
+        ];
+
         if (isset($_POST["search"])) {
-            $records = StudentModel::fetch(false, ["College" => [
-                "on" => ["StudentCollegeID" => CollegeModel::getPK()],
-                "like" => $_POST["value_search"],
-            ]] );
-
-
-        } else if (isset($_POST["resit"])) {
-            $records = StudentModel::fetch(false, ["College" => ["on" => ["StudentCollegeID" => CollegeModel::getPK()] ]] );
-        } else {
-            $records = StudentModel::fetch(false, ["College" => ["on" => ["StudentCollegeID" => CollegeModel::getPK()] ]] );
+            $extensionQuery["College"]["like"] = FilterInput::str($_POST["value_search"]);
         }
+        $students = StudentModel::fetch(false, $extensionQuery);
 
         $this->authentication("students.index", [
-            "students" => $records,
+            "students" => $students,
         ]);
     }
     /**

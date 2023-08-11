@@ -446,6 +446,19 @@ if ($messages) {
                 </div>
             </div>
 
+            <div class="col-md-4 ">
+                <label for="DOB" class="form-label mb-1"><?= $DOB ?></label>
+                <input type="date"
+                       class="form-control"
+                       id="DOB"
+                       name="DOB"
+                       between="0, 165"
+                       value="<?= $controller->getStorePost("DOB", $student) ?>" >
+
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
 
             <div class="col-md-4 ">
                 <label for="Address" class="form-label mb-1"><?= $address ?></label>

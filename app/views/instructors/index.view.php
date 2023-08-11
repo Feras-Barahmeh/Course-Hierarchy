@@ -64,6 +64,7 @@
                     <?php
 
                     foreach ($instructors as $instructor) {
+
                         ?>
                         <tr>
                             <td><?= $instructor->InstructorID ?></td>
@@ -71,7 +72,7 @@
                             <td><?= $instructor->LastName ?></td>
                             <td><?= $instructor->Email ?></td>
                             <td><?= $instructor->NationalIdentificationNumber ?></td>
-                            <td><?= $instructor->Department ?></td>
+                            <td><?= $instructor->DepartmentName ?></td>
                             <td><?= $instructor->PhoneNumber ?></td>
                             <td><?= $instructor->Address ?></td>
                             <td><?= $instructor->City ?></td>

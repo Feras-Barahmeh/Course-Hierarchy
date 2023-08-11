@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\FilterInput;
 use App\Core\Session;
 use App\Core\Validation;
 use App\Enums\MessagesType;
@@ -43,15 +44,9 @@ class CollegesController extends AbstractController
 
         $records = null;
         if (isset($_POST["search"])) {
-            $table = CollegeModel::getTableName();
-            self::removeLastChar($table);
             $records = CollegeModel::fetch(true,  ["like" => $_POST["value_search"]]);
-
-        } else if (isset($_POST["resit"])) {
-            $records = CollegeModel::fetch();
-        } else {
-            $records = CollegeModel::fetch();
         }
+        $records = CollegeModel::fetch();
 
         $this->authentication("colleges.index", [
             "colleges" => $records,
@@ -159,6 +154,7 @@ class CollegesController extends AbstractController
         $this->language->load("colleges.delete");
 
         $id = $this->getParams()[0];
+        FilterInput::int($id);
 
         $college = CollegeModel::getByPK($id);
 

@@ -21,6 +21,8 @@ $_["add_student"]                          = "Add Student";
 $_["delete_student"]                          = "Delete Student";
 $_["text_instructors"]                          = "Instructors";
 $_["add_instructor"]                          = "Add Instructor";
+$_["text_majors"]                          = "Majors";
+$_["add_major"]                          = "Add major";
 $_["collages"]                          = "Collages";
 $_["text_departments"]                          = "Departments";
 $_["add_collage"]                          = "Add Collage";
@@ -32,6 +34,7 @@ $_["change_language"]                          = "Change Language";
 $_["account"]                          = "Account";
 $_["help"]                          = "Help";
 $_["logout"]                          = "logout";
+
 // End Aside
 
 // Start popup

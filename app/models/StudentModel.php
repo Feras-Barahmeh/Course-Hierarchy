@@ -30,7 +30,7 @@ class StudentModel extends AbstractModel
         "AdmissionYear"        => self::DATA_TYPE_INT,
         "FirstName"            => self::DATA_TYPE_STR,
         "LastName"             => self::DATA_TYPE_STR,
-        "DOB"                  => self::DATA_TYPE_DATE,
+        "DOB"                  => self::DATA_TYPE_STR,
         "Gender"               => self::DATA_TYPE_STR,
         "Address"              => self::DATA_TYPE_STR,
         "Email"                => self::DATA_TYPE_STR,

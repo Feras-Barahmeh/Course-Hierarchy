@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\FilterInput;
 use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
@@ -43,22 +44,23 @@ class DepartmentsController extends AbstractController
         $this->language->load("template.common");
         $this->language->load("departments.common");
         $this->language->load("departments.index");
-        
-        $records = null;
+
+        $extensionQuery = [
+            "College" => [
+                "on" => [
+                    "CollegeID" => CollegeModel::getPK()
+                ],
+            ]
+        ];
+
         if (isset($_POST["search"])) {
-            $records = DepartmentModel::fetch(false, ["College" => [
-                    "on" => ["CollegeID" => CollegeModel::getPK()],
-                    "like" => $_POST["value_search"],
-                ]
-            ]);
-        } else if (isset($_POST["resit"])) {
-            $records = DepartmentModel::fetch(false, ["College" => ["on" => ["CollegeID" => CollegeModel::getPK()] ]] );
-        } else {
-            $records = DepartmentModel::fetch(false, ["College" => ["on" => ["CollegeID" => CollegeModel::getPK()] ]] );
+            $extensionQuery["College"]["like"] = FilterInput::str($_POST["value_search"]);
         }
 
+        $departments = DepartmentModel::fetch(false, $extensionQuery);
+
         $this->authentication("departments.index", [
-            "departments" => $records,
+            "departments" => $departments,
         ]);
     }
 
@@ -162,6 +164,7 @@ class DepartmentsController extends AbstractController
         $this->language->load("departments.delete");
 
         $id = $this->getParams()[0];
+        FilterInput::int($id);
 
         $department = DepartmentModel::getByPK($id);
 

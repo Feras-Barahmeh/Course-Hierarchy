@@ -1,3 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?= $title ?></title>
+    <link rel="icon" href="<?= IMG . 'logo.png'  ?>">
+    <link rel="stylesheet" href="<?= BOOTSTRAP_CSS . 'bootstrap.min.css'  ?>">
+    <link rel="stylesheet" href="<?= BOOTSTRAP_CSS . 'bootstrap.min.css.map'  ?>">
+    <link rel="stylesheet" href="<?= '/css/shortcut.css' ?>">
+    <link rel="stylesheet" href="<?= '/css/all.min.css' ?>">
+    <link rel="stylesheet" href="<?= CSS . $lang . DS . "main.css" ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= CSS . $lang . DS . $file_css  . ".css"  ?>">
+</head>
+    <body>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm bg-black z-3" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://www.ttu.edu.jo/">
+            <img src="<?= IMG . 'logo.png' ?>" alt="TTU Logo" class="logo w-25 h-25 mr-15">
+            <span><?= $TTU ?></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?= $student_links ?>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="https://webapp.ttu.edu.jo:2011/login.aspx">
+                                <i class="fa-solid fa-toilets-portable mr-15"></i>
+                                <span><?= $student_ported ?></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="http://www.ttu.edu.jo/wp-content/uploads/2021/09/cal.pdf">
+                                <i class="fa-solid fa-calendar mr-15"></i>
+                                <span><?= $calender  ?></span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="http://www.ttu.edu.jo/admission/bachelors-degree/">
+                                <i class="fa-solid fa-folder-tree mr-15"></i>
+                                <span><?= $student_plans  ?></span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span><?= $collages_links  ?></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="http://www.ttu.edu.jo/college-of-engineering/">
+                                <i class="fa-solid fa-gear mr-15"></i>
+                                <span><?= $engineering  ?></span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2 search-nav" type="search" placeholder="<?= $search ?>" aria-label="Search">
+                <button class="btn border-1 border-black btn-search" type="submit">
+                    <?= $search  ?>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
 <aside class="d-flex flex-column bg-black p-20 gap-20 " id="main-aside" expanded="false">
     <button class="aside-toggle d-flex align-items-center gap-10" btn-aside-toggel>
         <i class="fa-solid fa-angles-left"></i>
@@ -260,3 +349,171 @@
 
     </nav>
 </aside>
+
+<main class="">
+    <h1 class="main-title">
+        <i class="fa-solid fa-building"></i>
+        <span class="">
+
+            <?= $text_majors?>
+        </span>
+    </h1>
+
+    
+<?php
+
+use App\Core\Session;
+
+$messages =  Session::flash("message");
+
+if ($messages) {
+    ?>
+        <div class="container">
+            <?php
+                foreach ($messages as $message) {
+
+                    $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
+                    $message = $message[0];
+                    ?>
+                    <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                        <span class="flex f-align-center"><?= $message ?></span>
+                    </div>
+                    <?php
+                }
+            ?>
+        </div>
+    <?php
+
+
+}
+?>
+
+    <!-- Start Table -->
+    <div class="container">
+        <div class="row mb-20">
+            <form action="" class="col-lg-6 col-md-4" METHOD="POST">
+                <div class="input-group flex-nowrap">
+                    <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
+                    <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
+                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_major  ?>" aria-label="Username" aria-describedby="addon-wrapping">
+                </div>
+            </form>
+
+            <div class="action col-lg-6 col-md-4 d-flex">
+                <a href="/majors/add" class="ml-auto">
+                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_major  ?></button>
+                </a>
+            </div>
+        </div>
+
+
+
+        <?php
+        if ($majors) {
+
+            ?>
+            <div class="container-table responsive-table">
+                <table class="table pagination-table upper">
+                    <thead class="table-dark">
+                    <tr>
+                        <td><?= $id  ?></td>
+                        <td><?= $name_major ?></td>
+                        <td><?= $number_hours_major ?></td>
+                        <td><?= $number_student_major ?></td>
+                        <td><?= $courses_number ?></td>
+                        <td><?= $department ?></td>
+                        <td><?= $college  ?></td>
+                        <td><?= $controls  ?></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach ($majors as $major) {
+                        ?>
+                        <tr>
+                            <td><?= $major->MajorID ?></td>
+                            <td><?= $major->MajorName ?></td>
+                            <td><?= $major->NumberHoursMajor ?></td>
+                            <td><?= $major->NumberStudentInMajor ?></td>
+                            <td><?= $major->CoursesNumber ?></td>
+                            <td><?= $major->DepartmentName ?></td>
+                            <td><?= $major->CollegeName ?></td>
+                            <td class="exclude-hover">
+                                <a href="/majors/edit/<?= $major->DepartmentID ?>">
+                                    <button type="button" class="btn btn-success description" description="<?= $edit ?>">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </a>
+
+                                <button type="button" class="btn btn-danger description" btn-popup description="<?= $delete ?>">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+
+                                <!-- start popup -->
+                                <div class="popup confirm">
+                                    <div class="content">
+                                        <div class="header">
+                                            <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
+                                            <h4 class="title">
+                                                <?= $are_you_sure_delete ?>
+                                                <span class="highlight"><?= $major->DepartmentName ?></span>
+                                            </h4>
+
+                                            <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
+                                        </div>
+
+                                        <div class="confirm">
+                                            <div class="row g-3 align-items-center">
+                                                <div class="col-12 input-container">
+                                                    <label for="confirmText" class="col-form-label no-select">
+                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $major->DepartmentName ?></span>
+                                                        <?= $this_box ?>
+                                                    </label>
+                                                    <input type="text" id="confirmText" class="form-control">
+                                                    <div class="buttons mt-10">
+                                                        <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
+                                                        <a href="/majors/delete/<?= $major->DepartmentID ?>" >
+                                                            <button class="btn btn-danger" apply> <?= $apply  ?> </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End popup -->
+                            </td>
+                        </tr>
+                        <?php
+
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php
+        }
+        else {
+            ?> <div class="alert alert-danger p-1"><?= $no_major ?></div> <?php
+        }
+        ?>
+
+
+    </div>
+    <!-- End Table -->
+
+</main>
+
+
+
+
+    <footer></footer>
+    <script src="<?= JS . "main"      . ".js" ?>"></script>
+    <script src="<?=  JS . "shortcut"  . ".js" ?>"></script>
+    <script src="<?=  JS . "all.min"  . ".js" ?>"></script>
+    <script src="<?=  BOOTSTRAP_JS . "bootstrap.bundle"  . ".js" ?>"></script>
+    <script src="<?=  JS . $file_js  . ".js" ?>"></script>
+    </body>
+</html>

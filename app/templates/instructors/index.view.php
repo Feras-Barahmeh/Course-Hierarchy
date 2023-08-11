@@ -146,6 +146,36 @@
                 </li>
                 <!-- End With Student -->
 
+
+
+                <!-- Start With major -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/majors/add', '/majors']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_majors ?> ">
+                    <button  class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="text"><?= $text_majors  ?></span>
+                        <i class="fa-solid fa-arrow-down arrow "></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/majors" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_majors ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu" >
+                            <a href="/majors/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10 ">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_major ?></span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <!-- End With major -->
+
+
                 <!-- Start With Instructor -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/instructors/add', '/instructors']) === true ? 'active' : '' ?>"
@@ -409,6 +439,7 @@ if ($messages) {
                     <?php
 
                     foreach ($instructors as $instructor) {
+
                         ?>
                         <tr>
                             <td><?= $instructor->InstructorID ?></td>
@@ -416,7 +447,7 @@ if ($messages) {
                             <td><?= $instructor->LastName ?></td>
                             <td><?= $instructor->Email ?></td>
                             <td><?= $instructor->NationalIdentificationNumber ?></td>
-                            <td><?= $instructor->Department ?></td>
+                            <td><?= $instructor->DepartmentName ?></td>
                             <td><?= $instructor->PhoneNumber ?></td>
                             <td><?= $instructor->Address ?></td>
                             <td><?= $instructor->City ?></td>
