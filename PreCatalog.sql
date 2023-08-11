@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 10, 2023 at 04:20 PM
+-- Generation Time: Aug 11, 2023 at 11:30 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 1);
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `Colleges` (
 --
 
 INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudentsInCollege`) VALUES
-(1, ' كلية هندسة', 1);
+(1, 'Enginnering', 1);
 
 -- --------------------------------------------------------
 
@@ -86,9 +86,16 @@ CREATE TABLE `Courses` (
 CREATE TABLE `Departments` (
   `DepartmentID` int(11) UNSIGNED NOT NULL,
   `DepartmentName` varchar(100) NOT NULL,
-  `TotalStudentsInDepartment` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `TotalStudentsInDepartment` smallint(5) UNSIGNED DEFAULT 0,
   `CollegeID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Departments`
+--
+
+INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudentsInDepartment`, `CollegeID`) VALUES
+(1, 'Computer and communications Engineering', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -131,7 +138,7 @@ CREATE TABLE `Guide` (
 CREATE TABLE `Instructors` (
   `InstructorID` int(11) UNSIGNED NOT NULL,
   `FirstName` varchar(50) NOT NULL,
-  `Department` int(11) UNSIGNED NOT NULL,
+  `InstructorDepartmentID` int(11) UNSIGNED NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `PhoneNumber` varchar(10) DEFAULT NULL,
@@ -150,6 +157,36 @@ CREATE TABLE `Instructors` (
   `NationalIdentificationNumber` varchar(11) NOT NULL,
   `language` tinyint(2) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `Instructors`
+--
+
+INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
+(1, 'Naem', 1, 'Alodat', 'naem@stu.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1500.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Majors`
+--
+
+CREATE TABLE `Majors` (
+  `MajorID` int(11) UNSIGNED NOT NULL,
+  `NumberHoursMajor` tinyint(3) UNSIGNED NOT NULL,
+  `NumberStudentInMajor` smallint(5) UNSIGNED DEFAULT NULL,
+  `CoursesNumber` tinyint(3) UNSIGNED NOT NULL,
+  `MajorName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `MajorDepartmentID` int(11) UNSIGNED NOT NULL,
+  `MajorCollegeID` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Majors`
+--
+
+INSERT INTO `Majors` (`MajorID`, `NumberHoursMajor`, `NumberStudentInMajor`, `CoursesNumber`, `MajorName`, `MajorDepartmentID`, `MajorCollegeID`) VALUES
+(2, 162, NULL, 62, 'intelligent system Engineering', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -179,21 +216,7 @@ CREATE TABLE `Students` (
 --
 
 INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`) VALUES
-(1, 15, NULL, 'مجد', 'براهمة', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `UniversityMajors`
---
-
-CREATE TABLE `UniversityMajors` (
-  `MajorId` int(11) UNSIGNED NOT NULL,
-  `NumberHoursMajor` tinyint(3) UNSIGNED NOT NULL,
-  `NumberStudentInMajor` smallint(5) UNSIGNED NOT NULL,
-  `CoursesNumber` tinyint(3) UNSIGNED NOT NULL,
-  `MajorName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(1, 15, NULL, 'Majd ', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -249,7 +272,16 @@ ALTER TABLE `Guide`
 ALTER TABLE `Instructors`
   ADD PRIMARY KEY (`InstructorID`),
   ADD UNIQUE KEY `Email` (`Email`),
-  ADD KEY `FK_Instruct_In_Collage` (`Department`);
+  ADD KEY `FK_Instruct_In_Collage` (`InstructorDepartmentID`);
+
+--
+-- Indexes for table `Majors`
+--
+ALTER TABLE `Majors`
+  ADD PRIMARY KEY (`MajorID`),
+  ADD UNIQUE KEY `MajorName` (`MajorName`),
+  ADD KEY `FK_Major_College` (`MajorCollegeID`),
+  ADD KEY `FK_Major_Department` (`MajorDepartmentID`);
 
 --
 -- Indexes for table `Students`
@@ -257,13 +289,6 @@ ALTER TABLE `Instructors`
 ALTER TABLE `Students`
   ADD PRIMARY KEY (`StudentID`),
   ADD UNIQUE KEY `Email` (`Email`);
-
---
--- Indexes for table `UniversityMajors`
---
-ALTER TABLE `UniversityMajors`
-  ADD PRIMARY KEY (`MajorId`),
-  ADD UNIQUE KEY `MajorName` (`MajorName`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -291,7 +316,7 @@ ALTER TABLE `Courses`
 -- AUTO_INCREMENT for table `Departments`
 --
 ALTER TABLE `Departments`
-  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `DepartmentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Enrollment`
@@ -309,19 +334,19 @@ ALTER TABLE `Guide`
 -- AUTO_INCREMENT for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `Majors`
+--
+ALTER TABLE `Majors`
+  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
   MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `UniversityMajors`
---
-ALTER TABLE `UniversityMajors`
-  MODIFY `MajorId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -356,13 +381,14 @@ ALTER TABLE `Guide`
 -- Constraints for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  ADD CONSTRAINT `FK_Instruct_In_Collage` FOREIGN KEY (`Department`) REFERENCES `Colleges` (`CollegeID`);
+  ADD CONSTRAINT `FK_Instruct_In_Collage` FOREIGN KEY (`InstructorDepartmentID`) REFERENCES `Colleges` (`CollegeID`);
 
 --
--- Constraints for table `UniversityMajors`
+-- Constraints for table `Majors`
 --
-ALTER TABLE `UniversityMajors`
-  ADD CONSTRAINT `FK_Major` FOREIGN KEY (`MajorId`) REFERENCES `Colleges` (`CollegeID`);
+ALTER TABLE `Majors`
+  ADD CONSTRAINT `FK_Major_College` FOREIGN KEY (`MajorCollegeID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Major_Department` FOREIGN KEY (`MajorDepartmentID`) REFERENCES `Departments` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
