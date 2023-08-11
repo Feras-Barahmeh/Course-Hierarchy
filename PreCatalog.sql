@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 11, 2023 at 11:30 AM
+-- Generation Time: Aug 11, 2023 at 10:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -95,7 +95,7 @@ CREATE TABLE `Departments` (
 --
 
 INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudentsInDepartment`, `CollegeID`) VALUES
-(1, 'Computer and communications Engineering', NULL, 1);
+(1, 'Computer and communications Engineering', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +174,7 @@ INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`
 CREATE TABLE `Majors` (
   `MajorID` int(11) UNSIGNED NOT NULL,
   `NumberHoursMajor` tinyint(3) UNSIGNED NOT NULL,
-  `NumberStudentInMajor` smallint(5) UNSIGNED DEFAULT NULL,
+  `NumberStudentInMajor` smallint(5) UNSIGNED DEFAULT 0,
   `CoursesNumber` tinyint(3) UNSIGNED NOT NULL,
   `MajorName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `MajorDepartmentID` int(11) UNSIGNED NOT NULL,
@@ -186,7 +186,8 @@ CREATE TABLE `Majors` (
 --
 
 INSERT INTO `Majors` (`MajorID`, `NumberHoursMajor`, `NumberStudentInMajor`, `CoursesNumber`, `MajorName`, `MajorDepartmentID`, `MajorCollegeID`) VALUES
-(2, 162, NULL, 62, 'intelligent system Engineering', 1, 1);
+(2, 162, 1, 62, 'intelligent system Engineering', 1, 1),
+(3, 182, NULL, 45, 'new ', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -208,15 +209,16 @@ CREATE TABLE `Students` (
   `Email` varchar(100) NOT NULL,
   `Privilege` tinyint(3) UNSIGNED NOT NULL,
   `PhoneNumber` varchar(11) DEFAULT NULL,
-  `language` tinyint(2) NOT NULL DEFAULT 0
+  `language` tinyint(2) NOT NULL DEFAULT 0,
+  `StudentMajor` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `Students`
 --
 
-INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`) VALUES
-(1, 15, NULL, 'Majd ', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0);
+INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`) VALUES
+(1, 15, NULL, 'Majd ', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 2);
 
 --
 -- Indexes for dumped tables
@@ -288,7 +290,8 @@ ALTER TABLE `Majors`
 --
 ALTER TABLE `Students`
   ADD PRIMARY KEY (`StudentID`),
-  ADD UNIQUE KEY `Email` (`Email`);
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD KEY `FK_Student_Major` (`StudentMajor`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -340,13 +343,13 @@ ALTER TABLE `Instructors`
 -- AUTO_INCREMENT for table `Majors`
 --
 ALTER TABLE `Majors`
-  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -389,6 +392,12 @@ ALTER TABLE `Instructors`
 ALTER TABLE `Majors`
   ADD CONSTRAINT `FK_Major_College` FOREIGN KEY (`MajorCollegeID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Major_Department` FOREIGN KEY (`MajorDepartmentID`) REFERENCES `Departments` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Students`
+--
+ALTER TABLE `Students`
+  ADD CONSTRAINT `FK_Student_Major` FOREIGN KEY (`StudentMajor`) REFERENCES `Majors` (`MajorID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -8,6 +8,9 @@ use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
 use App\Models\CollegeModel;
+use App\Models\DepartmentModel;
+use App\Models\MajorModel;
+use App\Models\OperationHandler;
 use App\Models\StudentModel;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
@@ -16,6 +19,7 @@ class StudentsController extends AbstractController
 {
     use Validation;
     use HandsHelper;
+    use OperationHandler;
     public static int $authentication = Privilege::Admin->value;
     /**
      * patterns check forms when add
@@ -53,7 +57,12 @@ class StudentsController extends AbstractController
                 "on" => [
                     "StudentCollegeID" => CollegeModel::getPK()
                 ],
-            ]
+            ],
+            "Major" => [
+              "on" => [
+                  "StudentMajor" => MajorModel::getPK(),
+              ]
+            ],
         ];
 
         if (isset($_POST["search"])) {
@@ -124,7 +133,15 @@ class StudentsController extends AbstractController
                     $this->setProperties($student, $_POST);
                     $student->Password = self::encryption($_POST["Password"]);
                     $student->Privilege = Privilege::Student->value;
-                    CollegeModel::increasingStudent($student->StudentCollegeID);
+                    $student->StudentMajor = FilterInput::int($_POST["MajorID"]);
+
+                    $major = CollegeModel::row("SELECT * FROM " . MajorModel::getTableName() . " Where  " . MajorModel::getPK() . " = '{$student->StudentMajor}'");
+                    $student->StudentCollegeID = $major->MajorCollegeID;
+
+                    self::increment(MajorModel::class, "NumberStudentInMajor", $student->StudentMajor);
+                    self::increment(CollegeModel::class, "TotalStudentsInCollege", $major->MajorCollegeID);
+                    self::increment(DepartmentModel::class, "TotalStudentsInDepartment", $major->MajorDepartmentID);
+
                     $this->saveStudent($student);
 
                 } else {
@@ -138,6 +155,7 @@ class StudentsController extends AbstractController
 
         $this->authentication("students.add", [
             "colleges" => $colleges,
+            "majors" => MajorModel::all(),
         ]);
     }
 
@@ -196,9 +214,16 @@ class StudentsController extends AbstractController
         $name = $student->FirstName . ' ' . $student->LastName;
 
         $idCollege = $student->StudentCollegeID;
+        $idMajor = $student->StudentMajor;
+
+        $major = CollegeModel::row("SELECT * FROM " . MajorModel::getTableName() . " Where  " . MajorModel::getPK() . " = '{$idMajor}'");
+
 
         if ($student->delete()) {
-            CollegeModel::decreasingStudent($idCollege);
+            self::decrement(CollegeModel::class, "TotalStudentsInCollege", $idCollege);
+            self::decrement(MajorModel::class, "NumberStudentInMajor", $idMajor);
+            self::decrement(DepartmentModel::class, "TotalStudentsInDepartment", $major->MajorDepartmentID);
+
             $this->setMessage("success", $name, MessagesType::Success);
         } else {
             $this->setMessage("fail", $name, MessagesType::Danger);

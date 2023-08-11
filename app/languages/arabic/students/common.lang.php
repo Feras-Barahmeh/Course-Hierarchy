@@ -11,6 +11,7 @@ $_["to_students"] = "إلى الطلاب";
 $_["to_pass_hours"] = "عدد ساعات النجاح";
 $_["first_name"] = "الاسم الأول";
 $_["last_name"] = "الاسم الأخير";
+$_["major_name"]              = "التخصص";
 $_["college_name"] = "اسم الكلية";
 $_["phone_number"] = "رقم الهاتف";
 $_["admission_year"] = "سنة الالتحاق";

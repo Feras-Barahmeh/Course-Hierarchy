@@ -44,6 +44,7 @@
                         <td><?= $id  ?></td>
                         <td><?= $first_name ?></td>
                         <td><?= $last_name ?></td>
+                        <td><?= $major_name ?></td>
                         <td><?= $email ?></td>
                         <td><?= $to_pass_hours ?></td>
                         <td><?= $college_name ?></td>
@@ -63,6 +64,7 @@
                             <td><?= $student->StudentID ?></td>
                             <td><?= $student->FirstName ?></td>
                             <td><?= $student->LastName ?></td>
+                            <td><?= $student->MajorName ?></td>
                             <td><?= $student->Email ?></td>
                             <td><?= $student->NumberHoursSuccess ?></td>
                             <td><?= $student->CollegeName ?></td>

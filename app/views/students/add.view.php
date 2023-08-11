@@ -101,21 +101,21 @@
 
 
             <div class="col-md-4 input" required>
-                <label for="StudentCollegeID" class="form-label mb-1"><?= $college_name ?></label>
-                <select class="form-select" id="StudentCollegeID" name="StudentCollegeID" required>
+                <label for="MajorID" class="form-label mb-1"><?= $major_name ?></label>
+                <select class="form-select" id="StudentMajor" name="MajorID" required>
                     <option value=""></option>
                     <?php
-                        foreach ($colleges as $college) {
+                    foreach ($majors as $major) {
 
-                            ?>
-                                <option
-                                    <?= $controller->setSelectedAttribute( $controller->getStorePost("StudentCollegeID"), $college->CollegeID ) ?>
-                                        value="<?= $college->CollegeID ?>"
-                                >
-                                    <?= $college->CollegeName ?>
-                                </option>
-                            <?php
-                        }
+                        ?>
+                        <option
+                            <?= $controller->setSelectedAttribute( $controller->getStorePost("MajorID"), $major->MajorID ) ?>
+                                value="<?= $major->MajorID ?>"
+                        >
+                            <?= $major->MajorName ?>
+                        </option>
+                        <?php
+                    }
                     ?>
 
                 </select>
@@ -123,6 +123,7 @@
                     <?= $invalid_feedback ?>
                 </div>
             </div>
+
 
             <div class="col-md-4 input" required>
                 <label for="Gender" class="form-label mb-1"><?= $gender ?></label>

@@ -11,6 +11,7 @@ $_["to_students"]              = "To Students";
 $_["to_pass_hours"]              = "Number Passed Hours Success";
 $_["first_name"]              = "First Name";
 $_["last_name"]              = "Last Name";
+$_["major_name"]              = "Major Name";
 $_["college_name"]              = "Name College";
 $_["phone_number"]              = "Phone Number";
 $_["admission_year"]              = "AdmissionYear";

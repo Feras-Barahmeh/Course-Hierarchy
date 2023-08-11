@@ -18,16 +18,4 @@ class CollegeModel extends AbstractModel
 
     protected static string $primaryKey = "CollegeID";
 
-    public static function increasingStudent($idCollege): bool
-    {
-        $sql = "UPDATE " . self::$tableName . " SET TotalStudentsInCollege = TotalStudentsInCollege + 1 WHERE " . self::$primaryKey . " = {$idCollege}";
-        $stmt = self::prepare($sql);
-        return $stmt->execute();
-    }
-    public static function decreasingStudent($idCollege): bool
-    {
-        $sql = "UPDATE " . self::$tableName . " SET TotalStudentsInCollege = TotalStudentsInCollege - 1 WHERE " . self::$primaryKey . " = {$idCollege}";
-        $stmt = self::prepare($sql);
-        return $stmt->execute();
-    }
 }

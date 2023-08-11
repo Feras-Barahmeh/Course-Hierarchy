@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Core\Database\DatabaseHandler;
 
 
 class StudentModel extends AbstractModel
@@ -21,6 +20,7 @@ class StudentModel extends AbstractModel
     public  $Password;
     public  $language;
     public  $StudentCollegeID;
+    public  $StudentMajor;
 
     protected static string $tableName = "Students";
 
@@ -38,6 +38,7 @@ class StudentModel extends AbstractModel
         "Privilege"            => self::DATA_TYPE_INT,
         "Password"             => self::DATA_TYPE_STR,
         "StudentCollegeID"     => self::DATA_TYPE_INT,
+        "StudentMajor"         => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "StudentID";

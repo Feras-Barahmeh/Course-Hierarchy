@@ -22,6 +22,8 @@ const IMG  = DS . "images" . DS;
 // Cookie configuration
 const COOKIE_PATH= '/';
 
+// Model
+const MODEL_NAMESPACE = "App\Models\\";
 
 const LANGUAGES_PATH = APP_PATH . DS . "languages" . DS;
 

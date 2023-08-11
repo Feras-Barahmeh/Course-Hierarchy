@@ -14,7 +14,7 @@ class Model
      * @param $sql
      * @return mixed
      */
-    private static function prepare(&$sql): mixed
+    public static function prepare(&$sql): mixed
     {
         return DatabaseHandler::factory()->prepare($sql);
     }
