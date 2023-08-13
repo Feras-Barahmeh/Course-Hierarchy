@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 13, 2023 at 09:37 AM
+-- Generation Time: Aug 13, 2023 at 05:20 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -133,7 +133,7 @@ CREATE TABLE `Guides` (
 --
 
 INSERT INTO `Guides` (`GuideID`, `GuideName`, `Email`, `PhoneNumber`, `YearsOfExperience`, `OfficeHours`, `GuideDepartmentID`, `Privilege`, `Password`, `language`) VALUES
-(2, 'Ahmad Mohammad', 'ahmad@gui.ttu.edu.jo', '', 0, 'Sun 9-10', 1, 3, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 0);
+(1, 'Ahmad Mohammad', 'ahmadmohammad@gui.ttu.edu.jo', '', 0, 'Sun 9-10', 1, 3, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 0);
 
 -- --------------------------------------------------------
 
@@ -169,7 +169,7 @@ CREATE TABLE `Instructors` (
 --
 
 INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
-(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1500.00, 10, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
+(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1200.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
 
 -- --------------------------------------------------------
 
@@ -207,7 +207,7 @@ CREATE TABLE `Students` (
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Password` varchar(255) NOT NULL,
-  `StudentCollegeID` int(11) UNSIGNED NOT NULL,
+  `StudentDepartmentID` int(11) UNSIGNED NOT NULL,
   `DOB` date DEFAULT NULL COMMENT 'Date Of Birth',
   `Gender` enum('Male','Female') NOT NULL,
   `Address` varchar(200) DEFAULT NULL,
@@ -215,15 +215,16 @@ CREATE TABLE `Students` (
   `Privilege` tinyint(3) UNSIGNED NOT NULL,
   `PhoneNumber` varchar(11) DEFAULT NULL,
   `language` tinyint(2) NOT NULL DEFAULT 0,
-  `StudentMajor` int(11) UNSIGNED NOT NULL
+  `StudentMajor` int(11) UNSIGNED NOT NULL,
+  `StudentCollegeID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `Students`
 --
 
-INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentCollegeID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`) VALUES
-(1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1);
+INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentDepartmentID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`, `StudentCollegeID`) VALUES
+(1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -296,7 +297,9 @@ ALTER TABLE `Majors`
 ALTER TABLE `Students`
   ADD PRIMARY KEY (`StudentID`),
   ADD UNIQUE KEY `Email` (`Email`),
-  ADD KEY `FK_Student_Major` (`StudentMajor`);
+  ADD KEY `FK_Department_Studetn` (`StudentDepartmentID`),
+  ADD KEY `FK_Major_Studetn` (`StudentMajor`),
+  ADD KEY `FK_Student_College` (`StudentCollegeID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -336,7 +339,7 @@ ALTER TABLE `Enrollment`
 -- AUTO_INCREMENT for table `Guides`
 --
 ALTER TABLE `Guides`
-  MODIFY `GuideID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `GuideID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Instructors`
@@ -402,7 +405,9 @@ ALTER TABLE `Majors`
 -- Constraints for table `Students`
 --
 ALTER TABLE `Students`
-  ADD CONSTRAINT `FK_Student_Major` FOREIGN KEY (`StudentMajor`) REFERENCES `Majors` (`MajorID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Department_Studetn` FOREIGN KEY (`StudentDepartmentID`) REFERENCES `Departments` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Major_Studetn` FOREIGN KEY (`StudentMajor`) REFERENCES `Majors` (`MajorID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Student_College` FOREIGN KEY (`StudentCollegeID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
