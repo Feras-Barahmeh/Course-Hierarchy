@@ -211,7 +211,7 @@
                     has-sub-menu="true" title="<?= $text_guides ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa-solid fa-person-chalkboard"></i>
+                        <i class="fa-solid fa-compass"></i>
                         <span class="text"><?= $text_guides ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
@@ -225,7 +225,7 @@
                         <li class="li-aside-menu">
                             <a href="/guides/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text"><?= $add_instructor ?></span>
+                                <span class="text"><?= $add_guide ?></span>
                             </a>
                         </li>
 
@@ -383,14 +383,21 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-building"></i>
+        <i class="fa-solid fa-user-plus"></i>
         <span class="">
-
-            <?= $text_colleges ?>
+            <?= $title ?>
         </span>
     </h1>
 
-
+    <div class="container">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/guides/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_guides  ?></button>
+                </a>
+            </div>
+        </div>
+    </div>
     
 <?php
 
@@ -419,114 +426,89 @@ if ($messages) {
 
 }
 ?>
+    <div class="container mt-20 container-form">
 
-    <!-- Start Table -->
-        <div class="container">
-            <div class="row mb-20">
-                <form action="" class="col-lg-6 col-md-4" METHOD="POST">
-                    <div class="input-group flex-nowrap">
-                        <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
-                        <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
-                        <input type="text" class="form-control" name="value_search" placeholder="<?= $search_college  ?>" aria-label="Username" aria-describedby="addon-wrapping">
-                    </div>
-                </form>
 
-                <div class="action col-lg-6 col-md-4 d-flex">
-                    <a href="/colleges/add" class="ml-auto">
-                        <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_college  ?></button>
-                    </a>
+        <form class="row g-3" method="POST" >
+            <div class="col-md-4 input" required>
+                <label for="GuideName" class="form-label mb-1"><?= $name_guide ?></label>
+                <input type="text" class="form-control" id="GuideName" between="3,100" name="GuideName" value="<?= $controller->getStorePost("GuideName") ?>" required autocomplete="none">
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+                <div class="invalid-feedback">
+                    <?= $name_guide_invalid_feedback ?>
                 </div>
             </div>
 
 
+            <div class="col-md-4 input" required>
+                <label for="Email" class="form-label mb-1"><?= $email ?></label>
+                <input type="email" class="form-control" id="Email" name="Email" email-input value="<?= $controller->getStorePost("Email") ?>" required>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
 
-            <?php
-                if ($colleges) {
-                    ?>
-                        <div class="container-table responsive-table">
-                                <table class="table pagination-table upper">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <td><?= $id  ?></td>
-                                            <td><?= $name_college ?></td>
-                                            <td><?= $count_students  ?></td>
-                                            <td><?= $controls  ?></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        foreach ($colleges as $collage) {
-                                            ?>
-                                            <tr>
-                                                <td><?= $collage->CollegeID ?></td>
-                                                <td><?= $collage->CollegeName ?></td>
-                                                <td><?= $collage->TotalStudentsInCollege ?></td>
-                                                <td class="exclude-hover">
-                                                    <a href="/colleges/edit/<?= $collage->CollegeID ?>">
-                                                        <button type="button" class="btn btn-success description" description="<?= $edit ?>">
-                                                            <i class="fa fa-edit"></i>
-                                                        </button>
-                                                    </a>
 
-                                                    <button type="button" class="btn btn-danger description" btn-popup description="<?= $delete ?>">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-
-                                                    <!-- start popup -->
-                                                    <div class="popup confirm">
-                                                        <div class="content">
-                                                            <div class="header">
-                                                                <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
-                                                                <h4 class="title">
-                                                                    <?= $are_you_sure_delete ?>
-                                                                    <span class="highlight"><?= $collage->CollegeName ?></span>
-                                                                </h4>
-
-                                                                <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
-                                                            </div>
-
-                                                            <div class="confirm">
-                                                                <div class="row g-3 align-items-center">
-                                                                    <div class="col-12 input-container">
-                                                                        <label for="confirmText" class="col-form-label no-select">
-                                                                            <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $collage->CollegeName ?></span>
-                                                                            <?= $this_box ?>
-                                                                        </label>
-                                                                        <input type="text" id="confirmText" class="form-control">
-                                                                        <div class="buttons mt-10">
-                                                                            <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
-                                                                            <a href="/colleges/delete/<?= $collage->CollegeID ?>" >
-                                                                                <button class="btn btn-danger" apply> <?= $apply  ?> </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End popup -->
-                                                </td>
-                                            </tr>
-                                            <?php
-
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                        </div>
+            <div class="col-md-4 input" required>
+                <label for="GuideDepartmentID" class="form-label mb-1"><?= $department_name ?></label>
+                <select class="form-select" id="GuideDepartmentID" name="GuideDepartmentID" required>
+                    <option value=""></option>
                     <?php
-                }
-                else {
-                    ?> <div class="alert alert-danger p-1"><?= $no_college ?></div> <?php
-                }
-            ?>
+                    foreach ($departments as $department) {
+
+                        ?>
+                        <option
+                            <?= $controller->setSelectedAttribute( $controller->getStorePost("GuideDepartmentID"), $department->DepartmentID ) ?>
+                                value="<?= $department->DepartmentID ?>"
+                        >
+                            <?= $department->DepartmentName ?>
+                        </option>
+                        <?php
+                    }
+                    ?>
+
+                </select>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+            </div>
 
 
-        </div>
-    <!-- End Table -->
+            <div class="col-md-4 input" required>
+                <label for="Password" class="form-label mb-1"><?= $password ?></label>
+                <input type="password" class="form-control" id="Password" name="Password" value="<?= $controller->getStorePost("Password") ?>"  required>
 
+                <button class="show-password" show-password="false" description="show Password">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
+            <div class="col-md-4 input" required>
+                <label for="ConfirmPassword" class="form-label mb-1"><?= $confirm_password ?></label>
+                <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"  value="<?= $controller->getStorePost("ConfirmPassword") ?>" required>
+                <button class="show-password" show-password="false" description="show Password">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <button class="main-btn" name="add" type="submit"><?= $add_guide ?></button>
+            </div>
+        </form>
+    </div>
 </main>
 
 

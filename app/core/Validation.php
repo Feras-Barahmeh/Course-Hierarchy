@@ -283,7 +283,16 @@ trait Validation
         return true;
     }
 
-    public function equal($value, $nameField, $compared): bool
+    /**
+     * Validate if a given value is equal to a specified comparison value.
+     *
+     * @param mixed $value The value to be validated.
+     * @param string $nameField The name of the field being validated.
+     * @param mixed $compared The comparison value to check against.
+     *
+     * @return bool Returns true if the value is equal to the comparison value, and false otherwise.
+     */
+    public function equal(mixed $value, string $nameField, mixed $compared): bool
     {
         $compared = $compared[0];
         if (is_string($value)) {
@@ -301,7 +310,8 @@ trait Validation
 
     }
     /**
-     * check if value has an email structure
+     * Check if value has an email structure
+     *
      * @param mixed $value the value you want check
      * @return bool
      */
@@ -354,7 +364,7 @@ trait Validation
      * @param $post
      * @return bool|array
      */
-    public function valid($patterns, $post): bool|array
+    public function valid($patterns, &$post): bool|array
     {
         error_reporting(E_ALL);
         ini_set('display_errors', 0);
@@ -370,11 +380,12 @@ trait Validation
                 $isRequired = in_array("required", array_values($methods));
 
                 if (in_array("required", array_values($methods)) || ! $isRequired && $post[$value] != null) {
+                    $postValue = trim($post[$value]);
                     $nameField = $this->convertCamelToSpace($value);
                     if (! is_array($param)) {
-                        $this->callMethodContainOneParam($param, $post[$value], $nameField);
+                        $this->callMethodContainOneParam($param, $postValue, $nameField);
                     } else {
-                        $this->callMethodWithParam($method, $post[$value], $nameField, $param);
+                        $this->callMethodWithParam($method, $postValue, $nameField, $param);
                     }
                 }
             }

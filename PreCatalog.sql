@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 12, 2023 at 12:15 AM
+-- Generation Time: Aug 13, 2023 at 09:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -112,22 +112,28 @@ CREATE TABLE `Enrollment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Guide`
+-- Table structure for table `Guides`
 --
 
-CREATE TABLE `Guide` (
+CREATE TABLE `Guides` (
   `GuideID` int(11) NOT NULL,
   `GuideName` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Phone` varchar(20) DEFAULT NULL,
-  `Expertise` varchar(100) DEFAULT NULL,
+  `PhoneNumber` varchar(10) DEFAULT NULL,
   `YearsOfExperience` int(11) DEFAULT NULL,
-  `Availability` varchar(50) DEFAULT NULL,
   `OfficeHours` varchar(100) DEFAULT NULL,
-  `Bio` text DEFAULT NULL,
-  `Department` int(11) UNSIGNED NOT NULL,
-  `Privilege` tinyint(4) NOT NULL
+  `GuideDepartmentID` int(11) UNSIGNED NOT NULL,
+  `Privilege` tinyint(3) UNSIGNED NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `language` tinyint(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Guides`
+--
+
+INSERT INTO `Guides` (`GuideID`, `GuideName`, `Email`, `PhoneNumber`, `YearsOfExperience`, `OfficeHours`, `GuideDepartmentID`, `Privilege`, `Password`, `language`) VALUES
+(2, 'Ahmad Mohammad', 'ahmad@gui.ttu.edu.jo', '', 0, 'Sun 9-10', 1, 3, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 0);
 
 -- --------------------------------------------------------
 
@@ -260,12 +266,12 @@ ALTER TABLE `Enrollment`
   ADD KEY `CourseID` (`CourseID`);
 
 --
--- Indexes for table `Guide`
+-- Indexes for table `Guides`
 --
-ALTER TABLE `Guide`
+ALTER TABLE `Guides`
   ADD PRIMARY KEY (`GuideID`),
   ADD UNIQUE KEY `Email` (`Email`),
-  ADD KEY `FK_Department` (`Department`);
+  ADD KEY `FK_Guide_Department` (`GuideDepartmentID`);
 
 --
 -- Indexes for table `Instructors`
@@ -327,10 +333,10 @@ ALTER TABLE `Enrollment`
   MODIFY `EnrollmentID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Guide`
+-- AUTO_INCREMENT for table `Guides`
 --
-ALTER TABLE `Guide`
-  MODIFY `GuideID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `Guides`
+  MODIFY `GuideID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Instructors`
@@ -374,10 +380,10 @@ ALTER TABLE `Enrollment`
   ADD CONSTRAINT `Enrollment_ibfk_2` FOREIGN KEY (`CourseID`) REFERENCES `Courses` (`CourseID`);
 
 --
--- Constraints for table `Guide`
+-- Constraints for table `Guides`
 --
-ALTER TABLE `Guide`
-  ADD CONSTRAINT `FK_Department` FOREIGN KEY (`Department`) REFERENCES `Departments` (`DepartmentID`);
+ALTER TABLE `Guides`
+  ADD CONSTRAINT `FK_Guide_Department` FOREIGN KEY (`GuideDepartmentID`) REFERENCES `Departments` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Instructors`
