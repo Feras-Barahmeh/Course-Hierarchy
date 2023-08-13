@@ -271,7 +271,7 @@ trait Validation
         $flag=null;
 
 
-        if (gettype($value) === "string" && ! ctype_digit($value)) {
+        if (gettype($value) === "string" && ! is_numeric($value)) {
             $flag =  mb_strlen($value) >= $min;
         } elseif (is_numeric($value)) {
             $flag = $value >= $min;
@@ -332,6 +332,16 @@ trait Validation
     public function date(string $value): bool
     {
         return preg_match($this->patterns["date"], $value);
+    }
+
+    public function pos($value, $nameField): bool
+    {
+        if (is_numeric($value)) {
+            if ((float) $value < 0) {
+                $this->pushToError("error_pos", $nameField);
+            }
+        }
+        return false;
     }
     /**
      * method to call method has tow argument
