@@ -14,14 +14,15 @@ body.dark {
     background-color: var(--bg-black-80);
 }
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 5px;
+    background-color: var(--bg-black-80);
+    border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
     background-color: #555;
+    cursor: pointer;
 }
 ::selection {
     background-color: var(--bs-border-color);
@@ -313,6 +314,16 @@ aside .li-aside-menu .rotate,
 aside .li-aside-menu .arrow {
     transition: all .3s ease-in-out;
     font-size: 17px;
+}
+aside .aside-sub-menu[open='true'] .li-aside-menu:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 1px;
+    background-color: var(--bg-black-30);
+    left: -3px;
 }
 aside .li-aside-menu .aside-link .arrow {
     margin-left: auto;

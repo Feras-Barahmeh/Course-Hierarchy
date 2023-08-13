@@ -19,6 +19,9 @@ $_["main"]                = "الرئيسية";
 $_["home"]                = "الصفحة الرئيسية";
 $_["text_students"]            = "الطلاب";
 $_["add_student"]         = "إضافة طالب";
+$_["text_guides"]                          = "المرشدين";
+$_["add_guide"]                          = "اضافة مرشد";
+
 $_["delete_student"]      = "حذف طالب";
 $_["text_instructors"]         = "المدربين";
 $_["add_instructor"]     = "إضافة مدرب";

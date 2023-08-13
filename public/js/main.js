@@ -10,6 +10,7 @@ function closeAllSubMenusOpened(lis, currentSubMenuWillOpened) {
         subMenus.forEach(menu => {
             if (menu !== currentSubMenuWillOpened) {
                 menu.setAttribute("open", "false");
+                menu.parentElement.querySelector(".arrow").classList.remove("rotate")
             }
         });
     });

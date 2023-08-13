@@ -347,6 +347,16 @@ aside .li-aside-menu .arrow {
     transition: all .3s ease-in-out;
     font-size: 17px;
 }
+aside .aside-sub-menu[open='true'] .li-aside-menu:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 1px;
+    background-color: var(--bg-black-30);
+    right: -15px;
+}
 aside .li-aside-menu .aside-link .arrow {
     margin-right: auto;
 }
@@ -357,6 +367,7 @@ aside .aside-sub-menu {
     border-right: 1px solid var(--bg-black-50);
     padding-right: 10px;
     transition: visibility 0.5s, opacity 0.5s linear;
+    padding-left: 0;
 }
 aside .aside-sub-menu[open='true'] {
     opacity: 1;
