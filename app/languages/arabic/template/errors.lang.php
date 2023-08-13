@@ -12,3 +12,4 @@ $_["error_equal"]     = "<span class='highlight'> %s </span> الحقل <span cl
 $_["error_max"] = "القيمة القصوى لـ <span class='highlight'>%s</span> هي <span class='highlight'>%s</span>";
 $_["error_min"] = "القيمة الدنيا لـ <span class='highlight'>%s</span> هي <span class='highlight'>%s</span>";
 $_["error_email"] = "البريد الإلكتروني <span class='highlight'>%s</span> غير صالح";
+$_["error_pos"]     = "يجب ان يتكون <span class='highlight'>%s</span> من ارقام";

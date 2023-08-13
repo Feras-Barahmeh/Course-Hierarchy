@@ -37,8 +37,17 @@ class AuthController extends AbstractController
      */
     private function checkTDL(string $email): bool
     {
-        $pattern = "/^[^\s]*@stu\.ttu\.edu\.jo$/";
-        return preg_match($pattern, $email) === 1;
+        $flag = true;
+        foreach (TLD_PARTS as $index => $change) {
+            $pattern = "/^[^\s]*@{$change}\.ttu\.edu\.jo$/";
+
+            if (preg_match($pattern, $email) !== 1) {
+                $flag=false;
+            }
+            break;
+
+        }
+        return $flag;
     }
 
     /**
@@ -155,7 +164,7 @@ class AuthController extends AbstractController
             }
 
         } else {
-            $this->setMessage("email_tld", '', MessagesType::Danger->name);
+            $this->setMessage("email_tld", '', MessagesType::Danger);
             return false;
         }
         return false;

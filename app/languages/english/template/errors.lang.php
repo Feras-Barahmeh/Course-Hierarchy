@@ -12,3 +12,4 @@ $_["error_equal"]     = "<span class='highlight'> %s </span> Must equal <span cl
 $_["error_max"]     = "Maximum value of <span class='highlight'>%s</span>is<span class='highlight'> %s</span>";
 $_["error_min"]     = "Minimum value of <span class='highlight'>%s</span>is<span class='highlight'> %s</span>";
 $_["error_email"]     = "Email <span class='highlight'>%s</span> Not Valid";
+$_["error_pos"]     = "<span class='highlight'>%s</span> must be positive";

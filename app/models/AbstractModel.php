@@ -540,9 +540,9 @@ class AbstractModel
      */
     public static function existsInTable(mixed $value ): bool|string
     {
-        if (! is_array($value) && count(static::$Unique) > 1) $value = [$value];
+        if (! is_array($value) && count(static::$unique) > 1) $value = [$value];
 
-       foreach (static::$Unique as $column) {
+       foreach (static::$unique as $column) {
            $sql = "
                 SELECT 
                     COUNT(".$column.") AS count

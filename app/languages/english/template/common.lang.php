@@ -51,3 +51,6 @@ $_["cansel"]                          = "Cansel";
 // Start Validation
 $_["valid_feedback"]              = "Looks good!";
 // End Validation
+
+// Email
+$_["error_TDL_email"]              = "The Email Must End Like <span class='highlight'>%s</span>";

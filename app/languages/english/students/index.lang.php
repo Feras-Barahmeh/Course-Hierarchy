@@ -8,3 +8,4 @@ $_["controls"]              = "Controls";
 $_["delete"]              = "Delete";
 $_["edit"]              = "Edit";
 $_["no_students"] = "Not Added Students Yet";
+$_["name_department"] = "Department Name";

@@ -10,3 +10,4 @@ $_["count_students"]              = "Count Students";
 $_["controls"]              = "Count Student";
 $_["delete"]              = "Delete";
 $_["edit"]              = "Edit";
+$_["no_departments"]              = "Not add any department yet";

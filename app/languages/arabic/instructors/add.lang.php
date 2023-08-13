@@ -3,6 +3,7 @@ $_["title"]             = "اضافة معلم";
 $_["success"]           = "تم اضافة معلم <span class='highlight'> %s </span> بنجاح ";
 $_["fail"]              = "تعئر اضافة معلم <span class='highlight'> %s </span>";
 $_["fail_email_unique"]              = "البريد الالكرتوني <span class='highlight'> %s </span> مستحدم بالفعل";
+$_["fail_national_id_number_unique"]              = " الرقم الوطني <span class='highlight'> %s </span> مستحدم بالفعل";
 $_["invalid_feedback"]              = "يرجى تقديم معلومات صحيحة";
 
 $_["to_instructor"]              = "إلى المعلمون";

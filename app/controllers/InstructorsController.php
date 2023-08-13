@@ -22,8 +22,8 @@ class InstructorsController extends AbstractController
         "FirstName"                     => ["required", "alpha", "between" => [2, 50]],
         "LastName"                      => ["required", "between" => [2, 50]],
         "InstructorDepartmentID"        => ["required", "int", "posInt"],
-        "Email"                         => ["required", "email", "between" => [LEN_TDL_EMAIL, 100]],
-        "Salary"                        => ["required", "float"],
+        "Email"                         => ["required", "email", "between" => [LEN_TDL_STUDENT_EMAIL, 100]],
+        "Salary"                        => ["required", "float", "pos", "min" => [300]],
         "Password"                      => ["required", "alphaNum"],
         "NationalIdentificationNumber"  => ["required", "alphaNum", "equal" => [11]],
         "IfFullTime"                    => ["required"],
@@ -96,80 +96,44 @@ class InstructorsController extends AbstractController
         $instructor->language = Language::English->value;
     }
     /**
-     * Save an InstructorModel instance to the database and handle the response.
+     * Validate instructor data from form submission.
      *
-     * This private method is used to save an InstructorModel instance to the database. It calls the `save()` method
-     * on the provided $instructor object to persist it to the database. Depending on the success or failure of the
-     * save operation, the method sets appropriate messages and redirects the user to the appropriate page.
+     * This method is used to validate instructor data submitted via a form. It performs multiple checks on the submitted data,
+     * including checking for the existence of an email address in the database, validating the email address's top-level domain (TLD),
+     * and checking if the password and confirmation password match.
      *
-     * @param InstructorModel $instructor A reference to the InstructorModel instance to be saved.
+     * If any of the validation checks fail, the method sets appropriate error message details and sets the `$flag` variable to false,
+     * indicating a validation failure.
      *
-     * @return void
+     * The method then returns the value of the `$flag` variable, which indicates whether the validation passed (true) or failed (false).
+     *
+     * @return bool Returns true if the student data passes all validation checks, and false otherwise.
      */
-    private function saveInstructor(InstructorModel &$instructor): void
+    private function checkInstructorErrors(InstructorModel &$instructor, string &$keyMessage, string|array &$paramMessage): bool
     {
-        if ($instructor->save()) {
-            $this->setMessage(
-                "success",
-                ucfirst($instructor->LastName),
-                MessagesType::Success->name);
 
-            $this->redirect("/instructors");
-        } else {
-            $this->setMessage(
-                "fail",
-                ucfirst($instructor->LastName),
-                MessagesType::Danger->name);
+        $flag = true;
+        if (isset($_POST["Email"]) && $instructor::existsInTable($_POST["Email"]) !== true) {
+            $keyMessage = "fail_email_unique";
+            $paramMessage = $_POST["Email"];
+            $flag =false;
+
+        } elseif (isset($_POST["NationalIdentificationNumber"]) && $instructor::ifExist("NationalIdentificationNumber", $_POST["NationalIdentificationNumber"]) ) {
+            $keyMessage = "fail_national_id_number_unique";
+            $flag =false;
+
+        } elseif( isset($_POST["Email"]) && ! self::checkTDLEmail($_POST["Email"], TLD_INSTRUCTOR_EMAIL) ) {
+            $keyMessage = "error_TDL_email";
+            $paramMessage = TLD_INSTRUCTOR_EMAIL;
+            $flag =false;
+
+        } elseif(isset($_POST["ConfirmPassword"] ) && isset($_POST["Password"]) && $_POST["ConfirmPassword"] !== $_POST["Password"]) {
+            $keyMessage = "error_not_match_password";
+            $flag =false;
         }
+        return $flag;
     }
-    /**
-     * Add a new instructor based on the submitted form data.
-     *
-     * This method is responsible for processing the submitted form data for adding a new instructor.
-     * It validates the form data using the validation rules defined in the $_rolesAddValid property.
-     * If the form data is valid, it creates a new instance of the InstructorModel class, populates it with
-     * the submitted data using the setInstructorColumnsValues() method, and then checks if the email is
-     * unique in the database using the existsInTable() method. If the email is not unique or if the passwords
-     * do not match, appropriate error messages are set using the setMessage() method. Otherwise, it saves
-     * the instructor to the database using the saveInstructor() method.
-     *
-     * @return void
-     */
-    private function addNewInstructor(): void
-    {
-        if (isset($_POST['add'])) {
-            $hasError = $this->valid($this->rolesAdd, $_POST);
-            $flag = true;
 
-
-            // If it forms Has Error
-            if (is_array($hasError)) {
-                $this->addErrorsMethodToSession($hasError);
-                $flag = false;
-            }
-
-            if ($flag) {
-
-                $instructor = new InstructorModel();
-                $this->setInstructorColumnsValues($instructor, $_POST);
-
-
-                // TODO: Change To If Exist
-                if ($instructor::existsInTable($_POST["Email"]) !== true) {
-                    $this->setMessage(
-                        "fail_email_unique",
-                        $_POST["Email"],
-                        MessagesType::Danger->name);
-                } elseif($_POST["ConfirmPassword"] !== $_POST["Password"]) {
-                    $this->setMessage("error_not_match_password", '', MessagesType::Danger->name);
-                } else {
-                    $this->saveInstructor($instructor);
-                }
-
-
-            }
-        }
-    }
     /**
      * #[GET('/instructors/add')]
      * @throws ErrorException
@@ -182,8 +146,35 @@ class InstructorsController extends AbstractController
         $this->language->load("instructors.common");
         $this->language->load("instructors.add");
 
+        if (isset($_POST['add'])) {
+            $hasError = $this->valid($this->rolesAdd, $_POST);
+            $flag = true;
 
-        $this->addNewInstructor();
+            // If it forms Has Error
+            if (is_array($hasError)) {
+                $this->addErrorsMethodToSession($hasError);
+                $flag = false;
+            }
+
+            if ($flag) {
+
+                $instructor = new InstructorModel();
+                $this->setInstructorColumnsValues($instructor, $_POST);
+
+                $paramMessage = '';
+                $keyMessage = '';
+
+                $flag = $this->checkInstructorErrors($instructor, $keyMessage, $paramMessage);
+
+                if ($flag) {
+                    $name = ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName);
+                    $this->saveAndHandleOutcome($instructor, $name, "/instructors");
+                } else {
+                    $this->setMessage($keyMessage, $paramMessage, MessagesType::Danger);
+                }
+
+            }
+        }
 
         $this->authentication("instructors.add", [
             "departments" => DepartmentModel::all(),
@@ -231,14 +222,20 @@ class InstructorsController extends AbstractController
                 $flag = false;
             }
 
+            $keyMessage = '';
+            $paramMessage = '';
+
+            $flag = $this->checkInstructorErrors($instructor, $keyMessage, $paramMessage);
+
             if ($flag) {
                $this->setProperties($instructor, $_POST);
-               if ($instructor->save())  {
-                   $this->setMessage("success", ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName), MessagesType::Success->name );
-                   $this->redirect("/instructors");
-               } else {
-                   $this->setMessage("fail", ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName), MessagesType::Danger->name );
-               }
+               $this->saveAndHandleOutcome(
+                   $instructor,
+                   ucfirst($instructor->FirstName) . ' ' . ucfirst($instructor->LastName),
+                   "/instructors"
+               );
+            } else {
+                $this->setMessage($keyMessage, $paramMessage, MessagesType::Danger );
             }
         }
 
@@ -270,17 +267,18 @@ class InstructorsController extends AbstractController
         $instructor = InstructorModel::getByPK($id);
 
         if (! $instructor) {
-            $this->setMessage("not_exist", '', MessagesType::Danger->name);
+            $this->setMessage("not_exist", '', MessagesType::Danger);
         }
 
         $name = $instructor->FirstName . ' ' . $instructor->LastName;
 
         if ($instructor->delete()) {
-            $this->setMessage("success", $name, MessagesType::Success->name);
+            $this->setMessage("success", $name, MessagesType::Success);
         } else {
-            $this->setMessage("fail", $name, MessagesType::Danger->name);
+            $this->setMessage("fail", $name, MessagesType::Danger);
         }
 
+        unset($instructor);
         $this->redirect("/instructors");
     }
 }

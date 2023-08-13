@@ -30,22 +30,35 @@
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
 
-                            <?php
-                            $messages = \App\Core\Session::flash("message");
+                            
+<?php
+
+use App\Core\Session;
+
+$messages =  Session::flash("message");
+
+if ($messages) {
+    ?>
+        <div class="container">
+            <?php
+                foreach ($messages as $message) {
+
+                    $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
+                    $message = $message[0];
+                    ?>
+                    <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                        <span class="flex f-align-center"><?= $message ?></span>
+                    </div>
+                    <?php
+                }
+            ?>
+        </div>
+    <?php
 
 
-                            if ($messages) {
-                                foreach ($messages as $message) {
-                                    $type = strtolower($message[1]);
-                                    $message = $message[0];
-                                    ?>
-                                    <div class="alert alert-<?= $type ?> between-element plr-20 " kick-out="6000" role="alert">
-                                        <span class="flex f-align-center"><?= $message ?></span>
-                                    </div>
-                                    <?php
-                                }
-                            }
-                            ?>
+}
+?>
+
 
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 

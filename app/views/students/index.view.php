@@ -4,7 +4,7 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-building"></i>
+        <i class="fa-solid fa-graduation-cap"></i>
         <span class="">
 
             <?= $text_students ?>
@@ -44,10 +44,11 @@
                         <td><?= $id  ?></td>
                         <td><?= $first_name ?></td>
                         <td><?= $last_name ?></td>
-                        <td><?= $major_name ?></td>
                         <td><?= $email ?></td>
-                        <td><?= $to_pass_hours ?></td>
                         <td><?= $college_name ?></td>
+                        <td><?= $major_name ?></td>
+                        <td><?= $name_department ?></td>
+                        <td><?= $to_pass_hours ?></td>
                         <td><?= $admission_year ?></td>
                         <td><?= $gender ?></td>
                         <td><?= $phone_number ?></td>
@@ -64,10 +65,11 @@
                             <td><?= $student->StudentID ?></td>
                             <td><?= $student->FirstName ?></td>
                             <td><?= $student->LastName ?></td>
-                            <td><?= $student->MajorName ?></td>
                             <td><?= $student->Email ?></td>
-                            <td><?= $student->NumberHoursSuccess ?></td>
                             <td><?= $student->CollegeName ?></td>
+                            <td><?= $student->MajorName ?></td>
+                            <td><?= $student->DepartmentName ?></td>
+                            <td><?= $student->NumberHoursSuccess ?></td>
                             <td><?= $student->AdmissionYear ?></td>
                             <td><?= $student->Gender ?></td>
                             <td><?= $student->PhoneNumber ?></td>
@@ -131,7 +133,7 @@
             <?php
         }
         else {
-            ?> <div class="alert alert-danger p-1"><?= $no_students ?></div> <?php
+            ?> <div class="alert alert-info p-2"><?= $no_students ?></div> <?php
         }
         ?>
 

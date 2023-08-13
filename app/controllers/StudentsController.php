@@ -31,17 +31,17 @@ class StudentsController extends AbstractController
         "LastName"         => ["required", "max" => [50]],
         "Password"         => ["required"],
         "Gender"         => ["required", "max" => [6]],
-        "Email"         => ["required", "email", "max" => [100]],
+        "Email"         => ["required", "email", "between" => [LEN_TDL_STUDENT_EMAIL, 100]],
         "MajorID"         => ["required"],
     ];
     private array $rolesEdit = [
         "NumberHoursSuccess"    => ["required", "numeric", "max" => [165]],
         "AdmissionYear"         => ["numeric", "between" => []],
-        "StudentCollegeID"      => ["required", "numeric"],
+        "StudentDepartmentID"   => ["required", "numeric"],
         "FirstName"             => ["required", "required", "max" => [50]],
         "LastName"              => ["required", "required", "max" => [50]],
         "DOB"                   => ["date"],
-        "MajorID"         => ["required"]
+        "MajorID"               => ["required"]
     ];
     /**
      * #[GET('/students')]
@@ -55,15 +55,20 @@ class StudentsController extends AbstractController
         $this->language->load("students.index");
 
         $extensionQuery = [
-            "College" => [
+            "Department" => [
                 "on" => [
-                    "StudentCollegeID" => CollegeModel::getPK()
+                    "StudentDepartmentID" => DepartmentModel::getPK()
                 ],
             ],
             "Major" => [
               "on" => [
                   "StudentMajor" => MajorModel::getPK(),
               ]
+            ],
+            "College" => [
+                "on" => [
+                    "StudentCollegeID" => CollegeModel::getPK(),
+                ]
             ],
         ];
 
@@ -76,31 +81,41 @@ class StudentsController extends AbstractController
             "students" => $students,
         ]);
     }
+
     /**
-     * Save a StudentModel object and handle success or failure.
+     * Validate student data from form submission.
      *
-     * This private method is used to save a StudentModel object and handle the outcome. The method takes a single parameter,
-     * `$student`, which is a reference to the StudentModel object to be saved.
+     * This method is used to validate student data submitted via a form. It performs multiple checks on the submitted data,
+     * including checking for the existence of an email address in the database, validating the email address's top-level domain (TLD),
+     * and checking if the password and confirmation password match.
      *
-     * The method attempts to save the `$student` object. If the save operation is successful, a success message is set
-     * using the `setMessage()` method, indicating the successful operation along with the student's college name. The
-     * method then redirects the user to the "/students" page.
+     * If any of the validation checks fail, the method sets appropriate error message details and sets the `$flag` variable to false,
+     * indicating a validation failure.
      *
-     * If the save operation fails, a failure message is set using the `setMessage()` method, indicating the failure
-     * along with the student's college name.
+     * The method then returns the value of the `$flag` variable, which indicates whether the validation passed (true) or failed (false).
      *
-     * @param StudentModel $student A reference to the StudentModel object to be saved.
-     *
-     * @return void
+     * @param StudentModel $student
+     * @param string $keyMessage key message you want set for error
+     * @param string|array $paramMessage if message has parameter
+     * @return bool Returns true if the student data passes all validation checks, and false otherwise.
      */
-    private function saveStudent(StudentModel &$student): void
+    private function checkStudentErrors(StudentModel &$student,  string &$keyMessage, string|array &$paramMessage): bool
     {
-        if ($student->save()) {
-            $this->setMessage("success", $student->FirstName . ' ' . $student->LastName  , MessagesType::Success);
-            $this->redirect("/students");
-        }  else {
-            $this->setMessage("fail", $student->FirstName . ' ' . $student->LastName, MessagesType::Danger);
+        $flag = true;
+        if (isset($_POST["Email"]) && $student::ifExist("Email", $_POST["Email"])) {
+            $keyMessage = "already_exits";
+            $paramMessage = $_POST["Email"];
+            $flag =false;
+        } elseif( isset($_POST["Email"]) && ! self::checkTDLEmail($_POST["Email"], TLD_STUDENT_EMAIL) ) {
+            $keyMessage = "error_TDL_email";
+            $paramMessage = TLD_STUDENT_EMAIL;
+            $flag =false;
+        } elseif(isset($_POST["ConfirmPassword"] ) && isset($_POST["Password"]) && $_POST["ConfirmPassword"] !== $_POST["Password"]) {
+            $keyMessage = "error_not_match_password";
+            $flag =false;
         }
+
+        return $flag;
     }
     /**
      * #[GET('/students/add')]
@@ -108,12 +123,10 @@ class StudentsController extends AbstractController
      */
     public function add(): void
     {
-
         $this->language->load("template.common");
         $this->language->load("students.common");
         $this->language->load("students.add");
 
-        $colleges = CollegeModel::all();
 
         if (isset($_POST["add"])) {
             $errors = $this->valid($this->rolesAdd, $_POST);
@@ -124,40 +137,46 @@ class StudentsController extends AbstractController
                 $this->addErrorsMethodToSession($errors);
                 $flag = false;
             }
-            if ($_POST["Password"] !== $_POST["ConfirmPassword"]) {
-                $this->setMessage("error_not_match_password", '', MessagesType::Danger);
-                $flag = false;
-            }
 
             if ($flag) {
                 $student = new StudentModel();
 
-                if (! $student->ifExist("Email", $_POST["Email"])) {
+                $keyMessage = '';
+                $paramMessage = '';
+
+                $flag = $this->checkStudentErrors($student, $keyMessage, $paramMessage);
+
+
+                if ($flag) {
                     $this->setProperties($student, $_POST);
                     $student->Password = self::encryption($_POST["Password"]);
                     $student->Privilege = Privilege::Student->value;
                     $student->StudentMajor = FilterInput::int($_POST["MajorID"]);
 
-                    $major = CollegeModel::row("SELECT * FROM " . MajorModel::getTableName() . " Where  " . MajorModel::getPK() . " = '{$student->StudentMajor}'");
+
+                    $major = MajorModel::getByPK($student->StudentMajor);
+
+                    $student->StudentDepartmentID = $major->MajorDepartmentID;
                     $student->StudentCollegeID = $major->MajorCollegeID;
 
                     self::increment(MajorModel::class, "NumberStudentInMajor", $student->StudentMajor);
                     self::increment(CollegeModel::class, "TotalStudentsInCollege", $major->MajorCollegeID);
                     self::increment(DepartmentModel::class, "TotalStudentsInDepartment", $major->MajorDepartmentID);
 
-                    $this->saveStudent($student);
+                    $this->saveAndHandleOutcome(
+                        $student,
+                        $student->FirstName . ' ' . $student->LastName,
+                        "/students"
+                    );
 
                 } else {
-                    $this->setMessage("already_exits", $_POST["Email"], MessagesType::Danger);
+                    $this->setMessage($keyMessage, $paramMessage, MessagesType::Danger);
                 }
-
 
             }
         }
 
-
         $this->authentication("students.add", [
-            "colleges" => $colleges,
             "majors" => MajorModel::all(),
         ]);
     }
@@ -190,7 +209,11 @@ class StudentsController extends AbstractController
 
             if ($flag) {
                 $this->setProperties($student, $_POST);
-                $this->saveStudent($student);
+                $this->saveAndHandleOutcome(
+                    $student,
+                    $student->FirstName . ' ' . $student->LastName ,
+                    "/students"
+                );
             }
         }
 
@@ -216,7 +239,7 @@ class StudentsController extends AbstractController
 
         $name = $student->FirstName . ' ' . $student->LastName;
 
-        $idCollege = $student->StudentCollegeID;
+        $idCollege = $student->StudentDepartmentID;
         $idMajor = $student->StudentMajor;
 
         $major = CollegeModel::row("SELECT * FROM " . MajorModel::getTableName() . " Where  " . MajorModel::getPK() . " = '{$idMajor}'");

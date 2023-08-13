@@ -406,7 +406,7 @@ if ($messages) {
                     $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
                     $message = $message[0];
                     ?>
-                    <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                    <div class="alert alert-<?= $type ?> between-element p-2 " kick-out="7000" role="alert">
                         <span class="flex f-align-center"><?= $message ?></span>
                     </div>
                     <?php
@@ -527,7 +527,7 @@ if ($messages) {
             <?php
         }
         else {
-            ?> <div class="alert alert-danger p-1"><?= $no_major ?></div> <?php
+            ?> <div class="alert alert-info p-2"><?= $no_major ?></div> <?php
         }
         ?>
 

@@ -19,9 +19,9 @@ class StudentModel extends AbstractModel
     public  $Privilege;
     public  $Password;
     public  $language;
-    public  $StudentCollegeID;
+    public  $StudentDepartmentID;
     public  $StudentMajor;
-
+    public  $StudentCollegeID;
     protected static string $tableName = "Students";
 
     protected static array $tableSchema = [
@@ -37,8 +37,9 @@ class StudentModel extends AbstractModel
         "PhoneNumber"          => self::DATA_TYPE_STR,
         "Privilege"            => self::DATA_TYPE_INT,
         "Password"             => self::DATA_TYPE_STR,
-        "StudentCollegeID"     => self::DATA_TYPE_INT,
+        "StudentDepartmentID"  => self::DATA_TYPE_INT,
         "StudentMajor"         => self::DATA_TYPE_INT,
+        "StudentCollegeID"         => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "StudentID";

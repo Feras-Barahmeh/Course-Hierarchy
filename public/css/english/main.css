@@ -315,7 +315,7 @@ aside .li-aside-menu .arrow {
     transition: all .3s ease-in-out;
     font-size: 17px;
 }
-aside .aside-sub-menu[open='true'] .li-aside-menu:after {
+aside[expanded="true"] .aside-sub-menu[open='true'] .li-aside-menu:after {
     content: '';
     position: absolute;
     top: 50%;
@@ -332,7 +332,7 @@ aside .li-aside-menu .rotate {
     transform: rotate(180deg);
 }
 aside .aside-sub-menu {
-    margin-left: 25px;
+    margin-left: 18px;
     border-left: 1px solid var(--bg-black-50);
     padding-left: 10px;
     transition: visibility 0.5s, opacity 0.5s linear;

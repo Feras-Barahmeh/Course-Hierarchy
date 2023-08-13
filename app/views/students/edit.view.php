@@ -65,14 +65,14 @@
 
 
             <div class="col-md-4 input" required>
-                <label for="StudentCollegeID" class="form-label mb-1"><?= $college_name ?></label>
-                <select class="form-select" id="StudentCollegeID" name="StudentCollegeID" required>
+                <label for="StudentDepartmentID" class="form-label mb-1"><?= $college_name ?></label>
+                <select class="form-select" id="StudentDepartmentID" name="StudentDepartmentID" required>
                     <?php
                     foreach ($colleges as $college) {
 
                         ?>
                         <option
-                            <?= $controller->setSelectedAttribute( $student->StudentCollegeID,  $college->CollegeID) ?>
+                            <?= $controller->setSelectedAttribute( $student->StudentDepartmentID,  $college->CollegeID) ?>
                                 value="<?= $college->CollegeID ?>"
                         >
                             <?= $college->CollegeName ?>

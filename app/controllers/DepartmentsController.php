@@ -8,7 +8,6 @@ use App\Enums\MessagesType;
 use App\Enums\Privilege;
 use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
-use App\Models\Model;
 use App\Models\OperationHandler;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
@@ -99,13 +98,7 @@ class DepartmentsController extends AbstractController
 
                     self::setProperties($department, $_POST);
 
-                    if ($department->save()) {
-                        $this->setMessage("success", $department->DepartmentName, MessagesType::Success->name);
-                        $this->redirect("/departments");
-                    }  else {
-                        $this->setMessage("fail", $department->DepartmentName, MessagesType::Danger->name);
-                    }
-
+                    $this->saveAndHandleOutcome($department, $department->DepartmentName, "/departments");
                 } else {
                     $this->setMessage("already_exits", $DepartmentName, MessagesType::Danger->name);
                 }
@@ -151,7 +144,7 @@ class DepartmentsController extends AbstractController
             if ($flag) {
                 self::setProperties($department, $_POST);
 
-                $this->saveRecord($department, $department->DepartmentName, "/departments");
+                $this->saveAndHandleOutcome($department, $department->DepartmentName, "/departments");
            }
         }
 

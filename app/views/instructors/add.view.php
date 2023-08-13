@@ -126,7 +126,7 @@ use App\Enums\FullTime;
 
             <div class="col-md-2 input" required>
                 <label for="Salary" class="form-label mb-1"><?= $salary ?></label>
-                <input type="number" class="form-control" id="Salary" name="Salary" value="<?= $controller->getStorePost("Salary") ?>" required>
+                <input type="number" step="0.01" class="form-control" id="Salary" name="Salary" value="<?= $controller->getStorePost("Salary") ?>" required>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
                 </div>

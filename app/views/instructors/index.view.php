@@ -142,7 +142,7 @@
             <?php
         }
         else {
-            ?> <div class="alert alert-danger p-1"><?= $no_instructor ?></div> <?php
+            ?> <div class="alert alert-info p-2"><?= $no_instructor ?></div> <?php
         }
         ?>
 

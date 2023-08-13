@@ -253,14 +253,33 @@ abstract  class AbstractController
         }
     }
 
-    public function saveRecord(&$instance, $messageParams, $redirectPath): void
+    /**
+     * Save instance object database and handle the response.
+     *
+     * @param object $instance the instance want save
+     * @param string $messageParams message want show after do save operation
+     * @param string $redirectPath the path go to after do operation
+     * @return void
+     */
+    public function saveAndHandleOutcome(object &$instance, string $messageParams, string $redirectPath): void
     {
         if ($instance->save()) {
-            $this->setMessage("success", $messageParams, MessagesType::Success->name);
+            $this->setMessage("success", $messageParams, MessagesType::Success);
             $this->redirect($redirectPath);
         }  else {
-            $this->setMessage("fail", $messageParams, MessagesType::Danger->name);
+            $this->setMessage("fail", $messageParams, MessagesType::Danger);
         }
     }
 
+    /**
+     * Check if an email address ends with a specified top-level domain (TLD)
+     *
+     * @param string $email
+     * @param string $type
+     * @return false|int
+     */
+    public static function checkTDLEmail(string $email, string $type): false|int
+    {
+        return str_ends_with($email, $type);;
+    }
 }

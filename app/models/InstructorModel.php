@@ -53,7 +53,7 @@ class InstructorModel extends AbstractModel
         "NationalIdentificationNumber"  => self::DATA_TYPE_INT,
         "language"                      => self::DATA_TYPE_INT,
     ];
-    protected static array $Unique = [
+    protected static array $unique = [
         "Email",
     ];
     protected static string $primaryKey = "InstructorID";

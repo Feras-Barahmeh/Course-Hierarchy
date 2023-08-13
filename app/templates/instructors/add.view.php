@@ -420,7 +420,7 @@ if ($messages) {
                     $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
                     $message = $message[0];
                     ?>
-                    <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                    <div class="alert alert-<?= $type ?> between-element p-2 " kick-out="7000" role="alert">
                         <span class="flex f-align-center"><?= $message ?></span>
                     </div>
                     <?php
@@ -532,7 +532,7 @@ if ($messages) {
 
             <div class="col-md-2 input" required>
                 <label for="Salary" class="form-label mb-1"><?= $salary ?></label>
-                <input type="number" class="form-control" id="Salary" name="Salary" value="<?= $controller->getStorePost("Salary") ?>" required>
+                <input type="number" step="0.01" class="form-control" id="Salary" name="Salary" value="<?= $controller->getStorePost("Salary") ?>" required>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
                 </div>

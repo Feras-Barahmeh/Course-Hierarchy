@@ -347,7 +347,7 @@ aside .li-aside-menu .arrow {
     transition: all .3s ease-in-out;
     font-size: 17px;
 }
-aside .aside-sub-menu[open='true'] .li-aside-menu:after {
+aside[expanded="true"] .aside-sub-menu[open='true'] .li-aside-menu:after {
     content: '';
     position: absolute;
     top: 50%;

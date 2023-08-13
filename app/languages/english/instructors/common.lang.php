@@ -29,4 +29,9 @@ $_["state"]              = "state";
 $_["country"]              = "Country";
 $_["DOB"]              = "DOB";
 $_["hire_date"]              = "Hire Date";
+
 $_["error_not_match_password"]              = "Password not match";
+$_["fail_email_unique"]              = "This email <span class='highlight'> %s </span> already used";
+$_["fail_national_id_number_unique"]              = "National identification number<span class='highlight'>%s</span> already used";
+
+

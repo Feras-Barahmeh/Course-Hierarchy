@@ -211,7 +211,7 @@
                     has-sub-menu="true" title="<?= $text_guides ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa-solid fa-person-chalkboard"></i>
+                        <i class="fa-solid fa-compass"></i>
                         <span class="text"><?= $text_guides ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
@@ -225,7 +225,7 @@
                         <li class="li-aside-menu">
                             <a href="/guides/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
-                                <span class="text"><?= $add_instructor ?></span>
+                                <span class="text"><?= $add_guide ?></span>
                             </a>
                         </li>
 
@@ -407,7 +407,7 @@ if ($messages) {
                     $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
                     $message = $message[0];
                     ?>
-                    <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                    <div class="alert alert-<?= $type ?> between-element p-2 " kick-out="7000" role="alert">
                         <span class="flex f-align-center"><?= $message ?></span>
                     </div>
                     <?php
@@ -519,7 +519,7 @@ if ($messages) {
                     <?php
                 }
                 else {
-                    ?> <div class="alert alert-danger p-1"><?= $no_college ?></div> <?php
+                    ?> <div class="alert alert-info p-2"><?= $no_college ?></div> <?php
                 }
             ?>
 

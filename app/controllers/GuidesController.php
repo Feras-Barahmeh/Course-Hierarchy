@@ -20,7 +20,7 @@ class GuidesController extends AbstractController
 
     private array $rolesAdd = [
         "GuideName"         => ["required", "alpha", "between" => [3, 100]],
-        "Email"             => ["required", "email",],
+        "Email"             => ["required", "email", "between" => [LEN_TDL_GUIDE_EMAIL, 100]],
         "GuideDepartmentID" => ["required", "posInt"],
     ];
     private array $rolesEdit = [
@@ -74,6 +74,30 @@ class GuidesController extends AbstractController
         }
     }
 
+    private function checkGuideErrors(string &$keyMessage, string|array &$paramMessage): bool
+    {
+        $flag = true;
+
+        $name = FilterInput::str($_POST["GuideName"]);
+        if (GuideModel::ifExist("GuideName", $name)) {
+            $this->setMessage("error_guide_name_exist", $name,  MessagesType::Danger);
+            $flag = false;
+        } elseif(isset($_POST["Email"]) && GuideModel::ifExist("Email", $_POST["Email"])) {
+            $keyMessage = "fail_email_unique";
+            $paramMessage = $_POST["Email"];
+            $flag =false;
+
+        } elseif( isset($_POST["Email"]) && ! self::checkTDLEmail($_POST["Email"], TLD_GUIDE_EMAIL) ) {
+            $keyMessage = "error_TDL_email";
+            $paramMessage = TLD_GUIDE_EMAIL;
+            $flag =false;
+
+        } elseif(isset($_POST["ConfirmPassword"] ) && isset($_POST["Password"]) && $_POST["ConfirmPassword"] !== $_POST["Password"]) {
+            $keyMessage = "error_not_match_password";
+            $flag =false;
+        }
+        return $flag;
+    }
 
     /**
      * GET('/guides/add')
@@ -96,36 +120,22 @@ class GuidesController extends AbstractController
                 $flag = false;
             }
 
-            if ($_POST["Password"] !== $_POST["ConfirmPassword"]) {
-                $this->setMessage("error_not_match_password", '', MessagesType::Danger);
-                $flag = false;
-            }
-
-            $name = FilterInput::str($_POST["GuideName"]);
-            if (GuideModel::ifExist("GuideName", $name)) {
-                $this->setMessage("error_guide_name_exist", $name,  MessagesType::Danger);
-                $flag = false;
-            }
-            if (GuideModel::ifExist("Email", $_POST["Email"])) {
-                $this->setMessage("error_guide_email_exist", $_POST["Email"],  MessagesType::Danger);
-                $flag = false;
-            }
+            $keyMessage = '';
+            $paramMessage = '';
 
             if ($flag) {
+                $flag = $this->checkGuideErrors($keyMessage, $paramMessage);
 
-                $guide = new GuideModel();
-
-                $this->setProperties($guide, $_POST);
-
-                $guide->Password = self::encryption($_POST["Password"]);
-                $guide->Privilege = Privilege::Guide->value;
-
-                self::saveGuide($guide);
+                if ($flag) {
+                    $guide = new GuideModel();
+                    $this->setProperties($guide, $_POST);
+                    $guide->Password = self::encryption($_POST["Password"]);
+                    $guide->Privilege = Privilege::Guide->value;
+                    self::saveGuide($guide);
+                }
 
             }
-            
         }
-        
 
         $this->authentication("guides.add", [
             "departments" => DepartmentModel::all(),
@@ -181,15 +191,12 @@ class GuidesController extends AbstractController
                 }
             }
 
-
-
             if ($flag) {
                 FilterInput::str($_POST["OfficeHours"]);
                 $this->setProperties($guide, $_POST);
 
                 self::saveGuide($guide);
             }
-
         }
 
         $this->authentication("guides.edit", [
