@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 13, 2023 at 05:20 PM
+-- Generation Time: Aug 17, 2023 at 04:16 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 1);
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `Colleges` (
 --
 
 INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudentsInCollege`) VALUES
-(1, 'Engineering', 1);
+(1, 'Engineering', 2);
 
 -- --------------------------------------------------------
 
@@ -70,12 +70,18 @@ INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudentsInCollege`) VA
 
 CREATE TABLE `Courses` (
   `CourseID` int(11) UNSIGNED NOT NULL,
-  `CourseRequirement` int(11) UNSIGNED DEFAULT NULL,
   `CourseName` varchar(50) NOT NULL,
-  `CreditHours` int(4) NOT NULL DEFAULT 0,
   `Year` enum('FirstYear','SecondYear','ThirdYear','FourthYear','FifthYear') DEFAULT NULL COMMENT 'to determine the academic year in which the course is offered',
-  `AffiliatedToDepartment` int(11) UNSIGNED NOT NULL
+  `CourseMajorID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Courses`
+--
+
+INSERT INTO `Courses` (`CourseID`, `CourseName`, `Year`, `CourseMajorID`) VALUES
+(1, 'Programming Internet', 'SecondYear', 1),
+(2, 'OS', 'FourthYear', 1);
 
 -- --------------------------------------------------------
 
@@ -95,7 +101,7 @@ CREATE TABLE `Departments` (
 --
 
 INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudentsInDepartment`, `CollegeID`) VALUES
-(1, 'Computer and Communications Engineering', 1, 1);
+(1, 'Computer and Communications Engineering', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -169,7 +175,8 @@ CREATE TABLE `Instructors` (
 --
 
 INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
-(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1200.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0);
+(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1200.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0),
+(2, 'Abd Alilah', 1, 'Shapatat', 'abd@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6000.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365800', 0);
 
 -- --------------------------------------------------------
 
@@ -192,7 +199,8 @@ CREATE TABLE `Majors` (
 --
 
 INSERT INTO `Majors` (`MajorID`, `NumberHoursMajor`, `NumberStudentInMajor`, `CoursesNumber`, `MajorName`, `MajorDepartmentID`, `MajorCollegeID`) VALUES
-(1, 162, 1, 62, 'Intelligent System Engineering', 1, 1);
+(1, 162, 2, 62, 'Intelligent System Engineering', 1, 1),
+(2, 162, 0, 62, 'Computer Enginner', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -224,7 +232,8 @@ CREATE TABLE `Students` (
 --
 
 INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentDepartmentID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`, `StudentCollegeID`) VALUES
-(1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1, 1);
+(1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1, 1),
+(2, 0, NULL, 'Khaled', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'khaled@stu.ttu.edu.jo', 4, NULL, 0, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -248,7 +257,8 @@ ALTER TABLE `Colleges`
 -- Indexes for table `Courses`
 --
 ALTER TABLE `Courses`
-  ADD PRIMARY KEY (`CourseID`);
+  ADD PRIMARY KEY (`CourseID`),
+  ADD KEY `FK_Course_Major` (`CourseMajorID`);
 
 --
 -- Indexes for table `Departments`
@@ -321,7 +331,7 @@ ALTER TABLE `Colleges`
 -- AUTO_INCREMENT for table `Courses`
 --
 ALTER TABLE `Courses`
-  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Departments`
@@ -345,19 +355,19 @@ ALTER TABLE `Guides`
 -- AUTO_INCREMENT for table `Instructors`
 --
 ALTER TABLE `Instructors`
-  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `InstructorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Majors`
 --
 ALTER TABLE `Majors`
-  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MajorID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -367,7 +377,7 @@ ALTER TABLE `Students`
 -- Constraints for table `Courses`
 --
 ALTER TABLE `Courses`
-  ADD CONSTRAINT `FK_Affiliated_To_A_College` FOREIGN KEY (`CourseID`) REFERENCES `Departments` (`DepartmentID`);
+  ADD CONSTRAINT `FK_Course_Major` FOREIGN KEY (`CourseMajorID`) REFERENCES `Majors` (`MajorID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Departments`

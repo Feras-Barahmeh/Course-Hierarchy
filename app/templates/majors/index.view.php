@@ -383,7 +383,7 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-building"></i>
+        <i class="fa-solid fa-graduation-cap"></i>
         <span class="">
 
             <?= $text_majors?>

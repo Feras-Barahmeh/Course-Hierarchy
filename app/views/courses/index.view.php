@@ -4,10 +4,10 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-graduation-cap"></i>
+        <i class="fa-solid fa-book-open-reader"></i>
         <span class="">
 
-            <?= $text_majors?>
+            <?= $text_courses?>
         </span>
     </h1>
 
@@ -20,13 +20,13 @@
                 <div class="input-group flex-nowrap">
                     <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
                     <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
-                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_major  ?>" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_course  ?>" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </form>
 
             <div class="action col-lg-6 col-md-4 d-flex">
-                <a href="/majors/add" class="ml-auto">
-                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_major  ?></button>
+                <a href="/courses/add" class="ml-auto">
+                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_course  ?></button>
                 </a>
             </div>
         </div>
@@ -34,7 +34,7 @@
 
 
         <?php
-        if ($majors) {
+        if ($courses) {
 
             ?>
             <div class="container-table responsive-table">
@@ -42,29 +42,23 @@
                     <thead class="table-dark">
                     <tr>
                         <td><?= $id  ?></td>
-                        <td><?= $name_major ?></td>
-                        <td><?= $number_hours_major ?></td>
-                        <td><?= $number_student_major ?></td>
-                        <td><?= $courses_number ?></td>
+                        <td><?= $name_course ?></td>
+                        <td><?= $year ?></td>
                         <td><?= $department ?></td>
-                        <td><?= $college  ?></td>
                         <td><?= $controls  ?></td>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($majors as $major) {
+                    foreach ($courses as $course) {
                         ?>
                         <tr>
-                            <td><?= $major->MajorID ?></td>
-                            <td><?= $major->MajorName ?></td>
-                            <td><?= $major->NumberHoursMajor ?></td>
-                            <td><?= $major->NumberStudentInMajor ?></td>
-                            <td><?= $major->CoursesNumber ?></td>
-                            <td><?= $major->DepartmentName ?></td>
-                            <td><?= $major->CollegeName ?></td>
+                            <td><?= $course->CourseID ?></td>
+                            <td><?= $course->CourseName ?></td>
+                            <td><?= \App\Helper\Handel::getNameYear($course->Year) ?></td>
+                            <td><?= $course->MajorName ?></td>
                             <td class="exclude-hover">
-                                <a href="/majors/edit/<?= $major->MajorID ?>">
+                                <a href="/courses/edit/<?= $course->CourseID ?>">
                                     <button type="button" class="btn btn-success description" description="<?= $edit ?>">
                                         <i class="fa fa-edit"></i>
                                     </button>
@@ -81,7 +75,7 @@
                                             <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
                                             <h4 class="title">
                                                 <?= $are_you_sure_delete ?>
-                                                <span class="highlight"><?= $major->MajorName ?></span>
+                                                <span class="highlight"><?= $course->CourseName ?></span>
                                             </h4>
 
                                             <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
@@ -91,13 +85,13 @@
                                             <div class="row g-3 align-items-center">
                                                 <div class="col-12 input-container">
                                                     <label for="confirmText" class="col-form-label no-select">
-                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $major->MajorName ?></span>
+                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $course->CourseName ?></span>
                                                         <?= $this_box ?>
                                                     </label>
                                                     <input type="text" id="confirmText" class="form-control">
                                                     <div class="buttons mt-10">
                                                         <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
-                                                        <a href="/majors/delete/<?= $major->MajorID ?>" >
+                                                        <a href="/courses/delete/<?= $course->CourseID ?>" >
                                                             <button class="btn btn-danger" apply> <?= $apply  ?> </button>
                                                         </a>
                                                     </div>
@@ -121,7 +115,7 @@
             <?php
         }
         else {
-            ?> <div class="alert alert-info p-2"><?= $no_major ?></div> <?php
+            ?> <div class="alert alert-info p-2"><?= $no_course ?></div> <?php
         }
         ?>
 

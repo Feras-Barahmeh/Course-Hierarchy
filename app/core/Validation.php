@@ -391,7 +391,7 @@ trait Validation
 
                 if (in_array("required", array_values($methods)) || ! $isRequired && $post[$value] != null) {
                     $postValue = trim($post[$value]);
-                    $nameField = $this->convertCamelToSpace($value);
+                    $nameField = self::convertCamelToSpace($value);
                     if (! is_array($param)) {
                         $this->callMethodContainOneParam($param, $postValue, $nameField);
                     } else {

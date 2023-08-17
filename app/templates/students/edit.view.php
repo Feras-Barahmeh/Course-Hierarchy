@@ -205,6 +205,37 @@
                 <!-- End With Instructor -->
 
 
+                <!-- Start With Instructor -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/guides/add', '/guides']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_guides ?>">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-compass"></i>
+                        <span class="text"><?= $text_guides ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/guides" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_guides ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/guides/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_guide ?></span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <!-- End With Instructor -->
+
+
+
+
                 <!-- Start With colleges -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/colleges/add', '/colleges']) === true ? 'active' : '' ?>"
@@ -383,7 +414,7 @@ if ($messages) {
                     $type = is_object($message[1]) ? strtolower($message[1]->name) : strtolower($message[1]);
                     $message = $message[0];
                     ?>
-                    <div class="alert alert-<?= $type ?> between-element plr-20 ptb-10 " kick-out="7000" role="alert">
+                    <div class="alert alert-<?= $type ?> between-element p-2 " kick-out="7000" role="alert">
                         <span class="flex f-align-center"><?= $message ?></span>
                     </div>
                     <?php
@@ -440,14 +471,14 @@ if ($messages) {
 
 
             <div class="col-md-4 input" required>
-                <label for="StudentCollegeID" class="form-label mb-1"><?= $college_name ?></label>
-                <select class="form-select" id="StudentCollegeID" name="StudentCollegeID" required>
+                <label for="StudentDepartmentID" class="form-label mb-1"><?= $college_name ?></label>
+                <select class="form-select" id="StudentDepartmentID" name="StudentDepartmentID" required>
                     <?php
                     foreach ($colleges as $college) {
 
                         ?>
                         <option
-                            <?= $controller->setSelectedAttribute( $student->StudentCollegeID,  $college->CollegeID) ?>
+                            <?= $controller->setSelectedAttribute( $student->StudentDepartmentID,  $college->CollegeID) ?>
                                 value="<?= $college->CollegeID ?>"
                         >
                             <?= $college->CollegeName ?>

@@ -559,4 +559,33 @@ class AbstractModel
         
         return  true;
     }
+    /**
+     * Get the enumerated values of a specific column in the table.
+     *
+     * This static method retrieves the enumerated values of a specific column in the table associated with the model.
+     * It takes a single parameter, `$column` (the name of the column), and returns an array containing the enumerated values
+     * defined for that column.
+     *
+     * The method constructs an SQL query to extract the enumerated values using the INFORMATION_SCHEMA.COLUMNS table.
+     * It then processes the retrieved `enums` value to extract individual enum values and returns them as an array.
+     *
+     * @param string $column The name of the column for which to retrieve the enumerated values.
+     *
+     * @return array Returns an array containing the enumerated values of the specified column.
+     */
+    public static function getEnumColumns(string $column): array
+    {
+        $sql = "
+            SELECT COLUMN_TYPE as enums
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_NAME = '". static::getTableName() ."'
+            AND COLUMN_NAME = '$column'
+        ";
+
+        $enums = Model::execute($sql)[0]["enums"];
+        $enums = trim($enums, "enum(')");
+        $enums = str_replace( "'", '', $enums);
+
+        return explode(',', $enums);
+    }
 }

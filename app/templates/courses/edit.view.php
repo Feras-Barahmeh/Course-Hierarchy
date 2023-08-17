@@ -291,6 +291,32 @@
                 </li>
             <!-- End With Departments -->
 
+                <!-- start Courses -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/courses/add', '/courses']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_courses ?>">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="text"><?=  $text_courses ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/courses" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_courses ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/courses/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_course ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End Courses -->
 
                 <!-- start vote -->
                 <li class="li-aside-menu
@@ -392,8 +418,8 @@
     <div class="container">
         <div class="row mb-20">
             <div class="action col-lg-12 col-md-4 d-flex">
-                <a href="/majors/" class="ml-auto">
-                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_major  ?></button>
+                <a href="/courses/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_course  ?></button>
                 </a>
             </div>
         </div>
@@ -431,9 +457,9 @@ if ($messages) {
 
         <form class="row g-3" method="POST" >
 
-            <div class="col-md-6" >
-                <label for="MajorName" class="form-label mb-1"><?= $major_name ?></label>
-                <input type="text" class="form-control" id="MajorName" name="MajorName"  value="<?= $controller->getStorePost("MajorName", $major) ?>" required>
+            <div class="col-md-6 input" required>
+                <label for="CourseName" class="form-label mb-1"><?= $course_name ?></label>
+                <input type="text" class="form-control" id="CourseName" name="CourseName"  value="<?= $controller->getStorePost("CourseName", $course) ?>" required>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
                 </div>
@@ -443,43 +469,45 @@ if ($messages) {
             </div>
 
 
-            <div class="col-md-6">
-                <label for="NumberHoursMajor" class="form-label mb-1"><?= $number_hours_major ?></label>
-                <input type="number" class="form-control" id="NumberHoursMajor" between="132,165" name="NumberHoursMajor" value="<?= $controller->getStorePost("NumberHoursMajor", $major) ?>" required autocomplete="none">
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback_number_hours_major ?>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <label for="CoursesNumber" class="form-label mb-1"><?= $courses_number  ?></label>
-                <input type="number" class="form-control" id="CoursesNumber" between="40,85" name="CoursesNumber" value="<?= $controller->getStorePost("CoursesNumber", $major) ?>" required>
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback_courses_number ?>
-                </div>
-            </div>
-
-
-            <div class="col-md-6">
-                <label for="MajorDepartmentID" class="form-label mb-1"><?= $text_departments ?></label>
-                <select class="form-select" id="MajorDepartmentID" name="MajorDepartmentID" required>
+            <div class="col-md-6 input" required>
+                <label for="Year" class="form-label mb-1"><?= $text_years ?></label>
+                <select class="form-select" id="Year" name="Year" required>
                     <option value=""></option>
-                    <?php
-                        foreach ($departments as $department) {
 
-                            ?>
-                                <option <?= $controller::setSelectedAttribute($department->DepartmentID, $controller->getStorePost("MajorDepartmentID", $major) ) ?>
-                                        value="<?= $department->DepartmentID ?>">
-                                    <?= $department->DepartmentName ?>
-                                </option>
-                            <?php
-                        }
+                    <?php
+                    foreach ($years as $value => $year) {
+
+                        ?>
+                        <option <?= $controller::setSelectedAttribute($value, $controller->getStorePost("Year", $course) ) ?>
+                                value="<?= $value ?>">
+                            <?= $year ?>
+                        </option>
+                        <?php
+                    }
+                    ?>
+
+                </select>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 input" required>
+                <label for="CourseMajorID" class="form-label mb-1"><?= $text_majors ?></label>
+                <select class="form-select" id="CourseMajorID" name="CourseMajorID" required>
+                    <option value=""></option>
+
+                    <?php
+                    foreach ($majors as $major) {
+
+                        ?>
+                        <option <?= $controller::setSelectedAttribute($major->MajorID, $controller->getStorePost("CourseMajorID", $course) ) ?>
+                                value="<?= $major->MajorID ?>">
+                            <?= $major->MajorName ?>
+                        </option>
+                        <?php
+                    }
                     ?>
 
                 </select>
@@ -490,9 +518,8 @@ if ($messages) {
 
 
 
-
             <div class="col-12">
-                <button class="main-btn" name="edit" type="submit"><?= $add_major ?></button>
+                <button class="main-btn" name="edit" type="submit"><?= $title ?></button>
             </div>
         </form>
     </div>

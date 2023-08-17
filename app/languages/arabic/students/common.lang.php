@@ -9,6 +9,7 @@ $_["delete"] = "حذف";
 $_["edit"] = "تعديل";
 $_["to_students"] = "إلى الطلاب";
 $_["to_pass_hours"] = "عدد ساعات النجاح";
+$_["name_department"] = "القسم";
 $_["first_name"] = "الاسم الأول";
 $_["last_name"] = "الاسم الأخير";
 $_["major_name"]              = "التخصص";

@@ -31,6 +31,8 @@ $_["add_collage"]                          = "Add Collage";
 $_["add_department"]                          = "Add Department";
 $_["votes"]                          = "Votes";
 $_["add_vote"]                          = "Add Vote";
+$_["text_courses"]                          = "Courses";
+$_["add_course"]                          = "Add course";
 $_["settings"]                          = "Settings";
 $_["change_language"]                          = "Change Language";
 $_["account"]                          = "Account";
@@ -40,8 +42,7 @@ $_["logout"]                          = "logout";
 // End Aside
 
 // Start popup
-$_["are_you_sure_delete"]                          = "Are You Sure";
-$_["are_you_sure_delete"]                          = "Are You Sure";
+$_["are_you_sure_delete"]                          = "Are You Sure Delete";
 $_["to_confirm"]                          = "To confirm, type";
 $_["this_box"]                          = "in this box below";
 $_["apply"]                          = "Apply";

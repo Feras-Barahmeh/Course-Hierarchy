@@ -291,6 +291,32 @@
                 </li>
             <!-- End With Departments -->
 
+                <!-- start Courses -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/courses/add', '/courses']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_courses ?>">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="text"><?=  $text_courses ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/courses" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_courses ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/courses/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_course ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End Courses -->
 
                 <!-- start vote -->
                 <li class="li-aside-menu
@@ -383,21 +409,13 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-book-medical"></i>
+        <i class="fa-solid fa-book-open-reader"></i>
         <span class="">
-            <?= $title ?>
+
+            <?= $text_courses?>
         </span>
     </h1>
 
-    <div class="container">
-        <div class="row mb-20">
-            <div class="action col-lg-12 col-md-4 d-flex">
-                <a href="/majors/" class="ml-auto">
-                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_major  ?></button>
-                </a>
-            </div>
-        </div>
-    </div>
     
 <?php
 
@@ -426,76 +444,117 @@ if ($messages) {
 
 }
 ?>
-    <div class="container mt-20 container-form">
 
-
-        <form class="row g-3" method="POST" >
-
-            <div class="col-md-6" >
-                <label for="MajorName" class="form-label mb-1"><?= $major_name ?></label>
-                <input type="text" class="form-control" id="MajorName" name="MajorName"  value="<?= $controller->getStorePost("MajorName", $major) ?>" required>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback ?>
+    <!-- Start Table -->
+    <div class="container">
+        <div class="row mb-20">
+            <form action="" class="col-lg-6 col-md-4" METHOD="POST">
+                <div class="input-group flex-nowrap">
+                    <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
+                    <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
+                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_course  ?>" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
+            </form>
+
+            <div class="action col-lg-6 col-md-4 d-flex">
+                <a href="/courses/add" class="ml-auto">
+                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_course  ?></button>
+                </a>
             </div>
+        </div>
 
 
-            <div class="col-md-6">
-                <label for="NumberHoursMajor" class="form-label mb-1"><?= $number_hours_major ?></label>
-                <input type="number" class="form-control" id="NumberHoursMajor" between="132,165" name="NumberHoursMajor" value="<?= $controller->getStorePost("NumberHoursMajor", $major) ?>" required autocomplete="none">
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback_number_hours_major ?>
-                </div>
-            </div>
 
-            <div class="col-md-6">
-                <label for="CoursesNumber" class="form-label mb-1"><?= $courses_number  ?></label>
-                <input type="number" class="form-control" id="CoursesNumber" between="40,85" name="CoursesNumber" value="<?= $controller->getStorePost("CoursesNumber", $major) ?>" required>
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback_courses_number ?>
-                </div>
-            </div>
+        <?php
+        if ($courses) {
 
-
-            <div class="col-md-6">
-                <label for="MajorDepartmentID" class="form-label mb-1"><?= $text_departments ?></label>
-                <select class="form-select" id="MajorDepartmentID" name="MajorDepartmentID" required>
-                    <option value=""></option>
+            ?>
+            <div class="container-table responsive-table">
+                <table class="table pagination-table upper">
+                    <thead class="table-dark">
+                    <tr>
+                        <td><?= $id  ?></td>
+                        <td><?= $name_course ?></td>
+                        <td><?= $year ?></td>
+                        <td><?= $department ?></td>
+                        <td><?= $controls  ?></td>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <?php
-                        foreach ($departments as $department) {
+                    foreach ($courses as $course) {
+                        ?>
+                        <tr>
+                            <td><?= $course->CourseID ?></td>
+                            <td><?= $course->CourseName ?></td>
+                            <td><?= \App\Helper\Handel::getNameYear($course->Year) ?></td>
+                            <td><?= $course->MajorName ?></td>
+                            <td class="exclude-hover">
+                                <a href="/courses/edit/<?= $course->CourseID ?>">
+                                    <button type="button" class="btn btn-success description" description="<?= $edit ?>">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </a>
 
-                            ?>
-                                <option <?= $controller::setSelectedAttribute($department->DepartmentID, $controller->getStorePost("MajorDepartmentID", $major) ) ?>
-                                        value="<?= $department->DepartmentID ?>">
-                                    <?= $department->DepartmentName ?>
-                                </option>
-                            <?php
-                        }
+                                <button type="button" class="btn btn-danger description" btn-popup description="<?= $delete ?>">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+
+                                <!-- start popup -->
+                                <div class="popup confirm">
+                                    <div class="content">
+                                        <div class="header">
+                                            <div class="icon color-danger bg-danger"><i class="fa fa-exclamation"></i></div>
+                                            <h4 class="title">
+                                                <?= $are_you_sure_delete ?>
+                                                <span class="highlight"><?= $course->CourseName ?></span>
+                                            </h4>
+
+                                            <button class="close-btn" close><i class="fa-solid fa-x"></i></button>
+                                        </div>
+
+                                        <div class="confirm">
+                                            <div class="row g-3 align-items-center">
+                                                <div class="col-12 input-container">
+                                                    <label for="confirmText" class="col-form-label no-select">
+                                                        <?= $to_confirm ?> <span class="fw-bold" get-used-to><?= $course->CourseName ?></span>
+                                                        <?= $this_box ?>
+                                                    </label>
+                                                    <input type="text" id="confirmText" class="form-control">
+                                                    <div class="buttons mt-10">
+                                                        <button class="btn border-1 btn-light cansel" close> <?= $cansel ?> </button>
+                                                        <a href="/courses/delete/<?= $course->CourseID ?>" >
+                                                            <button class="btn btn-danger" apply> <?= $apply  ?> </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End popup -->
+                            </td>
+                        </tr>
+                        <?php
+
+                    }
                     ?>
-
-                </select>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback ?>
-                </div>
+                    </tbody>
+                </table>
             </div>
+            <?php
+        }
+        else {
+            ?> <div class="alert alert-info p-2"><?= $no_course ?></div> <?php
+        }
+        ?>
 
 
-
-
-            <div class="col-12">
-                <button class="main-btn" name="edit" type="submit"><?= $add_major ?></button>
-            </div>
-        </form>
     </div>
+    <!-- End Table -->
+
 </main>
 
 

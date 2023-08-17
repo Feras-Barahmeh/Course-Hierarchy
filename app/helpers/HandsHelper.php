@@ -2,6 +2,8 @@
 
 namespace App\Helper;
 use JetBrains\PhpStorm\NoReturn;
+use ReflectionClass;
+use ReflectionException;
 
 trait HandsHelper
 {
@@ -84,7 +86,7 @@ trait HandsHelper
      * word = splitCamelCase The Output is [split, Camel, Case]
      * @author Feras Barahmeh
      */
-    public function convertCamelToSpace(string $string): string|false
+    public static function convertCamelToSpace(string $string): string|false
     {
         $arr = preg_split(
             '/(^[^A-Z]+|[A-Z][^A-Z]+)/',
@@ -193,5 +195,45 @@ trait HandsHelper
     public static function setSelectedAttribute($value, $compared): string
     {
         return $value == $compared ? "selected" : '';
+    }
+
+    /**
+     * Get the properties and values of an enumerated class.
+     *
+     * This static method retrieves the properties and values of an enumerated class using reflection. The method takes two
+     * parameters: `$class` (the name of the enumerated class) and `$format` (optional, determines the format of the returned array).
+     *
+     * The method uses reflection to extract the constants from the enumerated class. The `$format` parameter controls the format
+     * of the returned array:
+     *
+     * - If `$format` is `true`, the method returns an array of constant values.
+     * - If `$format` is `false`, the method returns an array of constant names.
+     * - If `$format` is `null`, the method returns an associative array where keys are constant names and values are constant values.
+     *
+     * The method returns an array containing the properties and values of the enumerated class based on the specified `$format`.
+     *
+     * @param string $class The name of the enumerated class.
+     * @param bool|null $format Optional. Determines the format of the returned array.
+     *
+     * @return array Returns an array containing the properties and values of the enumerated class based on the specified `$format`.
+     * @throws ReflectionException
+     */
+    public static function getPropertyEnum(string $class, bool|null $format=true): array
+    {
+
+        $content = new ReflectionClass($class);
+        $content = $content->getConstants();
+        $values = [];
+        foreach ($content as $property) {
+            if ($format === true) {
+                $values[] = $property->value;
+            } elseif ($format === false) {
+                $values[] = $property->name;
+            } elseif($format == null) {
+                $values[$property->name] = $property->value;
+            }
+
+        }
+        return $values;
     }
 }

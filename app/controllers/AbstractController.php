@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\FilterInput;
 use App\Core\Registration;
 use App\Core\Session;
 use App\Core\View;
@@ -99,6 +100,16 @@ abstract  class AbstractController
         return $this->params ;
     }
 
+    /**
+     * Method to get the first parameter in url
+     *
+     * @return mixed
+     */
+    public function firstParam(): mixed
+    {
+        $param = $this->getParams()[0];
+        return FilterInput::int($param);
+    }
     /**
      * set registry
      * @param Registration $registry
