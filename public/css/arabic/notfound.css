@@ -21,3 +21,6 @@
 .hit-the-floor {
     text-align: center;
 }
+body {
+    background: var(--color-bg) !important;
+}

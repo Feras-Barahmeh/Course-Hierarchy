@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 17, 2023 at 04:16 PM
+-- Generation Time: Aug 18, 2023 at 11:33 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 1);
+(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
 
 -- --------------------------------------------------------
 
@@ -74,14 +74,6 @@ CREATE TABLE `Courses` (
   `Year` enum('FirstYear','SecondYear','ThirdYear','FourthYear','FifthYear') DEFAULT NULL COMMENT 'to determine the academic year in which the course is offered',
   `CourseMajorID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `Courses`
---
-
-INSERT INTO `Courses` (`CourseID`, `CourseName`, `Year`, `CourseMajorID`) VALUES
-(1, 'Programming Internet', 'SecondYear', 1),
-(2, 'OS', 'FourthYear', 1);
 
 -- --------------------------------------------------------
 
@@ -235,6 +227,18 @@ INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `Fir
 (1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1, 1),
 (2, 0, NULL, 'Khaled', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'khaled@stu.ttu.edu.jo', 4, NULL, 0, 1, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Votes`
+--
+
+CREATE TABLE `Votes` (
+  `VoteID` int(11) UNSIGNED NOT NULL,
+  `StudentID` int(11) UNSIGNED NOT NULL,
+  `CourseID` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -312,6 +316,14 @@ ALTER TABLE `Students`
   ADD KEY `FK_Student_College` (`StudentCollegeID`);
 
 --
+-- Indexes for table `Votes`
+--
+ALTER TABLE `Votes`
+  ADD PRIMARY KEY (`VoteID`),
+  ADD KEY `FK_Student_Vote` (`StudentID`),
+  ADD KEY `FK_Course_Vote` (`CourseID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -331,7 +343,7 @@ ALTER TABLE `Colleges`
 -- AUTO_INCREMENT for table `Courses`
 --
 ALTER TABLE `Courses`
-  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Departments`
@@ -368,6 +380,12 @@ ALTER TABLE `Majors`
 --
 ALTER TABLE `Students`
   MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `Votes`
+--
+ALTER TABLE `Votes`
+  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -418,6 +436,13 @@ ALTER TABLE `Students`
   ADD CONSTRAINT `FK_Department_Studetn` FOREIGN KEY (`StudentDepartmentID`) REFERENCES `Departments` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Major_Studetn` FOREIGN KEY (`StudentMajor`) REFERENCES `Majors` (`MajorID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Student_College` FOREIGN KEY (`StudentCollegeID`) REFERENCES `Colleges` (`CollegeID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Votes`
+--
+ALTER TABLE `Votes`
+  ADD CONSTRAINT `FK_Course_Vote` FOREIGN KEY (`CourseID`) REFERENCES `Courses` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Student_Vote` FOREIGN KEY (`StudentID`) REFERENCES `Students` (`StudentID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
