@@ -10,3 +10,4 @@ $_["department"]              = "Department";
 $_["college"]              = "College";
 $_["course_exist"]              = "Course <span class='highlight'> %s </span> already exist";
 $_["year_not_exist"]              = "No year academic like this";
+$_["number_hour"]              = "Number hours course";

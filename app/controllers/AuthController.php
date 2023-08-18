@@ -37,17 +37,14 @@ class AuthController extends AbstractController
      */
     private function checkTDL(string $email): bool
     {
-        $flag = true;
         foreach (TLD_PARTS as $index => $change) {
+
             $pattern = "/^[^\s]*@{$change}\.ttu\.edu\.jo$/";
-
-            if (preg_match($pattern, $email) !== 1) {
-                $flag=false;
+            if (preg_match($pattern, $email) == 1) {
+                return true;
             }
-            break;
-
         }
-        return $flag;
+        return false;
     }
 
     /**
@@ -59,14 +56,11 @@ class AuthController extends AbstractController
      *
      * @param string $sortedPassword The sorted password stored in the database.
      * @param string $password The user's password to be verified.
-     * @param string $nameUser The name of the user for whom the password verification is being performed.
-     *
      * @return bool Returns true if the passwords match, otherwise returns false.
      */
-    private function verifyPassword(string $sortedPassword, string $password, string $nameUser): bool
+    private function verifyPassword(string $sortedPassword, string $password): bool
     {
         if (self::verifyEncryption($sortedPassword, $password)) {
-            $this->setMessage("welcome_back", $nameUser, MessagesType::Success->name);
             return true;
         } else {
             $this->setMessage("not_valid_pass", '', MessagesType::Danger->name);
@@ -124,9 +118,10 @@ class AuthController extends AbstractController
 
                 $nameColumn = $this->searchColumnContainName($user::getTableSchema());
 
-                $valid = $this->verifyPassword($user->$passwordColumn, $password, $user->{$nameColumn});
+                $valid = $this->verifyPassword($user->$passwordColumn, $password);
 
                 if ($valid) {
+                    $this->setMessage("welcome_back", $user->{$nameColumn}, MessagesType::Success->name);
                     return  $user;
                 }
             }
@@ -156,6 +151,7 @@ class AuthController extends AbstractController
      */
     private function retrieveAndAuthenticateUser(string $email, string $password): object|false
     {
+
         if ($this->checkTDL($email)) {
             FilterInput::str($email);
             $user = $this->authenticateUser($email, $password);
@@ -183,6 +179,9 @@ class AuthController extends AbstractController
         if ($privilege === Privilege::Admin->value) {
             $this->redirect('/');
         }
+        if ($privilege === Privilege::Guide->value) {
+            $this->redirect("/guidesuser");
+        }
     }
     /**
      * Perform user login process.
@@ -204,7 +203,7 @@ class AuthController extends AbstractController
             $password = $_POST["Password"];
 
             $user = $this->retrieveAndAuthenticateUser($email, $password);
-            
+           
             if ($user) {
                 Cookie::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
                 Session::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});

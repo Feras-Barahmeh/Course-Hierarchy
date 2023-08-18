@@ -320,7 +320,7 @@
 
                 <!-- start vote -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
+                    <?= $controller->compareURL(['/votes/add', '/votes']) === true ? 'active' : '' ?>"
                     has-sub-menu="true" title="<?= $votes ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
@@ -330,13 +330,13 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
                                 <span class="text"><?= $votes ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/vote/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/votes/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_vote ?></span>
                             </a>
@@ -467,6 +467,19 @@ if ($messages) {
                     <?= $valid_feedback ?>
                 </div>
             </div>
+
+
+            <div class="col-md-6 input" required>
+                <label for="NumberHourCourse" class="form-label mb-1"><?= $number_hour ?></label>
+                <input type="number" class="form-control" id="NumberHourCourse" name="NumberHourCourse"  value="<?= $controller->getStorePost("NumberHourCourse") ?>" required>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
 
 
             <div class="col-md-6 input" required>

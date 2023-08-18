@@ -72,7 +72,7 @@ if ($messages) {
                                         <i class="fas fa-envelope fa-lg  fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="Email"><?= $your_email ?></label>
-                                            <input type="email" id="Email" name="Email" value="feras@stu.ttu.edu.jo" class="form-control" />
+                                            <input type="email" id="Email" name="Email" value="feras@adm.ttu.edu.jo" class="form-control" />
                                         </div>
                                     </div>
 

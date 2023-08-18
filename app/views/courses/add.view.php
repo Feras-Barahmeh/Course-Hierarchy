@@ -38,6 +38,19 @@
 
 
             <div class="col-md-6 input" required>
+                <label for="NumberHourCourse" class="form-label mb-1"><?= $number_hour ?></label>
+                <input type="number" class="form-control" id="NumberHourCourse" name="NumberHourCourse"  value="<?= $controller->getStorePost("NumberHourCourse") ?>" required>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-6 input" required>
                 <label for="Year" class="form-label mb-1"><?= $text_years ?></label>
                 <select class="form-select" id="Year" name="Year" required>
                     <option value=""></option>

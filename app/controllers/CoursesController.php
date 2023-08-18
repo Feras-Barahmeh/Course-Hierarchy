@@ -26,10 +26,12 @@ class CoursesController extends AbstractController
     private array $rolesAdd = [
         "CourseName"    => ["required", "max" => [50]],
         "CourseMajorID" => ["required", "posInt", "pos", "numeric"],
+        "NumberHourCourse" => ["required", "posInt", "pos", "numeric", "max" =>[10]],
     ];
     private array $rolesEdit = [
         "CourseName"    => ["required", "max" => [50]],
         "CourseMajorID" => ["required", "posInt", "pos", "numeric"],
+        "NumberHourCourse" => ["required", "posInt", "pos", "numeric", "max" =>[10]],
     ];
 
     /**
@@ -132,17 +134,18 @@ class CoursesController extends AbstractController
                 $flag = false;
             }
 
-            $keyMessage = '';
-            $paramMessage = '';
-            $flag = $this->checkErrorCourse($keyMessage, $paramMessage);
+
 
             if ($flag) {
+                $flag = $this->checkErrorCourse($keyMessage, $paramMessage);
+                $keyMessage = '';
+                $paramMessage = '';
+                if (!$flag) {
+                    $this->setMessage("$keyMessage", "$paramMessage", MessagesType::Danger);
+                }
                 $course = new CourseModel();
                 self::setProperties($course, $_POST);
                 $this->saveAndHandleOutcome($course, $course->CourseName, "/courses");
-
-            } else {
-                $this->setMessage("$keyMessage", "$paramMessage", MessagesType::Danger);
             }
             
         }

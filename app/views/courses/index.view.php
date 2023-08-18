@@ -43,6 +43,7 @@
                     <tr>
                         <td><?= $id  ?></td>
                         <td><?= $name_course ?></td>
+                        <td><?= $number_hour ?></td>
                         <td><?= $year ?></td>
                         <td><?= $department ?></td>
                         <td><?= $controls  ?></td>
@@ -55,6 +56,7 @@
                         <tr>
                             <td><?= $course->CourseID ?></td>
                             <td><?= $course->CourseName ?></td>
+                            <td><?= $course->NumberHourCourse ?></td>
                             <td><?= \App\Helper\Handel::getNameYear($course->Year) ?></td>
                             <td><?= $course->MajorName ?></td>
                             <td class="exclude-hover">

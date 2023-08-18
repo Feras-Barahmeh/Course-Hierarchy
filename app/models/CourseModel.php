@@ -9,6 +9,7 @@ class CourseModel extends AbstractModel
     public  $CourseName;
     public  $Year;
     public  $CourseMajorID;
+    public  $NumberHourCourse;
 
 
     protected static string $tableName = "Courses";
@@ -18,6 +19,7 @@ class CourseModel extends AbstractModel
         "CourseName"            => self::DATA_TYPE_STR,
         "Year"                  => self::DATA_TYPE_STR,
         "CourseMajorID"         => self::DATA_TYPE_INT,
+        "NumberHourCourse"         => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "CourseID";

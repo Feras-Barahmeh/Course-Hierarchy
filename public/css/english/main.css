@@ -367,7 +367,7 @@ aside[expanded="false"] {
     padding: 10px;
 }
 aside[expanded="false"] button.aside-toggle {
-    transform: rotateX(180deg);
+    transform: rotateY(-180deg);
 }
 aside[expanded="false"] .user-details {
     display: none;

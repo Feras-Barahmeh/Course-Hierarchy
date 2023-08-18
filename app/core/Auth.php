@@ -39,7 +39,7 @@ class Auth
      * @var array|string[]
      */
     public static array $tables = [
-        "Guide"         => ["unique" => "Email", "password" => "Password"],
+        "Guides"         => ["unique" => "Email", "password" => "Password"],
         "Instructors"   => ["unique" => "Email", "password" => "Password"],
         "Students"      => ["unique" => "Email", "password" => "Password"],
         "Admin"         => ["unique" => "Email", "password" => "Password"],
