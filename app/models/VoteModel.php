@@ -5,15 +5,19 @@ namespace App\Models;
 class VoteModel extends AbstractModel
 {
     public $VoteID;
-    public  $StudentID;
-    public  $CourseID;
+    public  $Title;
+    public  $ForYear;
+    public  $ForMajor;
+    public  $ForDepartment;
 
     protected static string $tableName = "Votes";
 
     protected static array $tableSchema = [
-        "AdminID"   => self::DATA_TYPE_INT,
-        "StudentID" => self::DATA_TYPE_INT,
-        "CourseID"  => self::DATA_TYPE_INT,
+        "VoteID"   => self::DATA_TYPE_INT,
+        "Title"     => self::DATA_TYPE_STR,
+        "ForYear"   => self::DATA_TYPE_STR,
+        "ForMajor"  => self::DATA_TYPE_INT,
+        "ForDepartment"  => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "VoteID";

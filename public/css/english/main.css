@@ -38,6 +38,10 @@ li {
 .main-color {
     color: var(--bg-black-100);
 }
+nav {
+    position: fixed !important;
+    width: 100%;
+}
 .oswald {
     font-family: 'Oswald', sans-serif;
 }
@@ -442,6 +446,7 @@ aside[expanded="false"]  .menu > ul > li > ul[sub-menu] {
 main {
     overflow-x: hidden;
     transition: all .3s ease-in-out;
+    padding-top: 80px;
 }
 aside[expanded="true"] ~ main {
     margin-left: 300px;

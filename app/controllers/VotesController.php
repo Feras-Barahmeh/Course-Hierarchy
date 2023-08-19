@@ -9,7 +9,7 @@ use ReflectionException;
 
 class VotesController extends AbstractController
 {
-    public static int $authentication = Privilege::Guide->value;
+    public static int $authentication = Privilege::Admin->value;
 
     /**
      * #[GET('/votes')]
@@ -22,14 +22,16 @@ class VotesController extends AbstractController
         $this->language->load("votes.common");
         $this->language->load("votes.index");
 
-        $this->authentication("votes.index", [
-        ]);
+        $this->authentication("votes.index");
     }
 
 
 
     /**
+     * Add vote by admin user
+     *
      * GET('/votes/add')
+     *
      * @throws ErrorException|ReflectionException
      */
     public function add(): void
@@ -42,7 +44,10 @@ class VotesController extends AbstractController
     }
 
     /**
-     * Edit major
+     * Edit vote by admin user
+     *
+     * GET('/votes/edit')
+     *
      * @throws ErrorException
      * @throws ReflectionException
      */

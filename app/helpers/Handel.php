@@ -7,6 +7,7 @@ use App\Core\Session;
 use App\Enums\AcademicYear;
 use App\Enums\AcademicYearArabic;
 use App\Enums\Language;
+use App\Models\CourseModel;
 use ReflectionException;
 
 class Handel
@@ -49,5 +50,24 @@ class Handel
         return $target;
     }
 
+    public static function prepareAcademicYears(): array
+    {
+        $years = CourseModel::getEnumColumns("Year");
+        $new = [];
+        $language = Cookie::get("language") ?? Session::get("language");
+
+        if ($language == Language::English->value) {
+            foreach ($years as $year) {
+                $new[$year] = self::convertCamelToSpace($year);
+            }
+        } else {
+            $yearsAr = self::getPropertyEnum(AcademicYearArabic::class);
+
+            for ($i = 0; $i < count($years); $i++) {
+                $new[$years[$i]] = $yearsAr[$i];
+            }
+        }
+        return $new;
+    }
 
 }

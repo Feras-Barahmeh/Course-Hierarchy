@@ -180,7 +180,7 @@ class AuthController extends AbstractController
             $this->redirect('/');
         }
         if ($privilege === Privilege::Guide->value) {
-            $this->redirect("/guidesuser");
+            $this->redirect("/guider");
         }
     }
     /**
