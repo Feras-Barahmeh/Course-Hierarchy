@@ -1,0 +1,17 @@
+.name-student::first-letter {
+    color: var(--bg-black-100);
+}
+.notification {
+    background-color: var(--bs-success);
+    width: 10px;
+    position: absolute;
+    height: 10px;
+    right: 106px;
+    top: 23px;
+    border-radius: 50%;
+}
+
+aside[expanded="false"] .notification {
+    right: 0;
+    top: 18px;
+}

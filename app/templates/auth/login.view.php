@@ -65,9 +65,6 @@ if ($messages) {
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 main-color"><?= $title ?></p>
 
                                 <form class="mx-1 mx-md-4 position-relative" method="POST">
-
-
-
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg  fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
@@ -95,8 +92,6 @@ if ($messages) {
                             <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                                 <img src="<?= IMG . 'login.png' ?>"
                                      class="img-fluid" alt="Sample image">
-<!--                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"-->
-<!--                                     class="img-fluid" alt="Sample image">-->
                             </div>
                         </div>
                     </div>

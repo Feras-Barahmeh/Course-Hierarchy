@@ -182,6 +182,9 @@ class AuthController extends AbstractController
         if ($privilege === Privilege::Guide->value) {
             $this->redirect("/guider");
         }
+        if ($privilege == Privilege::Student->value) {
+            $this->redirect("/student");
+        }
     }
     /**
      * Perform user login process.
