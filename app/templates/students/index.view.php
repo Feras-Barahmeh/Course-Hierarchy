@@ -481,11 +481,9 @@ if ($messages) {
                         <td><?= $college_name ?></td>
                         <td><?= $major_name ?></td>
                         <td><?= $name_department ?></td>
-                        <td><?= $to_pass_hours ?></td>
-                        <td><?= $admission_year ?></td>
+                        <td><?= $text_years ?></td>
                         <td><?= $gender ?></td>
                         <td><?= $phone_number ?></td>
-                        <td><?= $DOB ?></td>
                         <td><?= $address ?></td>
                         <td><?= $controls  ?></td>
                     </tr>
@@ -502,11 +500,9 @@ if ($messages) {
                             <td><?= $student->CollegeName ?></td>
                             <td><?= $student->MajorName ?></td>
                             <td><?= $student->DepartmentName ?></td>
-                            <td><?= $student->NumberHoursSuccess ?></td>
-                            <td><?= $student->AdmissionYear ?></td>
+                            <td><?= \App\Helper\Handel::getNameYear($student->StudentYear) ?></td>
                             <td><?= $student->Gender ?></td>
                             <td><?= $student->PhoneNumber ?></td>
-                            <td><?= $student->DOB ?></td>
                             <td><?= $student->Address ?></td>
                             <td class="exclude-hover">
                                 <a href="/students/edit/<?= $student->StudentID ?>">

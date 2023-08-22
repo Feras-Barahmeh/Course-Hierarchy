@@ -3,7 +3,7 @@ $_["already_exits"]              = "Vote <span class='highlight'> %s </span> Alr
 $_["text_votes"]              = "Votes";
 $_["text_vote"]              = "Vote";
 $_["college"]              = "College";
-$_["to_votes"]              = "To Votes";
+$_["to_dashboard"]              = "To Dashboard";
 $_["invalid_feedback"]              = " Please provide a valid";
 $_["valid_feedback"]              = "Looks good!";
 $_["department_name"]              = "Department Name";

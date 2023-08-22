@@ -481,33 +481,17 @@ if ($messages) {
 
 
             <div class="col-md-4 input" required>
-                <label for="NumberHoursSuccess" class="form-label mb-1"><?= $to_pass_hours ?></label>
-                <input type="number"
-                       class="form-control"
-                       id="NumberHoursSuccess"
-                       name="NumberHoursSuccess"
-                       between="0, 165"
-                       value="<?= $controller->getStorePost("NumberHoursSuccess", $student) ?>" required>
+                <label for="StudentYear" class="form-label mb-1"><?= $text_years ?></label>
+                <select class="form-select" id="StudentYear" name="StudentYear" required>
+                    <option value=""></option>
 
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-            </div>
-
-
-
-            <div class="col-md-4 input" required>
-                <label for="StudentDepartmentID" class="form-label mb-1"><?= $college_name ?></label>
-                <select class="form-select" id="StudentDepartmentID" name="StudentDepartmentID" required>
                     <?php
-                    foreach ($colleges as $college) {
+                    foreach ($years as $value => $year) {
 
                         ?>
-                        <option
-                            <?= $controller->setSelectedAttribute( $student->StudentDepartmentID,  $college->CollegeID) ?>
-                                value="<?= $college->CollegeID ?>"
-                        >
-                            <?= $college->CollegeName ?>
+                        <option <?= $controller::setSelectedAttribute($value, $controller->getStorePost("StudentYear") ) ?>
+                                value="<?= $value ?>">
+                            <?= $year ?>
                         </option>
                         <?php
                     }
@@ -518,6 +502,36 @@ if ($messages) {
                     <?= $invalid_feedback ?>
                 </div>
             </div>
+
+
+
+
+
+
+            <div class="col-md-4 input" required>
+                <label for="MajorID" class="form-label mb-1"><?= $major_name ?></label>
+                <select class="form-select" id="MajorID" name="MajorID" required>
+
+                    <?php
+                    foreach ($majors as $major) {
+
+                        ?>
+                        <option
+                            <?= $controller->setSelectedAttribute( $controller->getStorePost("MajorID"), $major->MajorID ) ?>
+                                value="<?= $major->MajorID ?>"
+                        >
+                            <?= $major->MajorName ?>
+                        </option>
+                        <?php
+                    }
+                    ?>
+
+                </select>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
+                </div>
+            </div>
+
 
             <div class="col-md-4 ">
                 <label for="PhoneNumber" class="form-label mb-1"><?= $phone_number ?></label>
@@ -534,20 +548,6 @@ if ($messages) {
             </div>
 
             <div class="col-md-4 ">
-                <label for="DOB" class="form-label mb-1"><?= $DOB ?></label>
-                <input type="date"
-                       class="form-control"
-                       id="DOB"
-                       name="DOB"
-                       between="0, 165"
-                       value="<?= $controller->getStorePost("DOB", $student) ?>" >
-
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-            </div>
-
-            <div class="col-md-4 ">
                 <label for="Address" class="form-label mb-1"><?= $address ?></label>
                 <input type="text"
                        class="form-control"
@@ -555,21 +555,6 @@ if ($messages) {
                        name="Address"
                        between="0, 165"
                        value="<?= $controller->getStorePost("Address", $student) ?>" >
-
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-            </div>
-
-
-            <div class="col-md-4">
-                <label for="AdmissionYear" class="form-label mb-1"><?= $admission_year ?></label>
-                <input type="text"
-                       class="form-control"
-                       id="AdmissionYear"
-                       name="AdmissionYear"
-                       between="<?= date('Y') - 10 ?>, <?= date('Y') ?>"
-                       value="<?= $controller->getStorePost("AdmissionYear", $student) ?>" >
 
                 <div class="valid-feedback">
                     <?= $valid_feedback ?>

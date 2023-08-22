@@ -9,6 +9,9 @@ class VoteModel extends AbstractModel
     public  $ForYear;
     public  $ForMajor;
     public  $ForDepartment;
+    public  $IsActive;
+    public  $AddedBy;
+    public  $TimeShare;
 
     protected static string $tableName = "Votes";
 
@@ -18,6 +21,7 @@ class VoteModel extends AbstractModel
         "ForYear"   => self::DATA_TYPE_STR,
         "ForMajor"  => self::DATA_TYPE_INT,
         "ForDepartment"  => self::DATA_TYPE_INT,
+        "AddedBy"  => self::DATA_TYPE_INT,
     ];
 
     protected static string $primaryKey = "VoteID";

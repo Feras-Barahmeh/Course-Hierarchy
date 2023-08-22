@@ -30,11 +30,11 @@
             <!-- Start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/guider/add', '/guider/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="<?= $votes ?>">
+                    has-sub-menu="true" title="<?= $text_votes ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-vote-yea"></i>
-                        <span class="text"><?= $votes ?></span>
+                        <span class="text"><?= $text_votes ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">

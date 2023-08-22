@@ -12,7 +12,18 @@
 
     @extend('layout.messages')@
 
+    <div class="container">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/guider/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_dashboard  ?></button>
+                </a>
+            </div>
+        </div>
+
+    </div>
     <div class="container mt-20 container-form">
+
 
         <form class="row g-3" method="POST" >
             <div class="col-md-6 input" required>
@@ -103,6 +114,11 @@
                 <button class="main-btn" name="share" type="submit"><?= $share_vote ?></button>
             </div>
         </form>
+<!---->
+<!--        <div class="alert alert-primary mt-3" >-->
+<!--            if choose year student the target student all student(in your department)-->
+<!--            if chosse-->
+<!--        </div>-->
     </div>
 
 </main>

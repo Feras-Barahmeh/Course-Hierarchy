@@ -11,6 +11,7 @@ use App\Enums\AcademicYearArabic;
 use App\Enums\Language;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
+use App\Helper\Handel;
 use App\Models\CourseModel;
 use App\Models\DepartmentModel;
 use App\Models\MajorModel;
@@ -88,31 +89,7 @@ class CoursesController extends AbstractController
         return $flag;
     }
 
-    /**
-     * Method to prepare academic years depend language
-     *
-     * @return array associative array key name value in database the value year for user
-     * @throws ReflectionException
-     */
-    private static function prepareAcademicYears(): array
-    {
-        $years = CourseModel::getEnumColumns("Year");
-        $new = [];
-        $language = Cookie::get("language") ?? Session::get("language");
 
-        if ($language == Language::English->value) {
-            foreach ($years as $year) {
-                $new[$year] = self::convertCamelToSpace($year);
-            }
-        } else {
-            $yearsAr = self::getPropertyEnum(AcademicYearArabic::class);
-            
-            for ($i = 0; $i < count($years); $i++) {
-                $new[$years[$i]] = $yearsAr[$i];
-            }
-        }
-        return $new;
-    }
     /**
      * GET('/courses/add')
      * @throws ErrorException|ReflectionException
@@ -133,7 +110,6 @@ class CoursesController extends AbstractController
                 $this->addErrorsMethodToSession($errors);
                 $flag = false;
             }
-
 
 
             if ($flag) {
@@ -163,7 +139,7 @@ class CoursesController extends AbstractController
         $this->authentication("courses.add", [
             "majors"    => MajorModel::all(),
             "courses"   => $course,
-            "years"     =>self::prepareAcademicYears(),
+            "years"     => Handel::prepareAcademicYears(),
         ]);
     }
 
@@ -209,7 +185,7 @@ class CoursesController extends AbstractController
 
 
         $this->authentication("courses.edit", [
-            "years"     =>self::prepareAcademicYears(),
+            "years"     => Handel::prepareAcademicYears(),
             "course" => $course,
             "majors"    => MajorModel::all(),
         ]);

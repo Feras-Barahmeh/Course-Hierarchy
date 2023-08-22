@@ -10,6 +10,10 @@ body {
     direction: rtl;
     /*background-color: var(--bg-black-50);*/
 }
+button {
+    margin: 0;
+    border: none;
+}
 body.dark {
     background-color: var(--bg-black-80);
 }

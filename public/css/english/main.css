@@ -31,6 +31,10 @@ a {
     text-decoration: none;
     color: var(--text-black-30);
 }
+button {
+    margin: 0;
+    border: none;
+}
 li {
     text-decoration: none;
     list-style: none;
@@ -79,6 +83,21 @@ nav {
 }
 .hover:hover {
     opacity: .6;
+}
+.vote-btn {
+    padding: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    background-color: transparent;
+}
+.vote-btn.is-active {
+    color: var(--bs-success);
+}
+.vote-btn.is-not-active {
+    color: var(--bs-danger);
 }
 /* End General Settings */
 

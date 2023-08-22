@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Database\DatabaseHandler;
+use PDOStatement;
 
 /**
  * Model Class Contain static method help you do action whit DB
@@ -21,13 +22,18 @@ class Model
 
     /**
      * @param $query string the query you want execute
+     * @param PDOStatement|null $returnType PDO constant to determine type return
      * @return false|array
      */
-    public static function execute(string $query): false|array
+    public static function execute(string $query, mixed $returnType=null): false|array
     {
         $stmt = self::prepare($query);
         if ($stmt->execute()) {
-            return $stmt->fetchAll();
+            if ($returnType != '') {
+                return $stmt->fetchAll($returnType);
+            } else {
+                return $stmt->fetchAll();
+            }
         }
         return false;
     }

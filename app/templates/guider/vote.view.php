@@ -119,11 +119,11 @@
             <!-- Start vote -->
                 <li class="li-aside-menu
                     <?= $controller->compareURL(['/guider/add', '/guider/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="<?= $votes ?>">
+                    has-sub-menu="true" title="<?= $text_votes ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-vote-yea"></i>
-                        <span class="text"><?= $votes ?></span>
+                        <span class="text"><?= $text_votes ?></span>
                         <i class="fa-solid fa-arrow-down arrow"></i>
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
@@ -233,7 +233,18 @@ if ($messages) {
 }
 ?>
 
+    <div class="container">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/guider/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_dashboard  ?></button>
+                </a>
+            </div>
+        </div>
+
+    </div>
     <div class="container mt-20 container-form">
+
 
         <form class="row g-3" method="POST" >
             <div class="col-md-6 input" required>
@@ -324,6 +335,11 @@ if ($messages) {
                 <button class="main-btn" name="share" type="submit"><?= $share_vote ?></button>
             </div>
         </form>
+<!---->
+<!--        <div class="alert alert-primary mt-3" >-->
+<!--            if choose year student the target student all student(in your department)-->
+<!--            if chosse-->
+<!--        </div>-->
     </div>
 
 </main>

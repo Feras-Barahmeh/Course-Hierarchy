@@ -6,7 +6,11 @@ use App\Core\Auth;
 use App\Core\Validation;
 use App\Enums\Privilege;
 use App\Helper\HandsHelper;
+use App\Models\MajorModel;
+use App\Models\Model;
+use App\Models\StudentModel;
 use ErrorException;
+use const http\Client\Curl\AUTH_ANY;
 
 class StudentController extends AbstractController
 {
@@ -22,8 +26,13 @@ class StudentController extends AbstractController
     {
         $this->language->load("template.common");
 
+        $user = Model::execute("SELECT * FROM " . StudentModel::getTableName() . " JOIN " .
+            " Majors ON StudentMajor = " . MajorModel::getPK() .
+            " WHERE StudentID = " . Auth::user()->StudentID
+        ,\PDO::FETCH_CLASS)[0];
+
         $this->authentication("student.index", [
-            "user" => Auth::user(),
+            "user" => $user,
         ]);
     }
 }

@@ -7,11 +7,9 @@ namespace App\Models;
 class StudentModel extends AbstractModel
 {
     public $StudentID;
-    public  $NumberHoursSuccess;
-    public  $AdmissionYear;
+    public  $StudentYear;
     public  $FirstName;
     public  $LastName;
-    public  $DOB;
     public  $Gender;
     public  $Address;
     public  $Email;
@@ -26,11 +24,9 @@ class StudentModel extends AbstractModel
 
     protected static array $tableSchema = [
         "StudentID"            => self::DATA_TYPE_INT,
-        "NumberHoursSuccess"   => self::DATA_TYPE_INT,
-        "AdmissionYear"        => self::DATA_TYPE_INT,
+        "StudentYear"          => self::DATA_TYPE_STR,
         "FirstName"            => self::DATA_TYPE_STR,
         "LastName"             => self::DATA_TYPE_STR,
-        "DOB"                  => self::DATA_TYPE_STR,
         "Gender"               => self::DATA_TYPE_STR,
         "Address"              => self::DATA_TYPE_STR,
         "Email"                => self::DATA_TYPE_STR,

@@ -6,6 +6,7 @@ use App\Core\FilterInput;
 use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
+use App\Helper\Handel;
 use App\Helper\HandsHelper;
 use App\Models\CollegeModel;
 use App\Models\DepartmentModel;
@@ -26,7 +27,7 @@ class StudentsController extends AbstractController
      * @var array|array[]
      */
     private array $rolesAdd = [
-        "NumberHoursSuccess"  => ["required", "numeric", "max" => [165]],
+        "StudentYear"  => ["required", "alpha","max" => [10]],
         "FirstName"         => ["required", "max" => [50]],
         "LastName"         => ["required", "max" => [50]],
         "Password"         => ["required"],
@@ -35,12 +36,9 @@ class StudentsController extends AbstractController
         "MajorID"         => ["required"],
     ];
     private array $rolesEdit = [
-        "NumberHoursSuccess"    => ["required", "numeric", "max" => [165]],
-        "AdmissionYear"         => ["numeric", "between" => []],
-        "StudentDepartmentID"   => ["required", "numeric"],
+        "StudentYear"    => ["required", "alpha", "max" => [10]],
         "FirstName"             => ["required", "required", "max" => [50]],
         "LastName"              => ["required", "required", "max" => [50]],
-        "DOB"                   => ["date"],
         "MajorID"               => ["required"]
     ];
     /**
@@ -178,6 +176,7 @@ class StudentsController extends AbstractController
 
         $this->authentication("students.add", [
             "majors" => MajorModel::all(),
+            "years"     => Handel::prepareAcademicYears(),
         ]);
     }
 
@@ -190,13 +189,13 @@ class StudentsController extends AbstractController
         $this->language->load("template.common");
         $this->language->load("students.common");
         $this->language->load("students.edit");
-        $student = StudentModel::getByPK($this->params[0]);
+        $student = StudentModel::getByPK($this->firstParam());
+
         if (! $student) {
             $this->redirect("/students");
         }
         if (isset($_POST["edit"])) {
-            
-            $this->rolesEdit["AdmissionYear"]["between"] = [date('Y') - 10, date("Y")];
+
 
             $errors = $this->valid($this->rolesEdit, $_POST);
             $flag = true;
@@ -208,7 +207,11 @@ class StudentsController extends AbstractController
             }
 
             if ($flag) {
+                
                 $this->setProperties($student, $_POST);
+                $major = MajorModel::getByPK($student->StudentMajor);
+                $student->StudentDepartmentID = $major->MajorDepartmentID;
+                $student->StudentCollegeID = $major->MajorCollegeID;
                 $this->saveAndHandleOutcome(
                     $student,
                     $student->FirstName . ' ' . $student->LastName ,
@@ -217,12 +220,10 @@ class StudentsController extends AbstractController
             }
         }
 
-
-        $colleges = CollegeModel::all();
-
         $this->authentication("students.edit", [
             "student" => $student,
-            "colleges" => $colleges,
+            "majors" => MajorModel::all(),
+            "years"     => Handel::prepareAcademicYears(),
         ]);
     }
     #[NoReturn] public function delete(): void

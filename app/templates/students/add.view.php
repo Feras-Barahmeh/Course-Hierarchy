@@ -516,19 +516,30 @@ if ($messages) {
             </div>
 
 
-            <div class="col-md-4 input" required>
-                <label for="NumberHoursSuccess" class="form-label mb-1"><?= $to_pass_hours ?></label>
-                <input type="number"
-                       class="form-control"
-                       id="NumberHoursSuccess"
-                       name="NumberHoursSuccess"
-                       between="0, 165"
-                       value="<?= $controller->getStorePost("NumberHoursSuccess") ?>" required>
 
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
+            <div class="col-md-4 input" required>
+                <label for="StudentYear" class="form-label mb-1"><?= $text_years ?></label>
+                <select class="form-select" id="StudentYear" name="StudentYear" required>
+                    <option value=""></option>
+
+                    <?php
+                    foreach ($years as $value => $year) {
+
+                        ?>
+                        <option <?= $controller::setSelectedAttribute($value, $controller->getStorePost("StudentYear") ) ?>
+                                value="<?= $value ?>">
+                            <?= $year ?>
+                        </option>
+                        <?php
+                    }
+                    ?>
+
+                </select>
+                <div class="invalid-feedback">
+                    <?= $invalid_feedback ?>
                 </div>
             </div>
+
 
 
 

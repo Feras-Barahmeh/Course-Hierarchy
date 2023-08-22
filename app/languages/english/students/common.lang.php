@@ -21,5 +21,6 @@ $_["address"]              = "Address";
 $_["gender"]              = "Gender";
 $_["female"]              = "Female";
 $_["male"]              = "Male";
+$_["text_years"]              = "Student Year";
 
 $_["email"]              = "Email";

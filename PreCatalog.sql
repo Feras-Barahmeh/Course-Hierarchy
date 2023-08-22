@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 18, 2023 at 11:33 AM
+-- Generation Time: Aug 22, 2023 at 09:52 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@stu.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
+(1, 'feras@adm.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `Colleges` (
 --
 
 INSERT INTO `Colleges` (`CollegeID`, `CollegeName`, `TotalStudentsInCollege`) VALUES
-(1, 'Engineering', 2);
+(1, 'Engineering', 3);
 
 -- --------------------------------------------------------
 
@@ -72,8 +72,26 @@ CREATE TABLE `Courses` (
   `CourseID` int(11) UNSIGNED NOT NULL,
   `CourseName` varchar(50) NOT NULL,
   `Year` enum('FirstYear','SecondYear','ThirdYear','FourthYear','FifthYear') DEFAULT NULL COMMENT 'to determine the academic year in which the course is offered',
-  `CourseMajorID` int(11) UNSIGNED NOT NULL
+  `CourseMajorID` int(11) UNSIGNED NOT NULL,
+  `NumberHourCourse` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Courses`
+--
+
+INSERT INTO `Courses` (`CourseID`, `CourseName`, `Year`, `CourseMajorID`, `NumberHourCourse`) VALUES
+(1, 'CPP', 'FirstYear', 1, 3),
+(2, 'Physics 1', 'FirstYear', 1, 3),
+(3, 'Physics 2', 'FirstYear', 1, 3),
+(4, 'calculus 1', 'FirstYear', 1, 3),
+(5, 'calculus 2', 'FirstYear', 1, 3),
+(6, 'Python', 'FirstYear', 1, 3),
+(7, 'Digital Logic Design', 'FirstYear', 1, 3),
+(8, 'Engineering Mathmatical', 'FirstYear', 1, 3),
+(9, 'Circuit', 'FirstYear', 1, 3),
+(10, 'Chimstry', 'FirstYear', 1, 3),
+(11, 'Statically', 'FirstYear', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -93,7 +111,7 @@ CREATE TABLE `Departments` (
 --
 
 INSERT INTO `Departments` (`DepartmentID`, `DepartmentName`, `TotalStudentsInDepartment`, `CollegeID`) VALUES
-(1, 'Computer and Communications Engineering', 2, 1);
+(1, 'Computer and Communications Engineering', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -114,7 +132,7 @@ CREATE TABLE `Enrollment` (
 --
 
 CREATE TABLE `Guides` (
-  `GuideID` int(11) NOT NULL,
+  `GuideID` int(11) UNSIGNED NOT NULL,
   `GuideName` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `PhoneNumber` varchar(10) DEFAULT NULL,
@@ -191,7 +209,7 @@ CREATE TABLE `Majors` (
 --
 
 INSERT INTO `Majors` (`MajorID`, `NumberHoursMajor`, `NumberStudentInMajor`, `CoursesNumber`, `MajorName`, `MajorDepartmentID`, `MajorCollegeID`) VALUES
-(1, 162, 2, 62, 'Intelligent System Engineering', 1, 1),
+(1, 162, 3, 62, 'Intelligent System Engineering', 1, 1),
 (2, 162, 0, 62, 'Computer Enginner', 1, 1);
 
 -- --------------------------------------------------------
@@ -202,13 +220,11 @@ INSERT INTO `Majors` (`MajorID`, `NumberHoursMajor`, `NumberStudentInMajor`, `Co
 
 CREATE TABLE `Students` (
   `StudentID` int(11) UNSIGNED NOT NULL,
-  `NumberHoursSuccess` int(10) UNSIGNED NOT NULL,
-  `AdmissionYear` year(4) DEFAULT NULL,
+  `StudentYear` enum('FirstYear','SecondYear','ThirdYear','FourthYear','FifthYear') NOT NULL DEFAULT 'FirstYear',
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `StudentDepartmentID` int(11) UNSIGNED NOT NULL,
-  `DOB` date DEFAULT NULL COMMENT 'Date Of Birth',
   `Gender` enum('Male','Female') NOT NULL,
   `Address` varchar(200) DEFAULT NULL,
   `Email` varchar(100) NOT NULL,
@@ -223,9 +239,8 @@ CREATE TABLE `Students` (
 -- Dumping data for table `Students`
 --
 
-INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `FirstName`, `LastName`, `Password`, `StudentDepartmentID`, `DOB`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`, `StudentCollegeID`) VALUES
-(1, 0, NULL, 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'majd@stu.ttu.edu.jo', 4, NULL, 0, 1, 1),
-(2, 0, NULL, 'Khaled', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, NULL, 'Male', NULL, 'khaled@stu.ttu.edu.jo', 4, NULL, 0, 1, 1);
+INSERT INTO `Students` (`StudentID`, `StudentYear`, `FirstName`, `LastName`, `Password`, `StudentDepartmentID`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`, `StudentCollegeID`) VALUES
+(1, 'FirstYear', 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Male', '', 'majd@stu.ttu.edu.jo', 4, '0785102996', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -235,9 +250,21 @@ INSERT INTO `Students` (`StudentID`, `NumberHoursSuccess`, `AdmissionYear`, `Fir
 
 CREATE TABLE `Votes` (
   `VoteID` int(11) UNSIGNED NOT NULL,
-  `StudentID` int(11) UNSIGNED NOT NULL,
-  `CourseID` int(11) UNSIGNED NOT NULL
+  `Title` varchar(255) NOT NULL,
+  `ForYear` enum('FirstYear','SecondYear','ThirdYear','FourthYear','FifthYear','') DEFAULT NULL,
+  `ForMajor` int(11) DEFAULT NULL,
+  `ForDepartment` int(11) DEFAULT NULL,
+  `TimeShare` datetime DEFAULT current_timestamp(),
+  `IsActive` bit(1) NOT NULL DEFAULT b'1',
+  `AddedBy` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Votes`
+--
+
+INSERT INTO `Votes` (`VoteID`, `Title`, `ForYear`, `ForMajor`, `ForDepartment`, `TimeShare`, `IsActive`, `AddedBy`) VALUES
+(3, 'Summary 2023', 'FirstYear', 1, 1, '2023-08-22 22:52:48', b'1', 1);
 
 --
 -- Indexes for dumped tables
@@ -320,8 +347,7 @@ ALTER TABLE `Students`
 --
 ALTER TABLE `Votes`
   ADD PRIMARY KEY (`VoteID`),
-  ADD KEY `FK_Student_Vote` (`StudentID`),
-  ADD KEY `FK_Course_Vote` (`CourseID`);
+  ADD KEY `FK_Guider` (`AddedBy`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -343,7 +369,7 @@ ALTER TABLE `Colleges`
 -- AUTO_INCREMENT for table `Courses`
 --
 ALTER TABLE `Courses`
-  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `CourseID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `Departments`
@@ -361,7 +387,7 @@ ALTER TABLE `Enrollment`
 -- AUTO_INCREMENT for table `Guides`
 --
 ALTER TABLE `Guides`
-  MODIFY `GuideID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `GuideID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Instructors`
@@ -379,13 +405,13 @@ ALTER TABLE `Majors`
 -- AUTO_INCREMENT for table `Students`
 --
 ALTER TABLE `Students`
-  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `StudentID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Votes`
 --
 ALTER TABLE `Votes`
-  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -441,8 +467,7 @@ ALTER TABLE `Students`
 -- Constraints for table `Votes`
 --
 ALTER TABLE `Votes`
-  ADD CONSTRAINT `FK_Course_Vote` FOREIGN KEY (`CourseID`) REFERENCES `Courses` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Student_Vote` FOREIGN KEY (`StudentID`) REFERENCES `Students` (`StudentID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Guider` FOREIGN KEY (`AddedBy`) REFERENCES `Guides` (`GuideID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
