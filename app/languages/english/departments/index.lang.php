@@ -1,9 +1,10 @@
 <?php
 
 $_["resit"]              = "Resit";
-$_["search_department"]              = "Search Department";
+$_["search_placeholder"]              = "Search Department";
 $_["add_department"]              = "Add Department";
 $_["id"]              = "ID";
+$_["add"]              = "Add Department";
 $_["name_department"]              = "Name Department";
 $_["college_name"]              = "College Name";
 $_["count_students"]              = "Count Students";

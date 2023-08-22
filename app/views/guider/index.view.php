@@ -35,7 +35,7 @@
 <!--                    <div>80 <span class="d-block c-grey fs-14 mt-10">Projects</span></div>-->
 <!--                    <div>$8500 <span class="d-block c-grey fs-14 mt-10">Earned</span></div>-->
                 </div>
-                <a href="/guider/profile" class="visit d-block fs-14 bg-blue c-white w-fit btn-shape">Profile</a>
+<!--                <a href="/guider/profile" class="visit d-block fs-14 bg-blue c-white w-fit btn-shape">Profile</a>-->
             </div>
             <!-- End Welcome Widget -->
             <!-- Start Tasks Widget -->
@@ -67,16 +67,16 @@
             <!-- End Tasks -->
 
             <!-- Start Quick Draft Widget -->
-            <div class="quick-draft p-20 bg-white rad-10">
-                <h2 class="mt-0 mb-10">Quick Draft</h2>
-                <p class="mt-0 mb-20 c-grey fs-15">Write A Draft For Your Ideas</p>
-                <form>
-                    <input class="d-block mb-20 w-full p-10 b-none bg-eee rad-6" type="text" placeholder="Title" />
-                    <textarea class="d-block mb-20 w-full p-10 b-none bg-eee rad-6" placeholder="Your Thought"></textarea>
-                    <input class="save d-block fs-14 bg-blue c-white b-none w-fit btn-shape" type="submit" value="Save" />
-                </form>
-            </div>
-            <!-- End Quick Draft Widget -->
+<!--            <div class="quick-draft p-20 bg-white rad-10">-->
+<!--                <h2 class="mt-0 mb-10">Quick Draft</h2>-->
+<!--                <p class="mt-0 mb-20 c-grey fs-15">Write A Draft For Your Ideas</p>-->
+<!--                <form>-->
+<!--                    <input class="d-block mb-20 w-full p-10 b-none bg-eee rad-6" type="text" placeholder="Title" />-->
+<!--                    <textarea class="d-block mb-20 w-full p-10 b-none bg-eee rad-6" placeholder="Your Thought"></textarea>-->
+<!--                    <input class="save d-block fs-14 bg-blue c-white b-none w-fit btn-shape" type="submit" value="Save" />-->
+<!--                </form>-->
+<!--            </div>-->
+            <!-- End  Quick Draft Widget -->
 
             <!-- Start Ticket Widget -->
             <div class="tickets p-20 bg-white rad-10">

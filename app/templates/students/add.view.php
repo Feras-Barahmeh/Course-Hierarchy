@@ -291,10 +291,36 @@
                 </li>
             <!-- End With Departments -->
 
+                <!-- start Courses -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/courses/add', '/courses']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_courses ?>">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="text"><?=  $text_courses ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/courses" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_courses ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/courses/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_course ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End Courses -->
 
                 <!-- start vote -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
+                    <?= $controller->compareURL(['/votes/add', '/votes']) === true ? 'active' : '' ?>"
                     has-sub-menu="true" title="<?= $votes ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
@@ -304,13 +330,13 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
                                 <span class="text"><?= $votes ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/vote/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/votes/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_vote ?></span>
                             </a>

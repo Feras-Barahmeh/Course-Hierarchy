@@ -1,9 +1,10 @@
 <?php
 
 $_["resit"]              = "Resit";
-$_["search_guide"]              = "Search Guide";
+$_["search_placeholder"]              = "Search Guide";
 $_["add_guide"]              = "Add Guide";
 $_["id"]              = "ID";
+$_["add"]              = "Add Guide";
 $_["name_guide"]              = "Name Guide";
 $_["college_name"]              = "College Name";
 

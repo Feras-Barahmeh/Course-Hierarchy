@@ -29,22 +29,105 @@
     background-color: var(--color-bg);
 }
 body{
-    direction: rtl;
-    width: 100vw; height: 100vh;
-    margin: 0;
-    padding: 0;
-    /*background: var(--color-bg);*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    overflow: hidden;
+    height: 100vh;
 }
 /* Start Login */
+.main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-page {
+    display: flex;
+    width: 900px;
+    position: relative;
+    min-height: 600px;
+}
+.hint {
+    background-color: var(--bg-black-100);
+    font-size: 13px;
+    margin-right: 11px;
+    border-radius: 5px;
+    color: var(--text-black-700);
+    cursor: pointer;
+    transition: transform .3s ease-in-out;
+}
+.hint:hover {
+    transform: scale(1.6);
+}
+.hint p {
+
+}
+figure {
+    margin: 0;
+}
+@media (max-width: 967px) {
+    .container-page {
+        flex-direction: column-reverse;
+        margin: 8px;
+    }
+    .form {
+        margin-top: 10px;
+        width: auto;
+    }
+    .hint:hover {
+        transform: scale(1);
+    }
+}
+@media (max-width: 467px) {
+    .layout {
+        overflow: hidden;
+        flex-direction: column;
+    }
+    .hint {
+        width: 100% !important;
+    }
+    .hint:hover {
+        transform: scale(1);
+    }
+}
+
+.container-page .part {
+
+}
+.container-page .form {
+    background-color: var(--bg-black-60);
+    min-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+.container-page .form form {
+    flex: 2;
+    width: 100%;
+    padding: 10px;
+    margin-top: 40px;
+}
+.container-page .description-section {
+    min-height: 100px;
+    background-color: var(--bg-black-60);
+    box-shadow: 1px 1px 5px;
+}
+.container-page .part p {
+    padding: 0 10px;
+    text-align: right;
+}
+.quotes {
+    overflow-y: scroll;
+    height: 100%;
+}
+.quote h4 {
+    text-align: center;
+    color: var(--bg-black-100);
+    font-weight: bold;
+    font-size: 24px;
+}
 form div svg,
 form div i {
-    margin-left: 10px !important;
-    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 10px !important;
 }
 /* End Login */
 /* Start Access Denied */

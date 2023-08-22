@@ -291,10 +291,36 @@
                 </li>
             <!-- End With Departments -->
 
+                <!-- start Courses -->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/courses/add', '/courses']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_courses ?>">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="text"><?=  $text_courses ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/courses" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_courses ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/courses/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa fa-plus"></i>
+                                <span class="text"><?= $add_course ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End Courses -->
 
                 <!-- start vote -->
                 <li class="li-aside-menu
-                    <?= $controller->compareURL(['/vote/add', '/vote']) === true ? 'active' : '' ?>"
+                    <?= $controller->compareURL(['/votes/add', '/votes']) === true ? 'active' : '' ?>"
                     has-sub-menu="true" title="<?= $votes ?>">
 
                     <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
@@ -304,13 +330,13 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-eye"></i>
                                 <span class="text"><?= $votes ?></span>
                             </a>
                         </li>
                         <li class="li-aside-menu">
-                            <a href="/vote/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/votes/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa fa-plus"></i>
                                 <span class="text"><?= $add_vote ?></span>
                             </a>
@@ -421,21 +447,37 @@ if ($messages) {
 
     <!-- Start Table -->
     <div class="container">
-        <div class="row mb-20">
-            <form action="" class="col-lg-6 col-md-4" METHOD="POST">
-                <div class="input-group flex-nowrap">
-                    <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
-                    <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
-                    <input type="text" class="form-control" name="value_search" placeholder="<?= $search_major  ?>" aria-label="Username" aria-describedby="addon-wrapping">
-                </div>
-            </form>
+<!--        <div class="row mb-20">-->
+<!--            <form action="" class="col-lg-6 col-md-4" METHOD="POST">-->
+<!--                <div class="input-group flex-nowrap">-->
+<!--                    <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> --><?php //= $search  ?><!--</button>-->
+<!--                    <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> --><?php //= $resit ?><!--</button>-->
+<!--                    <input type="text" class="form-control" name="value_search" placeholder="--><?php //= $search_major  ?><!--" aria-label="Username" aria-describedby="addon-wrapping">-->
+<!--                </div>-->
+<!--            </form>-->
+<!---->
+<!--            <div class="action col-lg-6 col-md-4 d-flex">-->
+<!--                <a href="/majors/add" class="ml-auto">-->
+<!--                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> --><?php //= $add_major  ?><!--</button>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
 
-            <div class="action col-lg-6 col-md-4 d-flex">
-                <a href="/majors/add" class="ml-auto">
-                    <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $add_major  ?></button>
-                </a>
-            </div>
+        <div class="row mb-20 gap-10">
+    <form action="" class="col-lg-8 col-md-12" METHOD="POST">
+        <div class="input-group flex-nowrap">
+            <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-filter mr-15 main-color"></i> <?= $search  ?></button>
+            <button class="input-group-text hover" name="resit" type="submit" id="addon-wrapping"><i class="fa fa-arrow-rotate-back mr-15 main-color"></i> <?= $resit ?></button>
+            <input type="text" class="form-control" name="value_search" placeholder="<?= $search_placeholder  ?>" aria-label="" aria-describedby="addon-wrapping">
         </div>
+    </form>
+
+    <div class="action col-lg-3 col-md-12 d-flex">
+        <a href="/<?= $controller->getController() ?>/add" class="">
+            <button class="btn main-btn"> <i class="fa fa-plus main-color mr-5"></i> <?= $controller->language->getDictionary()["add"]  ?></button>
+        </a>
+    </div>
+</div>
 
 
 
