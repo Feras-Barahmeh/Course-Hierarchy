@@ -49,7 +49,7 @@ class SettingsController extends AbstractController
      */
     #[NoReturn] public function language(): void
     {
-        
+
         if (Auth::user()->language == Language::English->value) {
             Session::set(LANGUAGE_NAME_COLUMNS_DB, Language::Arabic->value);
             Cookie::set(LANGUAGE_NAME_COLUMNS_DB, Language::Arabic->value);
@@ -62,6 +62,6 @@ class SettingsController extends AbstractController
         }
 
 
-        $this->redirect("/");
+        $this->redirect("/auth/login");
     }
 }
