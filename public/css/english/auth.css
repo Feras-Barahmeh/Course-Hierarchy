@@ -144,6 +144,9 @@ form div i {
     margin-left: 0 !important;
     margin-right: 10px !important;
 }
+input.remember {
+  accent-color: var(--bg-black-900);
+}
 /* End Login */
 /* Start Access Denied */
 .hit-the-floor {

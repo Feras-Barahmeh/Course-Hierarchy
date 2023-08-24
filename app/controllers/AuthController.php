@@ -153,7 +153,6 @@ class AuthController extends AbstractController
     {
 
         if ($this->checkTDL($email)) {
-            FilterInput::str($email);
             $user = $this->authenticateUser($email, $password);
             if ($user) {
                 return $user;
@@ -202,13 +201,18 @@ class AuthController extends AbstractController
         $this->language->load("auth.login");
 
         if (isset($_POST["login"])) {
-            $email    = $_POST["Email"];
+            
+            $email    = FilterInput::str($_POST["Email"]);
             $password = $_POST["Password"];
 
             $user = $this->retrieveAndAuthenticateUser($email, $password);
            
             if ($user) {
                 Cookie::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
+                if (isset($_POST["remember"])) {
+                    Cookie::set("email", $email);
+                    Cookie::set("password", $password);
+                }
                 Session::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
                 Session::set("user", $user);
                 $this->redirectBasedOnPrivilege($user->Privilege);

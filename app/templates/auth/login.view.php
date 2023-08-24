@@ -65,7 +65,7 @@ if ($messages) {
                     <i class="fas fa-envelope fa-lg main-color fa-fw"></i>
                     <div class="form-outline flex-fill mb-0 ">
                         <label class="form-label" for="Email"><?= $your_email ?></label>
-                        <input type="email" id="Email" name="Email" value="feras@adm.ttu.edu.jo" class="form-control" />
+                        <input type="email" id="Email" name="Email" value="<?= \App\Core\Cookie::get('email') ?>" class="form-control" />
                     </div>
                 </div>
 
@@ -73,12 +73,18 @@ if ($messages) {
                     <i class="fas fa-lock fa-lg fa-fw main-color"></i>
                     <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="Password"><?= $password ?></label>
-                        <input type="password" id="Password" name="Password" value="1234567" class="form-control" />
+                        <input type="password" id="Password" name="Password" value="<?= \App\Core\Cookie::get('password') ?>" class="form-control" />
                     </div>
                 </div>
 
-                <div class=" w-full">
-                    <button type="submit" name="login" class="btn m-auto main-btn btn-lg"><?= $title ?></button>
+                <div class=" w-full flex justify-content-evenly">
+                    <button type="submit" name="login" class="btn main-btn "><?= $title ?></button>
+                    <label for="remember" class="btn main-btn">
+                        <input type="checkbox" name="remember" id="remember" class="remember mr-5">
+                        <?= $remember ?>
+                    </label>
+
+
                 </div>
 
             </form>

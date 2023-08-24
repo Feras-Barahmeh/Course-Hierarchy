@@ -11,6 +11,7 @@ $_["password"]              = "Password";
 
 $_["introduction"]              = "Introduction";
 $_["purpose"]              = "Purpose";
+$_["remember"]              = "Remember Me";
 $_["hint"]              = "Welcome to Pre Catalog page. Your experience is customized according to your privileges. Whether you're an admin, instructor,  student, or guider";
 
 $_["introduction_content"]              = "Welcome to the Pre-Catalog for University Enrollment! This application provides an overview of the steps you need to follow to prepare for the upcoming university catalog and course registration. The pre-catalog process ensures that you have a smooth experience when it's time to register for your desired programs and courses.";
