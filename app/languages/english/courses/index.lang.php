@@ -1,7 +1,7 @@
 <?php
 
 $_["title"]              = "Courses";
-$_["resit"]              = "Resit";
+$_["resit"]              = "Rest";
 $_["search_placeholder"]              = "Search Course";
 $_["add_course"]              = "Add Course";
 $_["id"]              = "ID";

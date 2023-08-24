@@ -1,6 +1,6 @@
 <?php
 
-$_["resit"]              = "Resit";
+$_["resit"]              = "Rest";
 $_["search_placeholder"]              = "Search Guide";
 $_["add_guide"]              = "Add Guide";
 $_["id"]              = "ID";
