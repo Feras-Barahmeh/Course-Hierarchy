@@ -30,6 +30,7 @@ $_["text_departments"]                          = "Departments";
 $_["add_collage"]                          = "Add Collage";
 $_["add_department"]                          = "Add Department";
 $_["votes"]                          = "Votes";
+$_["text_votes"]                          = "Votes";
 $_["add_vote"]                          = "Add Vote";
 $_["text_courses"]                          = "Courses";
 $_["add_course"]                          = "Add course";

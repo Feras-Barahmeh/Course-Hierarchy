@@ -41,7 +41,7 @@
                     if ($votes) {
                         foreach ($votes as $vote ) {
                             ?>
-                            <div class="task-row between-flex <?= $vote->IsActive ? '' : 'done'  ?>">
+                            <div class="task-row between-flex <?= $vote->IsActive ? '' : 'done'  ?> <?=  $vote->TimeExpired > date('Y-m-d H:i') || ! $vote->IsActive ?> <?= $vote->TimeExpired > date('Y-m-d H:i') ? 'done' : '' ?>">
                                 <div class="info">
                                     <h3 class="mt-0 mb-5 fs-15"><?= $vote->Title ?></h3>
                                     <p class="m-0 c-grey">
@@ -49,6 +49,10 @@
                                         <?= $vote->MajorName ? $vote->MajorName . ' | ' : '' ?>
                                         <?= $vote->DepartmentName ?? '' ?>
                                     </p>
+                                    <div>
+                                        <div>Expire <?= $vote->TimeExpired ?></div>
+                                        <div>Shared <?= $vote->TimeExpired ?></div>
+                                    </div>
                                 </div>
                                 <div class="options flex flex-column gap-2">
 

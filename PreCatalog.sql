@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 22, 2023 at 09:52 PM
+-- Generation Time: Aug 24, 2023 at 08:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,6 +42,19 @@ CREATE TABLE `Admin` (
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
 (1, 'feras@adm.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `BallotOutcome`
+--
+
+CREATE TABLE `BallotOutcome` (
+  `BallotID` int(11) UNSIGNED NOT NULL,
+  `StudentVoted` int(11) UNSIGNED NOT NULL,
+  `VotedID` int(11) UNSIGNED NOT NULL,
+  `CourseID` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -240,7 +253,7 @@ CREATE TABLE `Students` (
 --
 
 INSERT INTO `Students` (`StudentID`, `StudentYear`, `FirstName`, `LastName`, `Password`, `StudentDepartmentID`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`, `StudentCollegeID`) VALUES
-(1, 'FirstYear', 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Male', '', 'majd@stu.ttu.edu.jo', 4, '0785102996', 0, 1, 1);
+(1, 'FirstYear', 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Male', '', 'majd@stu.ttu.edu.jo', 4, '0785102996', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -256,15 +269,16 @@ CREATE TABLE `Votes` (
   `ForDepartment` int(11) DEFAULT NULL,
   `TimeShare` datetime DEFAULT current_timestamp(),
   `IsActive` bit(1) NOT NULL DEFAULT b'1',
-  `AddedBy` int(11) UNSIGNED NOT NULL
+  `AddedBy` int(11) UNSIGNED NOT NULL,
+  `TimeExpired` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Votes`
 --
 
-INSERT INTO `Votes` (`VoteID`, `Title`, `ForYear`, `ForMajor`, `ForDepartment`, `TimeShare`, `IsActive`, `AddedBy`) VALUES
-(3, 'Summary 2023', 'FirstYear', 1, 1, '2023-08-22 22:52:48', b'1', 1);
+INSERT INTO `Votes` (`VoteID`, `Title`, `ForYear`, `ForMajor`, `ForDepartment`, `TimeShare`, `IsActive`, `AddedBy`, `TimeExpired`) VALUES
+(2, 'First Tarem 2023', '', 0, 1, '2023-08-24 13:43:30', b'1', 1, '2023-08-12 06:00:00');
 
 --
 -- Indexes for dumped tables
@@ -277,6 +291,14 @@ ALTER TABLE `Admin`
   ADD PRIMARY KEY (`AdminID`),
   ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Name` (`Name`);
+
+--
+-- Indexes for table `BallotOutcome`
+--
+ALTER TABLE `BallotOutcome`
+  ADD PRIMARY KEY (`BallotID`),
+  ADD KEY `FK_Student_ID` (`StudentVoted`),
+  ADD KEY `FK_Vote_ID` (`VotedID`);
 
 --
 -- Indexes for table `Colleges`
@@ -360,6 +382,12 @@ ALTER TABLE `Admin`
   MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `BallotOutcome`
+--
+ALTER TABLE `BallotOutcome`
+  MODIFY `BallotID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `Colleges`
 --
 ALTER TABLE `Colleges`
@@ -411,11 +439,18 @@ ALTER TABLE `Students`
 -- AUTO_INCREMENT for table `Votes`
 --
 ALTER TABLE `Votes`
-  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `BallotOutcome`
+--
+ALTER TABLE `BallotOutcome`
+  ADD CONSTRAINT `FK_Student_ID` FOREIGN KEY (`StudentVoted`) REFERENCES `Students` (`StudentID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Vote_ID` FOREIGN KEY (`VotedID`) REFERENCES `Votes` (`VoteID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Courses`

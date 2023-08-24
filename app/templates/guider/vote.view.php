@@ -306,29 +306,17 @@ if ($messages) {
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <label for="ForDepartment" class="form-label mb-1"><?= $department_name ?></label>
-                <select class="form-select" id="ForDepartment" name="ForDepartment">
-                    <option value=""></option>
-                    <?php
-                    foreach ($departments as $department) {
 
-                        ?>
-                        <option
-                            <?= $controller->setSelectedAttribute( $controller->getStorePost("ForDepartment"), $department->DepartmentID ) ?>
-                                value="<?= $department->DepartmentID ?>">
-                            <?= $department->DepartmentName ?>
-                        </option>
-                        <?php
-                    }
-                    ?>
-
-                </select>
+            <div class="col-md-6 input" required>
+                <label for="TimeExpired" class="form-label mb-1">TimeExpired Vote</label>
+                <input type="datetime-local" class="form-control" id="TimeExpired" name="TimeExpired"  value="<?= $controller->getStorePost("TimeExpired") ?>" required>
                 <div class="invalid-feedback">
                     <?= $invalid_feedback ?>
                 </div>
+                <div class="valid-feedback">
+                    <?= $valid_feedback ?>
+                </div>
             </div>
-
 
 
             <div class="col-12">

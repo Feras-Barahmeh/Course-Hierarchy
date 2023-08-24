@@ -12,6 +12,7 @@ class VoteModel extends AbstractModel
     public  $IsActive;
     public  $AddedBy;
     public  $TimeShare;
+    public  $TimeExpired;
 
     protected static string $tableName = "Votes";
 
@@ -22,6 +23,7 @@ class VoteModel extends AbstractModel
         "ForMajor"  => self::DATA_TYPE_INT,
         "ForDepartment"  => self::DATA_TYPE_INT,
         "AddedBy"  => self::DATA_TYPE_INT,
+        "TimeExpired"  => self::DATA_TYPE_STR,
     ];
 
     protected static string $primaryKey = "VoteID";

@@ -4,6 +4,8 @@ namespace App\Models;
 
 
 
+use App\Core\Auth;
+
 class StudentModel extends AbstractModel
 {
     public $StudentID;
@@ -39,4 +41,12 @@ class StudentModel extends AbstractModel
     ];
 
     protected static string $primaryKey = "StudentID";
+
+    public static function getStudent()
+    {
+        return Model::execute("SELECT * FROM " . StudentModel::getTableName() . " JOIN " .
+            " Majors ON StudentMajor = " . MajorModel::getPK() .
+            " WHERE StudentID = " . Auth::user()->StudentID
+            ,\PDO::FETCH_CLASS)[0];
+    }
 }

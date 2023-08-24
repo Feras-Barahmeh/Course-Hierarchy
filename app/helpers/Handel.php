@@ -2,12 +2,14 @@
 
 namespace App\Helper;
 
+use App\Core\Auth;
 use App\Core\Cookie;
 use App\Core\Session;
 use App\Enums\AcademicYear;
 use App\Enums\AcademicYearArabic;
 use App\Enums\Language;
 use App\Models\CourseModel;
+use App\Models\Model;
 use ReflectionException;
 
 class Handel
@@ -50,6 +52,9 @@ class Handel
         return $target;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function prepareAcademicYears(): array
     {
         $years = CourseModel::getEnumColumns("Year");
@@ -68,6 +73,18 @@ class Handel
             }
         }
         return $new;
+    }
+
+    /**
+     * check if student polling vote or not
+     *
+     * @param string|int $VotedID id voted you had voted and would like to verify whether my vote has been registered.
+     * @return bool return true if voted false other
+     */
+    public static function setNotification(string|int $VotedID): bool
+    {
+
+        return (int) Model::execute("SELECT COUNT(BallotID) as ifVoted FROM BallotOutcome WHERE  StudentVoted = " . Auth::user()->StudentID . " AND  VotedID = " . $VotedID)[0]["ifVoted"] == 0;
     }
 
 }

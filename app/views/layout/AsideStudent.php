@@ -28,25 +28,14 @@
                 </li>
 
             <!-- Start vote -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/student/add', '/student/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="<?= $votes ?>">
-                    <span class="notification"></span>
-
-                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa-solid fa-vote-yea"></i>
-                        <span class="text"><?= $votes ?></span>
-                        <i class="fa-solid fa-arrow-down arrow"></i>
-                    </button>
-                    <ul class="aside-sub-menu" sub-menu open="false">
-                        <li class="li-aside-menu">
-                            <a href="/student/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
-                                <i class="fa-solid fa-plus"></i>
-                                <span class="text"><?= $add_vote ?></span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+<!--                <li class="li-aside-menu --><?php //= $controller->compareURL(['/student/add', '/student/vote']) === true ? 'active' : '' ?><!--"-->
+<!--                    has-sub-menu="false" title="--><?php //= $text_votes ?><!--">-->
+<!--                    <span class="notification"></span>-->
+<!--                    <a href="/student" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">-->
+<!--                        <i class="fa-solid fa-vote-yea"></i>-->
+<!--                        <span class="text">--><?php //= $text_votes  ?><!--</span>-->
+<!--                    </a>-->
+<!--                </li>-->
             <!-- End vote -->
 
             </ul>

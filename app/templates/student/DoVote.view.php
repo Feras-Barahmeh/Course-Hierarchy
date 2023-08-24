@@ -98,7 +98,7 @@
         <div class="user-details">
 
             <p class="name mb-0 fw-bold fs-14">
-                <?= $user->GuideName ?>
+                <?= $user->FirstName . ' ' . $user->LastName ?>
             </p>
         </div>
     </header>
@@ -107,33 +107,23 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate"><?= $main ?> </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/guider') === true ? 'active' : '' ?>"
+                <li class="li-aside-menu <?= $controller->compareURL('/student') === true ? 'active' : '' ?>"
                     has-sub-menu="false" title="<?= $home ?>">
 
-                    <a href="/guider" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <a href="/student" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-home"></i>
                         <span class="text"><?= $home  ?></span>
                     </a>
                 </li>
 
             <!-- Start vote -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/guider/add', '/guider/vote']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="<?= $text_votes ?>">
-
-                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                <li class="li-aside-menu <?= $controller->compareURL(['/student/add', '/student/vote']) === true ? 'active' : '' ?>"
+                    has-sub-menu="false" title="<?= $text_votes ?>">
+                    <span class="notification"></span>
+                    <a href="/student" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa-solid fa-vote-yea"></i>
-                        <span class="text"><?= $text_votes ?></span>
-                        <i class="fa-solid fa-arrow-down arrow"></i>
-                    </button>
-                    <ul class="aside-sub-menu" sub-menu open="false">
-                        <li class="li-aside-menu">
-                            <a href="/guider/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
-                                <i class="fa-solid fa-plus"></i>
-                                <span class="text"><?= $add_vote ?></span>
-                            </a>
-                        </li>
-                    </ul>
+                        <span class="text"><?= $text_votes  ?></span>
+                    </a>
                 </li>
             <!-- End vote -->
 
@@ -198,9 +188,9 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-compass"></i>
+        <i class="fa-solid fa-square-poll-horizontal"></i>
         <span class="name-student">
-            <span class=""><?= $user->GuideName  ?></span>
+            <span class=""><?= $vote->Title ?></span>
         </span>
     </h1>
 
@@ -232,97 +222,60 @@ if ($messages) {
 
 }
 ?>
-    <div class="content w-full">
 
-        <div class="wrapper d-grid gap-20">
-            <!-- Start Welcome Widget -->
-            <div class="welcome bg-white rad-10 txt-c-mobile block-mobile">
-                <div class="intro p-20 d-flex space-between bg-eee">
-                    <div>
-                        <h2 class="m-0">Welcome</h2>
-                        <p class="c-grey mt-5"><?= $user->GuideName ?></p>
-                    </div>
-                    <img class="hide-mobile" src="<?= IMG ?>welcome.png" alt="" />
-                </div>
-                <img src="<?= IMG ?>avatar.png" alt="" class="avatar" />
-                <div class="body txt-c d-flex p-20 mt-20 mb-20 block-mobile">
-                    <div><?= $user->GuideName  ?> <span class="d-block c-grey fs-14 mt-10">Guider</span></div>
 
-                </div>
+
+
+    <div class="">
+
+        <div class="container header mb-25" id="header">
+            <h2 class="mt-0 mb-20">Choose Courses You Want tack </h2>
+
+            <div class="alert alert-danger p-1 hidden" id="danger-alert">
+                Maximum Chosen hours is 18
             </div>
-            <!-- End Welcome Widget -->
-            <!-- Start Tasks Widget -->
-            <div class="tasks p-20 bg-white rad-10">
-                <div class="mt-0 mb-20 task-header between-element ">
-                    <h2 class="">Latest vote</h2>
-                    <a href="/guider/vote" class="main-btn"><i class="fa fa-plus"></i>Add</a>
+
+            <div class="chosen-courses">
+                <ul>
+                    Not Chose any course yet
+                </ul>
+                <div class="footer-ul"><span>0</span> Chosen</div>
+            </div>
+
+            <div class="input-group flex-nowrap">
+                <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-search mr-15 main-color"></i> </button>
+                <input type="text" class="form-control" name="value_search" id="search-course" placeholder="<?= 'Search Course Name'  ?>">
+            </div>
+
+
+        </div>
+        <form class=" g-3 wrapper courses d-grid gap-20" method="POST" id="courses-form" >
+
+            <?php
+            foreach ($courses as $course) {
+
+                ?>
+
+                <div class="task-row between-flex course" id="<?= $course->CourseID ?>" number-Hoers="<?= $course->NumberHourCourse ?>">
+
+                    <div class="info">
+                        <h3 class="mt-0 fs-15" id="nameCourse"><?= $course->CourseName ?></h3>
+                        <p class="m-0 c-grey">Number Hours Course <?= $course->NumberHourCourse ?></p>
+                    </div>
+                    <label for="courses"><input type="checkbox" name="courses[]" value="<?=  $course->CourseID ?>" class="checkbox-input"></label>
+                    <i class="fa-solid fa-check chased hidden"></i>
                 </div>
                 <?php
+            }
+            ?>
 
-                    if ($votes) {
-                        foreach ($votes as $vote ) {
-                            ?>
-                            <div class="task-row between-flex <?= $vote->IsActive ? '' : 'done'  ?> <?=  $vote->TimeExpired > date('Y-m-d H:i') || ! $vote->IsActive ?> <?= $vote->TimeExpired > date('Y-m-d H:i') ? 'done' : '' ?>">
-                                <div class="info">
-                                    <h3 class="mt-0 mb-5 fs-15"><?= $vote->Title ?></h3>
-                                    <p class="m-0 c-grey">
-                                        <?= $vote->ForYear ? $vote->ForYear . ' | ' : '' ?>
-                                        <?= $vote->MajorName ? $vote->MajorName . ' | ' : '' ?>
-                                        <?= $vote->DepartmentName ?? '' ?>
-                                    </p>
-                                    <div>
-                                        <div>Expire <?= $vote->TimeExpired ?></div>
-                                        <div>Shared <?= $vote->TimeExpired ?></div>
-                                    </div>
-                                </div>
-                                <div class="options flex flex-column gap-2">
-
-                                    <button class="vote-btn description  <?= $vote->IsActive ? 'is-active' : 'is-not-active'  ?>" description="convert status">
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                    <a href="/guider/delete/<?= $vote->VoteID ?>"><i class="fa-regular fa-trash-can delete"></i></a>
-                                </div>
-                            </div>
-                            <?php
-                        }
-                    } else {
-                        ?> <div class="alert alert-info p-2"><?= $no_votes ?></div> <?php
-                    }
-                ?>
-<!--                <div class="task-row between-flex">-->
-<!--                    <div class="info">-->
-<!--                        <h3 class="mt-0 mb-5 fs-15">Record One New Video</h3>-->
-<!--                        <p class="m-0 c-grey">Record Python Create Exe Project</p>-->
-<!--                    </div>-->
-<!--                    <i class="fa-regular fa-trash-can delete"></i>-->
-<!--                </div>-->
-<!---->
-<!--                <div class="task-row between-flex done">-->
-<!--                    <div class="info">-->
-<!--                        <h3 class="mt-0 mb-5 fs-15">Attend The Meeting</h3>-->
-<!--                        <p class="m-0 c-grey">Attend The Project Business Analysis Meeting</p>-->
-<!--                    </div>-->
-<!--                    <i class="fa-regular fa-trash-can delete"></i>-->
-<!--                </div>-->
-
+            <div class="col-12">
+                <button class="main-btn" name="vote" type="submit"><?= 'vote' ?></button>
             </div>
-            <!-- End Tasks -->
-
-            <!-- Start Ticket Widget -->
-            <div class="tickets p-20 bg-white rad-10">
-                <h2 class="mt-0 mb-10">Information</h2>
-                <p class="mt-0 mb-20 c-grey fs-15">Everything About</p>
-                <div class="d-flex txt-c gap-20 f-wrap">
-                    <div class="box p-20 rad-10 fs-13 c-grey">
-                        <i class="fa-regular fa-rectangle-list fa-2x mb-10 c-orange"></i>
-                        <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->OfficeHours ?></span>
-                        Office Hours
-                    </div>
-
-            </div>
-            <!-- End Ticket Widget -->
+        </form>
     </div>
 </main>
+
 
 
 

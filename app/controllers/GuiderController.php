@@ -11,6 +11,7 @@ use App\Helper\HandsHelper;
 use App\Models\DepartmentModel;
 use App\Models\MajorModel;
 use App\Models\VoteModel;
+use DateTime;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -62,6 +63,7 @@ class GuiderController extends AbstractController
      *
      * Get(/guider/vote)
      * @throws ErrorException
+     * @throws \Exception
      */
     public function vote(): void
     {
@@ -84,6 +86,10 @@ class GuiderController extends AbstractController
                 $vote->ForDepartment = Auth::user()->GuideDepartmentID;
                 $vote->AddedBy = Auth::user()->GuideID;
 
+                $dateTime = new DateTime($_POST["TimeExpired"]);
+                $formattedDatetime = $dateTime->format('Y-m-d H:i:s');
+                $vote->TimeExpired = $formattedDatetime;
+
                 self::saveAndHandleOutcome($vote, "$vote->Title", "/guider");
             }
         }
@@ -92,12 +98,10 @@ class GuiderController extends AbstractController
             "user"  => Auth::user(),
             "years" => Handel::prepareAcademicYears(),
             "majors"=> MajorModel::all(),
-            "departments" => DepartmentModel::all(),
         ]);
     }
 
     /**
-     *
      * Delete Vote
      *
      * Get("/guider/delete/{id vote}"
