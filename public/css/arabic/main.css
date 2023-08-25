@@ -326,13 +326,6 @@ aside .menu:not(:last-child) {
     border-bottom: 1px solid var(--bg-black-100);
 }
 
-aside .menu:last-child {
-    /*margin-top: auto;*/
-    /*margin-bottom: 40px;*/
-    margin-top: auto;
-    position: fixed;
-    bottom: 1px;
-}
 aside .aside-link,
 aside ul {
     transition: all .3s ease-in-out;
@@ -414,6 +407,13 @@ aside .aside-link {
     border: none;
     color: var(--bg-black-30);
     width: 100%;
+}
+aside nav {
+    overflow-y: scroll;
+    padding-bottom: 20px;
+}
+aside nav::-webkit-scrollbar {
+    width: 0;
 }
 aside[expanded="false"]  .menu > ul > li > .aside-link {
     position: relative;

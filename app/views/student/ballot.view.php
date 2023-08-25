@@ -24,11 +24,12 @@
                 <?= $mch ?>
             </div>
 
+
             <div class="chosen-courses">
                 <ul>
 
                     <?php
-                        if ($coursesChosen) {
+                        if ($coursesChosen && \App\Helper\Handel::ifBallot($vote->VoteID)) {
                             foreach ($coursesChosen as $course) {
                                 ?>
                                     <li id="<?= $course->CourseID ?>" name-course="<?= $course->CourseName ?>" hours="<?= $course->NumberHourCourse ?>">
@@ -64,7 +65,13 @@
                         <h3 class="mt-0 fs-15" id="nameCourse"><?= $course->CourseName ?></h3>
                         <p class="m-0 c-grey"><?= $number_course_hour ?> <?= $course->NumberHourCourse ?></p>
                     </div>
-                    <label for="courses"><input type="checkbox" name="courses[]" <?= in_array( $course->CourseID, $coursesIDs) ? 'checked' : '' ?> value="<?=  $course->CourseID ?>" class="checkbox-input"></label>
+                    <label for="courses">
+                        <input
+                                type="checkbox"
+                                name="courses[]"
+                            <?= in_array( $course->CourseID, $coursesIDs) ? 'checked' : '' ?> value="<?=  $course->CourseID ?>"
+                                class="checkbox-input">
+                    </label>
                     <i class="fa-solid fa-check chased <?= in_array( $course->CourseID, $coursesIDs) ? '' : 'hidden' ?>"></i>
                 </div>
                 <?php

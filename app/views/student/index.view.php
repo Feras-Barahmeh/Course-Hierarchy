@@ -41,7 +41,7 @@
                             <div class="info">
                                 <h3 class="mt-0 mb-5 fs-15 position-relative flex align-center gap-10">
 
-                                    <?= \App\Helper\Handel::setNotification($vote->VoteID) ?
+                                    <?= ! \App\Helper\Handel::ifBallot($vote->VoteID) ?
                                         '<span class="notification"></span>' :
                                         ' <i class="fa-solid fa-check chased"></i>'
                                     ?>
@@ -50,7 +50,7 @@
                                 <p class="m-0 c-grey"><?= $ts ?> <span class='highlight'> <?= $vote->TimeShare ?> </span> </p>
                                 <p class="m-0 c-grey"><?= $te ?> <span class='highlight'> <?= $vote->TimeExpired ?> </span> </p>
                             </div>
-                            <a href="/student/ballotOutcome/<?= $vote->VoteID ?>"><i class="fa-brands fa-readme pointer mr-5"></i><?= $poll ?></a>
+                            <a href="/student/ballot/<?= $vote->VoteID ?>"><i class="fa-brands fa-readme pointer mr-5"></i><?= $poll ?></a>
                         </div>
                     <?php
                 }

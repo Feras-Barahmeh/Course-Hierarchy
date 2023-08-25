@@ -2,7 +2,7 @@
 
 $_["title"]              = "Instructors";
 $_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Instructor";
+$_["search_placeholder"] = "البحث عن اسم المدرب، البريد الإلكتروني، الرقم التعريفي، الرقم الوطني، والراتب";
 $_["add_instructor"]              = "Add Instructor";
 $_["id"]              = "ID";
 $_["add"]              = "Add Instructor";

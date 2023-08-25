@@ -55,7 +55,8 @@ class MajorsController extends AbstractController
         ];
 
         if (isset($_POST["search"])) {
-            $extensionQuery["Department"]["like"] = FilterInput::str($_POST["value_search"]);
+            $valueSearch = trim($_POST["value_search"]);
+            $extensionQuery["Department"]["like"] = FilterInput::str($valueSearch);
         }
 
         $majors = MajorModel::fetch(false, $extensionQuery);

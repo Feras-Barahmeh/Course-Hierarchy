@@ -44,7 +44,9 @@ class CollegesController extends AbstractController
 
         $records = null;
         if (isset($_POST["search"])) {
-            $records = CollegeModel::fetch(true,  ["like" => $_POST["value_search"]]);
+            $valueSearch = trim($_POST["value_search"]);
+            FilterInput::str($valueSearch);
+            $records = CollegeModel::fetch(true,  ["like" => $valueSearch]);
         }
         $records = CollegeModel::fetch();
 

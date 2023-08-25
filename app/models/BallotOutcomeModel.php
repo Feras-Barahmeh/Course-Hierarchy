@@ -21,22 +21,22 @@ class BallotOutcomeModel extends AbstractModel
 
     protected static string $primaryKey = "BallotID";
 
-    public static function getChosenCourses($student): false|array
+    public static function getChosenCourses($student, $voteID): false|array
     {
         return Model::execute(
             "
                 SELECT * FROM " . BallotOutcomeModel::getTableName() . "
               JOIN " . CourseModel::getTableName() . " ON " . BallotOutcomeModel::getTableName() . ".CourseID = " . CourseModel::getTableName() . "." . CourseModel::getPK() . "
-                  WHERE StudentVoted = " . $student->StudentID, \PDO::FETCH_CLASS);
+                  WHERE StudentVoted = " . $student->StudentID ." AND VotedID = {$voteID}", \PDO::FETCH_CLASS);
     }
 
-    public static function totalHourChosen($student): string|int|null
+    public static function totalHourChosen($student, $voteID): string|int|null
     {
         return Model::execute(
             "
                 SELECT Sum(NumberHourCourse) as hoursChosen FROM " . BallotOutcomeModel::getTableName() . "
                   JOIN " . CourseModel::getTableName() . " ON " . BallotOutcomeModel::getTableName() . ".CourseID = " . CourseModel::getTableName() . "." . CourseModel::getPK() . "
-                  WHERE StudentVoted = " . $student->StudentID, \PDO::FETCH_CLASS)[0]->hoursChosen;
+                  WHERE StudentVoted = " . $student->StudentID . " AND VotedID = {$voteID}", \PDO::FETCH_CLASS)[0]->hoursChosen;
     }
     public static function deleteBallotStudent($studentID, $votedID): bool
     {

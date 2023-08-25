@@ -1,7 +1,7 @@
 <?php
 
 $_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Guide";
+$_["search_placeholder"]              = "Search guide name, email";
 $_["add_guide"]              = "Add Guide";
 $_["id"]              = "ID";
 $_["add"]              = "Add Guide";

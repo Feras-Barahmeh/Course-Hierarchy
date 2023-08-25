@@ -55,7 +55,8 @@ class DepartmentsController extends AbstractController
         ];
 
         if (isset($_POST["search"])) {
-            $extensionQuery["College"]["like"] = FilterInput::str($_POST["value_search"]);
+            $valueSearch = trim($_POST["value_search"]);
+            $extensionQuery["College"]["like"] = FilterInput::str($valueSearch);
         }
 
         $departments = DepartmentModel::fetch(false, $extensionQuery);

@@ -1,7 +1,7 @@
 <?php
 
 $_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Department";
+$_["search_placeholder"]              = "Search Department name, college for this department";
 $_["add_department"]              = "Add Department";
 $_["id"]              = "ID";
 $_["add"]              = "Add Department";

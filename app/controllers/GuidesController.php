@@ -49,7 +49,8 @@ class GuidesController extends AbstractController
         ];
 
         if (isset($_POST["search"])) {
-            $extensionQuery["Department"]["like"] = FilterInput::str($_POST["value_search"]);
+            $valueSearch = trim($_POST["value_search"]);
+            $extensionQuery["Department"]["like"] = FilterInput::str($valueSearch);
         }
         $guides = GuideModel::fetch(false, $extensionQuery);
 

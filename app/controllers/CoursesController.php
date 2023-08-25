@@ -55,7 +55,8 @@ class CoursesController extends AbstractController
         ];
 
         if (isset($_POST["search"])) {
-            $extensionQuery["Major"]["like"] = FilterInput::str($_POST["value_search"]);
+            $valueSearch = trim($_POST["value_search"]);
+            $extensionQuery["Major"]["like"] = FilterInput::str($valueSearch);
         }
 
         $courses = CourseModel::fetch(false, $extensionQuery);

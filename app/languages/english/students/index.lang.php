@@ -1,6 +1,6 @@
 <?php
 $_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Students";
+$_["search_placeholder"]              = "Search name student, email";
 $_["add_student"]              = "Add Students";
 $_["id"]              = "ID";
 $_["add"]              = "Add Student";

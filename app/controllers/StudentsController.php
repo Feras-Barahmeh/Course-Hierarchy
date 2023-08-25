@@ -71,7 +71,8 @@ class StudentsController extends AbstractController
         ];
 
         if (isset($_POST["search"])) {
-            $extensionQuery["College"]["like"] = FilterInput::str($_POST["value_search"]);
+            $valueSearch = trim($_POST["value_search"]);
+            $extensionQuery["College"]["like"] = FilterInput::str($valueSearch);
         }
         $students = StudentModel::fetch(false, $extensionQuery);
 

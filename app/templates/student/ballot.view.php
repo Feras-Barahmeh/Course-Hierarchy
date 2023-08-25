@@ -182,9 +182,9 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-graduation-cap"></i>
+        <i class="fa-solid fa-square-poll-horizontal"></i>
         <span class="name-student">
-            <span class=""><?= $user->FirstName . ' ' . $user->LastName ?></span>
+            <span class=""><?= $vote->Title ?></span>
         </span>
     </h1>
 
@@ -218,76 +218,75 @@ if ($messages) {
 ?>
 
 
-    <div class="wrapper d-grid gap-20">
-        <!-- Start Welcome Widget -->
-        <div class="welcome bg-white rad-10 txt-c-mobile block-mobile">
-            <div class="intro p-20 d-flex space-between bg-eee">
-                <div>
-                    <h2 class="m-0"><?= $welcome ?></h2>
-                    <p class="c-grey mt-5"><?= $user->FirstName ?></p>
-                </div>
-                <img class="hide-mobile" src="<?= IMG ?>welcome.png" alt="" />
+
+
+    <div class="">
+
+        <div class="container header mb-25" id="header">
+            <h2 class="mt-0 mb-20"><?= $select_the_courses_you_wish_to_take ?></h2>
+
+            <div class="alert alert-danger p-1 hidden" id="danger-alert">
+                <?= $mch ?>
             </div>
-            <img src="<?= IMG ?>avatar.png" alt="" class="avatar" />
-            <div class="body txt-c d-flex p-20 mt-20 mb-20 block-mobile">
-                <div><?= $user->FirstName . ' ' . $user->LastName ?> <span class="d-block c-grey fs-14 mt-10"> <?= $user->MajorName ?></span></div>
 
-            </div>
-        </div>
-        <!-- End Welcome Widget -->
-        <!-- Start Tasks Widget -->
-        <div class="tasks p-20 bg-white rad-10 position-relative">
-            <h2 class="mt-0 mb-20"><?= $last_votes ?></h2>
-            <?php
-                foreach ($votes as $vote) {
 
-                    ?>
-                        <div class="task-row between-flex">
-                            <div class="info">
-                                <h3 class="mt-0 mb-5 fs-15 position-relative flex align-center gap-10">
+            <div class="chosen-courses">
+                <ul>
 
-                                    <?= ! \App\Helper\Handel::ifBallot($vote->VoteID) ?
-                                        '<span class="notification"></span>' :
-                                        ' <i class="fa-solid fa-check chased"></i>'
-                                    ?>
-                                    <?= $vote->Title ?>
-                                </h3>
-                                <p class="m-0 c-grey"><?= $ts ?> <span class='highlight'> <?= $vote->TimeShare ?> </span> </p>
-                                <p class="m-0 c-grey"><?= $te ?> <span class='highlight'> <?= $vote->TimeExpired ?> </span> </p>
-                            </div>
-                            <a href="/student/ballot/<?= $vote->VoteID ?>"><i class="fa-brands fa-readme pointer mr-5"></i><?= $poll ?></a>
-                        </div>
                     <?php
-                }
+                        if ($coursesChosen && \App\Helper\Handel::ifBallot($vote->VoteID)) {
+                            foreach ($coursesChosen as $course) {
+                                ?>
+                                    <li id="<?= $course->CourseID ?>" name-course="<?= $course->CourseName ?>" hours="<?= $course->NumberHourCourse ?>">
+                                        <?= $course->CourseName ?>
+                                    </li>
+                                <?php
+                            }
+                        } else {
+                            echo  $ncacy;
+                        }
+                    ?>
+                </ul>
+                <div class="footer-ul"><span><?= $hoursChosen ?? '0' ?></span> <?= $chosen_hour ?></div>
+            </div>
+
+            <div class="input-group flex-nowrap">
+                <button class="input-group-text hover" name="search" type="submit" id="addon-wrapping"><i class="fa fa-search mr-15 main-color"></i> </button>
+                <input type="text" class="form-control" name="value_search" id="search-course" placeholder="<?= $search_name_course  ?>">
+            </div>
+
+
+        </div>
+        <form class=" g-3 wrapper courses d-grid gap-20" method="POST" id="courses-form" >
+
+            <?php
+            foreach ($courses as $course) {
+
+                ?>
+
+                <div class="task-row between-flex course" id="<?= $course->CourseID ?>" number-Hoers="<?= $course->NumberHourCourse ?>">
+
+                    <div class="info">
+                        <h3 class="mt-0 fs-15" id="nameCourse"><?= $course->CourseName ?></h3>
+                        <p class="m-0 c-grey"><?= $number_course_hour ?> <?= $course->NumberHourCourse ?></p>
+                    </div>
+                    <label for="courses">
+                        <input
+                                type="checkbox"
+                                name="courses[]"
+                            <?= in_array( $course->CourseID, $coursesIDs) ? 'checked' : '' ?> value="<?=  $course->CourseID ?>"
+                                class="checkbox-input">
+                    </label>
+                    <i class="fa-solid fa-check chased <?= in_array( $course->CourseID, $coursesIDs) ? '' : 'hidden' ?>"></i>
+                </div>
+                <?php
+            }
             ?>
 
-
-        </div>
-        <!-- End Tasks -->
-
-        <!-- Start Ticket Widget -->
-        <div class="tickets p-20 bg-white rad-10">
-            <h2 class="mt-0 mb-10"><?= $statistics ?></h2>
-            <div class="d-flex txt-c gap-20 f-wrap">
-                <div class="box p-20 rad-10 fs-13 c-grey">
-                    <i class="fa-regular fa-rectangle-list fa-2x mb-10 c-orange"></i>
-                    <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->Gender ?></span>
-                    <?= $gender ?>
-                </div>
-                <div class="box p-20 rad-10 fs-13 c-grey">
-                    <i class="fa-solid fa-spinner fa-2x mb-10 c-blue"></i>
-                    <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->PhoneNumber ?? "Not Added Yet" ?></span>
-                    <?= $pn ?>
-                </div>
-                <div class="box p-20 rad-10 fs-13 c-grey">
-                    <i class="fa-regular fa-circle-check fa-2x mb-10 c-green"></i>
-                    <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->MajorName ?></span>
-                    <?= $major ?>
-                </div>
-
+            <div class="col-12">
+                <button class="main-btn" name="vote" type="submit"><?= 'vote' ?></button>
             </div>
-        </div>
-        <!-- End Ticket Widget -->
+        </form>
     </div>
 </main>
 

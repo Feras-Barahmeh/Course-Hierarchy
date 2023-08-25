@@ -1,7 +1,7 @@
 <?php
 
 $_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Major";
+$_["search_placeholder"]              = "Search name major";
 $_["add_major"]              = "Add Major";
 $_["id"]              = "ID";
 $_["add"]              = "Add Major";

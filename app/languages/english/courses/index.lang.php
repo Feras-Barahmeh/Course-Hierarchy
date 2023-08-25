@@ -2,7 +2,7 @@
 
 $_["title"]              = "Courses";
 $_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Course";
+$_["search_placeholder"]              = "Search Course name";
 $_["add_course"]              = "Add Course";
 $_["id"]              = "ID";
 $_["add"]              = "Add Course";

@@ -78,12 +78,6 @@
                 </li>
 
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2 search-nav" type="search" placeholder="<?= $search ?>" aria-label="Search">
-                <button class="btn border-1 border-black btn-search" type="submit">
-                    <?= $search  ?>
-                </button>
-            </form>
         </div>
     </div>
 </nav>

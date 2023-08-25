@@ -35,14 +35,25 @@ class StudentController extends AbstractController
             " Majors ON StudentMajor = " . MajorModel::getPK() .
             " WHERE StudentID = " . Auth::user()->StudentID
         ,\PDO::FETCH_CLASS)[0];
+//
+//        $sql = "
+//        SELECT *
+//            FROM Votes
+//        WHERE
+//            (ForMajor IS NOT NULL AND ForMajor <> 0 AND ForYear IS NOT NULL AND ForDepartment = {$student->StudentDepartmentID} AND ForMajor = '{$student->StudentYear}')
+//        OR
+//            (ForMajor IS NULL OR ForMajor = 0) AND ForDepartment = {$student->StudentDepartmentID} ;
+//        ";
 
         $sql = "
-        SELECT *
-            FROM Votes
+        SELECT
+	        *
+        FROM
+            Votes
         WHERE
-            (ForMajor IS NOT NULL AND ForMajor <> 0 AND ForYear IS NOT NULL AND ForDepartment = {$student->StudentDepartmentID} AND ForMajor = '{$student->StudentYear}')
-        OR
-            (ForMajor IS NULL OR ForMajor = 0) AND ForDepartment = {$student->StudentDepartmentID} ;
+            ((ForYear = '{$student->StudentYear}' OR ForMajor = '{$student->StudentMajor}' ) AND ForDepartment = {$student->StudentDepartmentID} AND Votes.IsActive = '1' AND TimeExpired > NOW())
+            OR
+             ForDepartment = {$student->StudentDepartmentID} AND Votes.IsActive = '1' AND TimeExpired > NOW();
         ";
 
         $votes = Model::execute($sql, \PDO::FETCH_CLASS);
@@ -60,10 +71,10 @@ class StudentController extends AbstractController
      * Get('student/doVote')
      * @throws ErrorException
      */
-    public function ballotOutcome(): void
+    public function ballot(): void
     {
         $this->language->load("template.common");
-        $this->language->load("student.ballotOutcome");
+        $this->language->load("student.ballot");
 
         $vote = VoteModel::getByPK($this->firstParam());
 
@@ -75,7 +86,7 @@ class StudentController extends AbstractController
 
         $courses = CourseModel::get("SELECT * FROM " . CourseModel::getTableName() . " WHERE YEAR = '" . $student->StudentYear . "'");
 
-        $coursesChosen = BallotOutcomeModel::getChosenCourses($student);
+        $coursesChosen = BallotOutcomeModel::getChosenCourses($student, $this->firstParam());
 
         $coursesIDs = [];
         foreach ($coursesChosen as $idCourse) {
@@ -104,7 +115,7 @@ class StudentController extends AbstractController
 
             if ($flag) {
                 $this->setMessage("success", '', MessagesType::Success);
-                $this->redirect("/student/ballotOutcome/{$this->firstParam()}");
+                $this->redirect("/student/ballot/{$this->firstParam()}");
             } else {
                 $this->setMessage("danger", '', MessagesType::Danger);
             }
@@ -113,13 +124,13 @@ class StudentController extends AbstractController
 
 
         
-        $this->authentication("student.ballotOutcome", [
+        $this->authentication("student.ballot", [
             "vote" => $vote,
             "user" => $student,
             "courses" => $courses,
             "coursesIDs" => $coursesIDs,
             "coursesChosen" => $coursesChosen,
-            "hoursChosen" => BallotOutcomeModel::totalHourChosen($student),
+            "hoursChosen" => BallotOutcomeModel::totalHourChosen($student,  $this->firstParam()),
         ]);
     }
 }

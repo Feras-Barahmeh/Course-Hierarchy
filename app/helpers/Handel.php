@@ -81,10 +81,9 @@ class Handel
      * @param string|int $VotedID id voted you had voted and would like to verify whether my vote has been registered.
      * @return bool return true if voted false other
      */
-    public static function setNotification(string|int $VotedID): bool
+    public static function ifBallot(string|int $VotedID): bool
     {
-
-        return (int) Model::execute("SELECT COUNT(BallotID) as ifVoted FROM BallotOutcome WHERE  StudentVoted = " . Auth::user()->StudentID . " AND  VotedID = " . $VotedID)[0]["ifVoted"] == 0;
+        return (int) Model::execute("SELECT COUNT(BallotID) as ifVoted FROM BallotOutcome WHERE  StudentVoted = " . Auth::user()->StudentID . " AND  VotedID = " . $VotedID)[0]["ifVoted"] != 0;
     }
 
 }

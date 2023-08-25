@@ -1,4 +1,21 @@
 /**
+ * Search course by name
+ */
+
+let searchCourse = document.getElementById("search-course")
+searchCourse.addEventListener("keyup", () => {
+    let nameSearched = searchCourse.value.toLowerCase();
+    courses.forEach(course => {
+        let nameCourse = course.querySelector("#nameCourse").textContent.trim().toLowerCase();
+        if ( nameCourse.search(nameSearched) === -1 && nameSearched !== '') {
+            course.classList.add("kick-out")
+        } else {
+            course.classList.remove("kick-out");
+        }
+    });
+});
+
+/**
  *  Check input When Click Course
  */
 let courses = document.querySelectorAll(".course");
@@ -52,8 +69,8 @@ courses.forEach(course => {
                 inputCheckBox.checked = true;
                 let id = course.getAttribute("id");
                 courseChosen[id] = {
+                    "name"  : course.querySelector("#nameCourse").textContent,
                     "hours" : hours,
-                    "name"  : course.querySelector("#nameCourse").textContent
                 };
                 hoursChosen += hours;
                 course.querySelector(".chased").classList.remove("hidden")
@@ -68,19 +85,3 @@ courses.forEach(course => {
     });
 });
 
-/**
- * Search course by name
- */
-
-let searchCourse = document.getElementById("search-course")
-searchCourse.addEventListener("keyup", () => {
-    let nameSearched = searchCourse.value.toLowerCase();
-    courses.forEach(course => {
-       let nameCourse = course.querySelector("#nameCourse").textContent.trim().toLowerCase();
-        if ( nameCourse.search(nameSearched) === -1 && nameSearched !== '') {
-            course.classList.add("kick-out")
-        } else {
-            course.classList.remove("kick-out");
-        }
-    });
-});
