@@ -79,10 +79,10 @@ if ($messages) {
 
                 <div class=" w-full flex justify-content-evenly">
                     <button type="submit" name="login" class="btn main-btn "><?= $title ?></button>
-                    <label for="remember" class="btn main-btn">
-                        <input type="checkbox" name="remember" id="remember" class="remember mr-5">
-                        <?= $remember ?>
-                    </label>
+<!--                    <label for="remember" class="btn main-btn">-->
+<!--                        <input type="checkbox" name="remember" id="remember" class="remember mr-5">-->
+<!--                        --><?php //= $remember ?>
+<!--                    </label>-->
 
 
                 </div>

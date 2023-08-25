@@ -24,7 +24,9 @@
     </div>
     <div class="container mt-20 container-form">
 
-
+        <div class="alert alert-primary mt-3" >
+            <span class="highlight"><?= $hint ?></span>
+        </div>
         <form class="row g-3" method="POST" >
             <div class="col-md-6 input" required>
                 <label for="Title" class="form-label mb-1">Title Vote</label>
@@ -102,11 +104,8 @@
                 <button class="main-btn" name="share" type="submit"><?= $share_vote ?></button>
             </div>
         </form>
-<!---->
-<!--        <div class="alert alert-primary mt-3" >-->
-<!--            if choose year student the target student all student(in your department)-->
-<!--            if chosse-->
-<!--        </div>-->
+
+
     </div>
 
 </main>

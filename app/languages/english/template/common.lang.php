@@ -15,7 +15,7 @@ $_["search"]                          = "Search";
 
 // Start Aside
 $_["main"]                          = "Main";
-$_["home"]                          = "Home";
+$_["home"]                          = "Dashboard";
 $_["text_students"]                          = "Students";
 $_["add_student"]                          = "Add Student";
 $_["delete_student"]                          = "Delete Student";

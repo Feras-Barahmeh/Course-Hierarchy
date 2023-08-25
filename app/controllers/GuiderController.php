@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\FilterInput;
 use App\Core\Validation;
 use App\Enums\MessagesType;
 use App\Enums\Privilege;
@@ -14,6 +15,7 @@ use App\Models\VoteModel;
 use DateTime;
 use ErrorException;
 use JetBrains\PhpStorm\NoReturn;
+use ReflectionException;
 
 class GuiderController extends AbstractController
 {
@@ -21,6 +23,9 @@ class GuiderController extends AbstractController
     use HandsHelper;
     public static int $authentication = Privilege::Guide->value;
 
+    private array $rolesAdd = [
+        "Title"    => ["required", "max" => [255]],
+    ];
     private array $rolesEdit = [
         "Title"    => ["required", "max" => [255]],
     ];
@@ -33,6 +38,7 @@ class GuiderController extends AbstractController
     {
         $this->language->load("template.common");
         $this->language->load("votes.common");
+        $this->language->load("guider.index");
 
         $extensionQuery = [
             "Major" => [
@@ -59,45 +65,96 @@ class GuiderController extends AbstractController
     }
 
     /**
+     * @throws \Exception
+     */
+    private function checkErrorVote(): bool
+    {
+        $flag = true;
+
+        if (isset($_POST["TimeExpired"])) {
+            $dateTime = new DateTime($_POST["TimeExpired"]);
+            $formattedDatetime = $dateTime->format('Y-m-d H:i:s');
+
+            if ($formattedDatetime <= date("Y-m-d H:i:s")) {
+                $this->setMessage("time_expired_false", '', MessagesType::Danger);
+                $flag = false;
+            }
+        }
+        return $flag;
+    }
+
+    /**
      * Add vote
      *
      * Get(/guider/vote)
      * @throws ErrorException
      * @throws \Exception
      */
-    public function vote(): void
+    public function add(): void
     {
         $this->language->load("template.common");
         $this->language->load("guider.common");
-        $this->language->load("guider.vote");
+        $this->language->load("guider.add");
 
         if (isset($_POST["share"])) {
-            $errors = $this->valid($this->rolesEdit, $_POST);
+            $errors = $this->valid($this->rolesAdd, $_POST);
             $flag = true;
             
             if (is_array($errors)) { // If it forms has error
                 $this->addErrorsMethodToSession($errors);
                 $flag = false;
             }
+
+
             
             if ($flag) {
-                $vote = new VoteModel();
-                self::setProperties($vote, $_POST);
-                $vote->ForDepartment = Auth::user()->GuideDepartmentID;
-                $vote->AddedBy = Auth::user()->GuideID;
+                $flag = $this->checkErrorVote();
+                if ($flag) {
+                    $vote = new VoteModel();
+                    self::setProperties($vote, $_POST);
+                    $vote->ForDepartment = Auth::user()->GuideDepartmentID;
+                    $vote->AddedBy = Auth::user()->GuideID;
 
-                $dateTime = new DateTime($_POST["TimeExpired"]);
-                $formattedDatetime = $dateTime->format('Y-m-d H:i:s');
-                $vote->TimeExpired = $formattedDatetime;
+                    $dateTime = new DateTime($_POST["TimeExpired"]);
+                    $formattedDatetime = $dateTime->format('Y-m-d H:i:s');
 
-                self::saveAndHandleOutcome($vote, "$vote->Title", "/guider");
+                    $vote->TimeExpired = $formattedDatetime;
+
+                    self::saveAndHandleOutcome($vote, "$vote->Title", "/guider");
+                }
+
             }
         }
         
-        $this->authentication("guider.vote", [
+        $this->authentication("guider.add", [
             "user"  => Auth::user(),
             "years" => Handel::prepareAcademicYears(),
             "majors"=> MajorModel::all(),
+        ]);
+    }
+
+    /**
+     * Page to show all votes for his guider
+     *
+     * Get(/guider/votes)
+     * @return void
+     * @throws ErrorException
+     */
+    public function votes(): void
+    {
+        $this->language->load("template.common");
+        $this->language->load("guider.common");
+        $this->language->load("guider.votes");
+
+        $votesGuider = VoteModel::get("
+                SELECT * FROM " . VoteModel::getTableName() .
+
+            " WHERE ForDepartment = " . Auth::user()->GuideDepartmentID);
+
+
+        $this->authentication("guider.votes", [
+            "votesGuider" => $votesGuider,
+            "user" => Auth::user()
         ]);
     }
 
@@ -131,4 +188,52 @@ class GuiderController extends AbstractController
         unset($vote);
         $this->redirect("/guider");
     }
+
+    /**
+     *
+     * @return void
+     * @throws ErrorException
+     * @throws ReflectionException
+     * @throws \Exception
+     */
+    public function edit(): void
+    {
+        $this->language->load("template.common");
+        $this->language->load("guider.common");
+        $this->language->load("guider.edit");
+
+        $vote = VoteModel::getByPK($this->firstParam());
+        if (! $vote) $this->redirect("/guider");
+
+        if (isset($_POST["edit"])) {
+            $errors = $this->valid($this->rolesEdit, $_POST);
+            $flag = true;
+
+            if (is_array($errors)) { // If it forms has error
+                $this->addErrorsMethodToSession($errors);
+                $flag = false;
+            }
+
+            if ($flag && $this->checkErrorVote()) {
+
+                self::setProperties($vote, $_POST);
+                $vote->ForDepartment = Auth::user()->GuideDepartmentID;
+                $vote->AddedBy = Auth::user()->GuideID;
+
+                $dateTime = new DateTime($_POST["TimeExpired"]);
+                $formattedDatetime = $dateTime->format('Y-m-d H:i:s');
+                $vote->TimeExpired = $formattedDatetime;
+
+                self::saveAndHandleOutcome($vote, "$vote->Title", "/guider");
+            }
+        }
+
+        $this->authentication("guider.edit", [
+            "user" => Auth::user(),
+            "vote" => $vote,
+            "years" => Handel::prepareAcademicYears(),
+            "majors"=> MajorModel::all(),
+        ]);
+    }
+
 }

@@ -4,8 +4,10 @@ namespace App\Controllers;
 
 use App\Core\Auth;
 use App\Core\Cookie;
+use App\Core\FilterInput;
 use App\Enums\Language;
 use App\Enums\Privilege;
+use App\Models\Model;
 
 class AjaxController extends AbstractController
 {
@@ -45,5 +47,33 @@ class AjaxController extends AbstractController
             ]);
         }
 
+    }
+
+    public function getStatisticsVote(): void
+    {
+        $id = FilterInput::int($_POST["id"]);
+
+        $votesGuider = Model::execute(
+            "
+                SELECT
+                        V.*, C.*, COUNT(BO.CourseID) AS VotedNumber
+                FROM
+                    BallotOutcome as BO
+                INNER JOIN
+                    Courses as C on C.CourseID = BO.CourseID
+                INNER JOIN
+                    Votes as V
+                ON
+                    V.VoteID = BO.VotedID 
+                WHERE 
+                    V.VoteID = {$id}
+                GROUP BY 
+                    BO.CourseID
+                ORDER BY
+                    VotedNumber;
+            "
+        , \PDO::FETCH_CLASS);
+
+        echo  json_encode($votesGuider);
     }
 }

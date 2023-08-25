@@ -78,12 +78,6 @@
                 </li>
 
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2 search-nav" type="search" placeholder="<?= $search ?>" aria-label="Search">
-                <button class="btn border-1 border-black btn-search" type="submit">
-                    <?= $search  ?>
-                </button>
-            </form>
         </div>
     </div>
 </nav>
@@ -128,11 +122,18 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/guider/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/guider/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_votes ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/guider/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-plus"></i>
                                 <span class="text"><?= $add_vote ?></span>
                             </a>
                         </li>
+
                     </ul>
                 </li>
             <!-- End vote -->
@@ -200,7 +201,7 @@
     <h1 class="main-title">
         <i class="fa-solid fa-square-poll-vertical"></i>
         <span class="">
-            <?= $text_vote  ?>
+            <?= $text_votes  ?>
         </span>
     </h1>
 
@@ -241,95 +242,29 @@ if ($messages) {
                 </a>
             </div>
         </div>
-
-    </div>
-    <div class="container mt-20 container-form">
-
-
-        <form class="row g-3" method="POST" >
-            <div class="col-md-6 input" required>
-                <label for="Title" class="form-label mb-1">Title Vote</label>
-                <input type="text" class="form-control" id="Title" name="Title"  value="<?= $controller->getStorePost("Title") ?>" required>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback ?>
-                </div>
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <label for="ForYear" class="form-label mb-1"><?= $text_years ?></label>
-                <select class="form-select" id="ForYear" name="ForYear">
-                    <option value=""></option>
-
-                    <?php
-                        foreach ($years as $value => $year) {
-                            ?>
-                                <option <?= $controller::setSelectedAttribute($value, $controller->getStorePost("ForYear") ) ?>
-                                        value="<?= $value ?>">
-                                    <?= $year ?>
-                                </option>
-                            <?php
-                        }
-                    ?>
-
-                </select>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback ?>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-md-6">
-                <label for="ForMajor" class="form-label mb-1"><?= $text_majors ?></label>
-                <select class="form-select" id="ForMajor" name="ForMajor">
-                    <option value=""></option>
-
-                    <?php
-                    foreach ($majors as $major) {
-
-                        ?>
-                        <option <?= $controller::setSelectedAttribute($major->MajorID, $controller->getStorePost("ForMajor") ) ?>
-                                value="<?= $major->MajorID ?>">
-                            <?= $major->MajorName ?>
-                        </option>
-                        <?php
-                    }
-                    ?>
-
-                </select>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback ?>
-                </div>
-            </div>
-
-
-            <div class="col-md-6 input" required>
-                <label for="TimeExpired" class="form-label mb-1">TimeExpired Vote</label>
-                <input type="datetime-local" class="form-control" id="TimeExpired" name="TimeExpired"  value="<?= $controller->getStorePost("TimeExpired") ?>" required>
-                <div class="invalid-feedback">
-                    <?= $invalid_feedback ?>
-                </div>
-                <div class="valid-feedback">
-                    <?= $valid_feedback ?>
-                </div>
-            </div>
-
-
-            <div class="col-12">
-                <button class="main-btn" name="share" type="submit"><?= $share_vote ?></button>
-            </div>
-        </form>
-<!---->
-<!--        <div class="alert alert-primary mt-3" >-->
-<!--            if choose year student the target student all student(in your department)-->
-<!--            if chosse-->
-<!--        </div>-->
     </div>
 
+    <div class="g-3 wrapper votes d-grid gap-20">
+        <?php
+            foreach ($votesGuider as $vote ) {
+                ?>
+                    <div class="task-row vote rad-6 bg-secondary p-10">
+                        <h3 class="fs-4 txt-c"><?= $vote->Title ?></h3>
+                        <div class="flex between-element p-1">
+                            <div class="flex flex-column">
+                                <p class="m-0 c-grey"><?= $ts ?> <span class='highlight'> <?= $vote->TimeShare ?> </span> </p>
+                                <p class="m-0 c-grey"><?= $te ?> <span class='highlight'> <?= $vote->TimeExpired ?> </span> </p>
+                            </div>
+                            <a href="/guider/vote/<?= $vote->VoteID ?>" class="c-black">edit</a>
+                        </div>
+
+
+
+                    </div>
+                <?php
+            }
+        ?>
+    </div>
 </main>
 
 

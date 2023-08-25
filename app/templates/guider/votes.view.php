@@ -92,7 +92,7 @@
         <div class="user-details">
 
             <p class="name mb-0 fw-bold fs-14">
-                <?= $user->FirstName . ' ' . $user->LastName ?>
+                <?= $user->GuideName ?>
             </p>
         </div>
     </header>
@@ -101,24 +101,41 @@
         <div class="menu">
             <p class="title fs-15 fw-500 text-truncate"><?= $main ?> </p>
             <ul class="plr-10">
-                <li class="li-aside-menu <?= $controller->compareURL('/student') === true ? 'active' : '' ?>"
+                <li class="li-aside-menu <?= $controller->compareURL('/guider') === true ? 'active' : '' ?>"
                     has-sub-menu="false" title="<?= $home ?>">
 
-                    <a href="/student" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                    <a href="/guider" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
                         <i class="fa fa-home"></i>
                         <span class="text"><?= $home  ?></span>
                     </a>
                 </li>
 
             <!-- Start vote -->
-<!--                <li class="li-aside-menu --><?php //= $controller->compareURL(['/student/add', '/student/vote']) === true ? 'active' : '' ?><!--"-->
-<!--                    has-sub-menu="false" title="--><?php //= $text_votes ?><!--">-->
-<!--                    <span class="notification"></span>-->
-<!--                    <a href="/student" class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">-->
-<!--                        <i class="fa-solid fa-vote-yea"></i>-->
-<!--                        <span class="text">--><?php //= $text_votes  ?><!--</span>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <li class="li-aside-menu
+                    <?= $controller->compareURL(['/guider/add', '/guider/vote']) === true ? 'active' : '' ?>"
+                    has-sub-menu="true" title="<?= $text_votes ?>">
+
+                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
+                        <i class="fa-solid fa-vote-yea"></i>
+                        <span class="text"><?= $text_votes ?></span>
+                        <i class="fa-solid fa-arrow-down arrow"></i>
+                    </button>
+                    <ul class="aside-sub-menu" sub-menu open="false">
+                        <li class="li-aside-menu">
+                            <a href="/guider/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_votes ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/guider/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-plus"></i>
+                                <span class="text"><?= $add_vote ?></span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
             <!-- End vote -->
 
             </ul>
@@ -182,9 +199,9 @@
 
 <main class="">
     <h1 class="main-title">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span class="name-student">
-            <span class=""><?= $user->FirstName . ' ' . $user->LastName ?></span>
+        <i class="fa-solid fa-square-poll-vertical"></i>
+        <span class="">
+            <?= $text_votes  ?>
         </span>
     </h1>
 
@@ -217,77 +234,51 @@ if ($messages) {
 }
 ?>
 
-
-    <div class="wrapper d-grid gap-20">
-        <!-- Start Welcome Widget -->
-        <div class="welcome bg-white rad-10 txt-c-mobile block-mobile">
-            <div class="intro p-20 d-flex space-between bg-eee">
-                <div>
-                    <h2 class="m-0"><?= $welcome ?></h2>
-                    <p class="c-grey mt-5"><?= $user->FirstName ?></p>
-                </div>
-                <img class="hide-mobile" src="<?= IMG ?>welcome.png" alt="" />
-            </div>
-            <img src="<?= IMG ?>avatar.png" alt="" class="avatar" />
-            <div class="body txt-c d-flex p-20 mt-20 mb-20 block-mobile">
-                <div><?= $user->FirstName . ' ' . $user->LastName ?> <span class="d-block c-grey fs-14 mt-10"> <?= $user->MajorName ?></span></div>
-
+    <div class="container">
+        <div class="row mb-20">
+            <div class="action col-lg-12 col-md-4 d-flex">
+                <a href="/guider/" class="ml-auto">
+                    <button class="btn main-btn plr-10"> <i class="fa fa-arrow-left main-color mr-5"></i><?= $to_dashboard  ?></button>
+                </a>
             </div>
         </div>
-        <!-- End Welcome Widget -->
-        <!-- Start Tasks Widget -->
-        <div class="tasks p-20 bg-white rad-10 position-relative">
-            <h2 class="mt-0 mb-20"><?= $last_votes ?></h2>
-            <?php
-                foreach ($votes as $vote) {
+    </div>
 
-                    ?>
-                        <div class="task-row between-flex">
-                            <div class="info">
-                                <h3 class="mt-0 mb-5 fs-15 position-relative flex align-center gap-10">
+    <div class="g-3 wrapper votes d-grid gap-20">
+        <?php
+            foreach ($votesGuider as $vote ) {
 
-                                    <?= \App\Helper\Handel::setNotification($vote->VoteID) ?
-                                        '<span class="notification"></span>' :
-                                        ' <i class="fa-solid fa-check chased"></i>'
-                                    ?>
-                                    <?= $vote->Title ?>
-                                </h3>
+                ?>
+                    <div class="task-row vote rad-6 relative bg-secondary p-10 <?= $vote->TimeExpired <= date("Y-m-d H:i:s") ? 'finish' : '' ?>" expired="<?= $te ?>">
+                        <h3 class="fs-4 txt-c vote-title"><?= $vote->Title ?></h3>
+                        <div class="flex between-element p-1">
+                            <div class="flex flex-column">
                                 <p class="m-0 c-grey"><?= $ts ?> <span class='highlight'> <?= $vote->TimeShare ?> </span> </p>
                                 <p class="m-0 c-grey"><?= $te ?> <span class='highlight'> <?= $vote->TimeExpired ?> </span> </p>
                             </div>
-                            <a href="/student/ballotOutcome/<?= $vote->VoteID ?>"><i class="fa-brands fa-readme pointer mr-5"></i><?= $poll ?></a>
+                            <div class="flex flex-column gap-10">
+                                <a href="/guider/edit/<?= $vote->VoteID ?>" class="main-btn description" description="<?= $edit ?>"><i class="fa fa-edit"></i></a>
+                                <button class="main-btn description btn-statistic" id="<?= $vote->VoteID ?>"  description="<?= $statistic ?>"><i class="fa-solid fa-chart-simple"></i></button>
+                            </div>
                         </div>
-                    <?php
-                }
-            ?>
 
 
-        </div>
-        <!-- End Tasks -->
+                        <div class="statistics offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasLabel"> <?= $statistic_for ?> <?= $vote->Title ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="g-3 p-20 courses">
 
-        <!-- Start Ticket Widget -->
-        <div class="tickets p-20 bg-white rad-10">
-            <h2 class="mt-0 mb-10"><?= $statistics ?></h2>
-            <div class="d-flex txt-c gap-20 f-wrap">
-                <div class="box p-20 rad-10 fs-13 c-grey">
-                    <i class="fa-regular fa-rectangle-list fa-2x mb-10 c-orange"></i>
-                    <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->Gender ?></span>
-                    <?= $gender ?>
-                </div>
-                <div class="box p-20 rad-10 fs-13 c-grey">
-                    <i class="fa-solid fa-spinner fa-2x mb-10 c-blue"></i>
-                    <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->PhoneNumber ?? "Not Added Yet" ?></span>
-                    <?= $pn ?>
-                </div>
-                <div class="box p-20 rad-10 fs-13 c-grey">
-                    <i class="fa-regular fa-circle-check fa-2x mb-10 c-green"></i>
-                    <span class="d-block c-black fw-bold fs-25 mb-5"><?= $user->MajorName ?></span>
-                    <?= $major ?>
-                </div>
+                            </div>
+                        </div>
 
-            </div>
-        </div>
-        <!-- End Ticket Widget -->
+                    </div>
+
+
+                <?php
+            }
+        ?>
     </div>
 </main>
 

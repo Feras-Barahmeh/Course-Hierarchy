@@ -635,48 +635,6 @@ ul {
     background-color: var(--bg-black-60);
     color: var(--bg-black-80);
 }
-.vote.finish {
-    opacity: .5;
-}
-
-.vote.finish:hover {
-    opacity: 1;
-}
-.vote.finish:hover::after,
-.vote.finish:hover::before {
-    height: 0;
-    width: 0;
-    display: none;
-    content: '';
-    opacity: 1;
-}
-.vote.finish::after {
-    content: '';
-    width: 100%;
-    position: absolute;
-    background-color: var(--bs-danger);
-    height: 10px;
-    top: 50%;
-    left: 0;
-    display: block;
-    z-index: 10;
-    transform: rotate(169deg);
-    border-radius: 10px;
-}
-.vote.finish::before {
-    content: attr(expired);
-    position: absolute;
-    font-size: 24px;
-    color: var(--bs-danger);
-    background-color: var(--bs-danger-bg-subtle);
-    font-weight: bold;
-    left: 50%;
-    top: 28%;
-    z-index: 111;
-    transform: rotate(-12deg);
-    padding: 5px;
-    border-radius: 4px;
-}
 .statistics {
     opacity: 0;
     height: 0;

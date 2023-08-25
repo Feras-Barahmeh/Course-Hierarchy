@@ -1,13 +1,12 @@
 <?php
-
-$_["resit"]              = "Rest";
-$_["search_placeholder"]              = "Search Guide";
-$_["add_guide"]              = "Add Guide";
-$_["id"]              = "ID";
-$_["name_guide"]              = "Name Guide";
-$_["college_name"]              = "College Name";
-
-$_["controls"]              = "Count Student";
-$_["delete"]              = "Delete";
-$_["edit"]              = "Edit";
-$_["no_guides"]              = "Not Add Guides Yet";
+$_["welcome"] = "Welcome";
+$_["guider"] = "Guider";
+$_["last_votes"] = "Last Votes";
+$_["delete"] = "Delete";
+$_["edit"] = "Edit";
+$_["add"] = "Add";
+$_["info"] = "Statistics";
+$_["office_hours"] = "Office Hours";
+$_["no_guides"] = "No guides added yet";
+$_["expire"] = "Expired";
+$_["shared"] = "Shared";

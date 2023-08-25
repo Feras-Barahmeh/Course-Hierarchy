@@ -209,10 +209,8 @@ class AuthController extends AbstractController
            
             if ($user) {
                 Cookie::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
-                if (isset($_POST["remember"])) {
-                    Cookie::set("email", $email);
-                    Cookie::set("password", $password);
-                }
+                Cookie::set("email", $email);
+                Cookie::set("password", $password);
                 Session::set(LANGUAGE_NAME_COLUMNS_DB, $user->{LANGUAGE_NAME_COLUMNS_DB});
                 Session::set("user", $user);
                 $this->redirectBasedOnPrivilege($user->Privilege);

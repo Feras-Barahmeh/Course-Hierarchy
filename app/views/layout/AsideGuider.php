@@ -39,11 +39,18 @@
                     </button>
                     <ul class="aside-sub-menu" sub-menu open="false">
                         <li class="li-aside-menu">
-                            <a href="/guider/vote" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                            <a href="/guider/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
+                                <i class="fa-solid fa-eye"></i>
+                                <span class="text"><?= $text_votes ?></span>
+                            </a>
+                        </li>
+                        <li class="li-aside-menu">
+                            <a href="/guider/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
                                 <i class="fa-solid fa-plus"></i>
                                 <span class="text"><?= $add_vote ?></span>
                             </a>
                         </li>
+
                     </ul>
                 </li>
             <!-- End vote -->
