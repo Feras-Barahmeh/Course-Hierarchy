@@ -313,30 +313,30 @@
                 <!-- End Courses -->
 
                 <!-- start vote -->
-                <li class="li-aside-menu
-                    <?= $controller->compareURL(['/votes/add', '/votes']) === true ? 'active' : '' ?>"
-                    has-sub-menu="true" title="<?= $votes ?>">
-
-                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">
-                        <i class="fa-solid fa-vote-yea"></i>
-                        <span class="text"><?= $votes ?></span>
-                        <i class="fa-solid fa-arrow-down arrow"></i>
-                    </button>
-                    <ul class="aside-sub-menu" sub-menu open="false">
-                        <li class="li-aside-menu">
-                            <a href="/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
-                                <i class="fa-solid fa-eye"></i>
-                                <span class="text"><?= $votes ?></span>
-                            </a>
-                        </li>
-                        <li class="li-aside-menu">
-                            <a href="/votes/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">
-                                <i class="fa fa-plus"></i>
-                                <span class="text"><?= $add_vote ?></span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+<!--                <li class="li-aside-menu-->
+<!--                    --><?php //= $controller->compareURL(['/votes/add', '/votes']) === true ? 'active' : '' ?><!--"-->
+<!--                    has-sub-menu="true" title="--><?php //= $votes ?><!--">-->
+<!---->
+<!--                    <button class="aside-link d-flex gap-10 align-items-center fs-15 plr-10 ptb-15 ">-->
+<!--                        <i class="fa-solid fa-vote-yea"></i>-->
+<!--                        <span class="text">--><?php //= $votes ?><!--</span>-->
+<!--                        <i class="fa-solid fa-arrow-down arrow"></i>-->
+<!--                    </button>-->
+<!--                    <ul class="aside-sub-menu" sub-menu open="false">-->
+<!--                        <li class="li-aside-menu">-->
+<!--                            <a href="/votes" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">-->
+<!--                                <i class="fa-solid fa-eye"></i>-->
+<!--                                <span class="text">--><?php //= $votes ?><!--</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="li-aside-menu">-->
+<!--                            <a href="/votes/add" class="aside-link d-flex gap-10 align-items-center fs-15 plr-5 ptb-10">-->
+<!--                                <i class="fa fa-plus"></i>-->
+<!--                                <span class="text">--><?php //= $add_vote ?><!--</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
             <!-- End vote -->
 
 
