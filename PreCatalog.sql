@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 24, 2023 at 08:12 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Feb 02, 2024 at 04:02 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,7 +41,7 @@ CREATE TABLE `Admin` (
 --
 
 INSERT INTO `Admin` (`AdminID`, `Email`, `Password`, `Privilege`, `Name`, `language`) VALUES
-(1, 'feras@adm.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Feras', 0);
+(1, 'feras@adm.ttu.edu.jo', '$2a$07$yeNCSNwRpYopOhv0TrrReOGfHbTBjJ5kVqN3DDx.2gBfOUnuY3SR6', 1, 'Feras', 0);
 
 -- --------------------------------------------------------
 
@@ -55,6 +55,18 @@ CREATE TABLE `BallotOutcome` (
   `VotedID` int(11) UNSIGNED NOT NULL,
   `CourseID` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `BallotOutcome`
+--
+
+INSERT INTO `BallotOutcome` (`BallotID`, `StudentVoted`, `VotedID`, `CourseID`) VALUES
+(3, 1, 3, 2),
+(4, 1, 3, 5),
+(5, 1, 3, 6),
+(6, 1, 3, 8),
+(7, 1, 3, 9),
+(8, 1, 3, 11);
 
 -- --------------------------------------------------------
 
@@ -162,7 +174,7 @@ CREATE TABLE `Guides` (
 --
 
 INSERT INTO `Guides` (`GuideID`, `GuideName`, `Email`, `PhoneNumber`, `YearsOfExperience`, `OfficeHours`, `GuideDepartmentID`, `Privilege`, `Password`, `language`) VALUES
-(1, 'Ahmad Mohammad', 'ahmadmohammad@gui.ttu.edu.jo', '', 0, 'Sun 9-10', 1, 3, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 0);
+(1, 'Ahmad Mohammad', 'ahmadmohammad@gui.ttu.edu.jo', '', 0, 'Sun 9-10', 1, 3, '$2a$07$yeNCSNwRpYopOhv0TrrReOGfHbTBjJ5kVqN3DDx.2gBfOUnuY3SR6', 0);
 
 -- --------------------------------------------------------
 
@@ -198,8 +210,8 @@ CREATE TABLE `Instructors` (
 --
 
 INSERT INTO `Instructors` (`InstructorID`, `FirstName`, `InstructorDepartmentID`, `LastName`, `Email`, `PhoneNumber`, `Address`, `City`, `State`, `Country`, `DOB`, `HireDate`, `Salary`, `YearsOfExperience`, `IfFullTime`, `IsActive`, `Privilege`, `Password`, `NationalIdentificationNumber`, `language`) VALUES
-(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1200.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365878', 0),
-(2, 'Abd Alilah', 1, 'Shapatat', 'abd@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6000.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', '15896365800', 0);
+(1, 'Naem', 1, 'Alodat', 'naem@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1200.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReOGfHbTBjJ5kVqN3DDx.2gBfOUnuY3SR6', '15896365878', 0),
+(2, 'Abd Alilah', 1, 'Shapatat', 'abd@ins.ttu.edu.jo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6000.00, 12, 1, 1, 2, '$2a$07$yeNCSNwRpYopOhv0TrrReOGfHbTBjJ5kVqN3DDx.2gBfOUnuY3SR6', '15896365800', 0);
 
 -- --------------------------------------------------------
 
@@ -253,7 +265,7 @@ CREATE TABLE `Students` (
 --
 
 INSERT INTO `Students` (`StudentID`, `StudentYear`, `FirstName`, `LastName`, `Password`, `StudentDepartmentID`, `Gender`, `Address`, `Email`, `Privilege`, `PhoneNumber`, `language`, `StudentMajor`, `StudentCollegeID`) VALUES
-(1, 'FirstYear', 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReO.CgBLQTGn6YYr1a96YlnBHx6bYBpe7.', 1, 'Male', '', 'majd@stu.ttu.edu.jo', 4, '0785102996', 1, 1, 1);
+(1, 'FirstYear', 'Majd', 'Barahmeh', '$2a$07$yeNCSNwRpYopOhv0TrrReOGfHbTBjJ5kVqN3DDx.2gBfOUnuY3SR6', 1, 'Male', '', 'majd@stu.ttu.edu.jo', 4, '0785102996', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -278,7 +290,8 @@ CREATE TABLE `Votes` (
 --
 
 INSERT INTO `Votes` (`VoteID`, `Title`, `ForYear`, `ForMajor`, `ForDepartment`, `TimeShare`, `IsActive`, `AddedBy`, `TimeExpired`) VALUES
-(2, 'First Tarem 2023', '', 0, 1, '2023-08-24 13:43:30', b'1', 1, '2023-08-12 06:00:00');
+(2, 'First Tarem 2023', '', 0, 1, '2023-08-24 13:43:30', b'1', 1, '2023-08-12 06:00:00'),
+(3, 'Summary 2024', '', 1, 1, '2024-02-02 17:56:52', b'1', 1, '2024-03-02 05:00:00');
 
 --
 -- Indexes for dumped tables
@@ -385,7 +398,7 @@ ALTER TABLE `Admin`
 -- AUTO_INCREMENT for table `BallotOutcome`
 --
 ALTER TABLE `BallotOutcome`
-  MODIFY `BallotID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `BallotID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `Colleges`
@@ -439,7 +452,7 @@ ALTER TABLE `Students`
 -- AUTO_INCREMENT for table `Votes`
 --
 ALTER TABLE `Votes`
-  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `VoteID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
